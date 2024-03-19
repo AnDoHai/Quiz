@@ -1,0 +1,77 @@
+﻿@model Tms.Models.QuestionModel.QuestionAllModel
+
+@{
+    ViewBag.Title = " Create Question";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="page-content-inner">
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="tab-pane">
+                <div class="control-bar">
+                    <div class="row">
+                        <div class="page-header col-md-6">
+                            <div class="page-title">
+                                <h3>Tạo mới bài thi</h3>
+                            </div>
+                        </div>
+                        <div class="breadcrumb-line col-md-6">
+                            <ul class="breadcrumb float-right font-size">
+                                <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">Trang chủ</a></li>
+                                <li class="breadcrumb-item"><a href="@Url.Action("Index", "Question")">Câu hỏi</a></li>
+                                <li class="breadcrumb-item"><a href="@Url.Action("Create", "Question")">Thêm mới</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        @using (Html.BeginForm("Create", "Question", FormMethod.Post, new { id = "frmCreate", @class = "form-horizontal", enctype = "multipart/form-data" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            <div class="breadcrumb-line">
+                                <div class="form-actions action-breadcrumb">
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                @Html.Partial("Partial/_FormInput", Model)
+                            </div>
+                            <div class="col-12 float-right">
+                                <div class="form-actions text-right mr-25">
+                                    <button type="submit" class="btn btn-xs rBtn">
+                                        <i class="fas fa-save"></i> Lưu
+                                    </button>
+                                    <button type="button" class="btn-xs btn btn-primary" onclick="location.href='@Url.Action("Index","Question")'">
+                                        <i class="fas fa-sign-out-alt"></i> Hủy
+                                    </button>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section styles
+{
+    <link rel="stylesheet" type="text/css" href="~/assets/plugins/chosen/chosen.min.custom.css">
+}
+@section scripts
+{
+    <script src="~/Assets/plugins/chosen/chosen.jquery.min.js"></script>
+    <script src="~/Assets/scripts/Tms.Question.js"></script>
+    <script src="~/Scripts/ckeditor/ckeditor.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.chosen-select').chosen({ width: '100%' });
+            questionModule.init();
+            CKEDITOR.replace('Question_QuestionText', {
+                extraPlugins: 'abbr'
+            });
+            CKEDITOR.replace('Question_Description', {
+                extraPlugins: 'abbr'
+            });
+        });
+    </script>
+}

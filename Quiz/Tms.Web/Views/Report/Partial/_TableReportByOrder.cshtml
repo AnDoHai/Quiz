@@ -1,0 +1,63 @@
+﻿@using Tms.Web.Framework.Helpers
+@model Tms.Models.PaymentTransactionSearchModel
+
+<div class="datatable-scroll datatable shadow">
+    <table class="table dataTable no-footer table-hover" role="grid">
+        <thead>
+            <tr role="row">
+                <th class="">Mã giao dịch</th>
+                <th class="">Khách hàng</th>
+                <th class="">Số tiền</th>
+                <th class="">Ngân hàng</th>
+                <th class="">Thời gian</th>
+                <th class="">Nội dung</th>
+                <th class="">Người xử lý</th>
+                <th class="">Trạng thái</th>
+                <th class="">Thao tác</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.PaymentTransactions.Any())
+            {
+                foreach (var item in Model.PaymentTransactions)
+                {
+                    var parent = Guid.NewGuid();
+                    var styleRow = "table-success";
+                    if (item.Type == 2)
+                    {
+                        styleRow = "table-warning";
+                    }
+                    <tr role="row" class="@styleRow" id="@parent">
+                        <td>@item.TransactionCode</td>
+                        <td>@item.CustomerEmail</td>
+                        <td>@item.OperandSign@Html.FormatMoney(item.Amount) đ</td>
+                        <td>@item.BankName</td>
+                        <td>@Html.FormatDate(item.CreatedDate)</td>
+                        <td>@item.Notes</td>
+                        <td>@item.AdminName</td>
+                        <td class="text-left">
+
+                            <span class="label label-success mg-left-5px">Đã hoàn thành</span>
+
+                        </td>
+                        <td class="text-left">
+                            <div class="icons-group">
+                                @if (!string.IsNullOrEmpty(item.Ref1))
+                                {
+                                    <a href="/order/bought/view?invoiceNumber=@item.Ref1" style="color:#fff;" class="label label-info">Chi tiết</a>
+                                }
+                                else
+                                {
+                                    <a href="/customer/transaction/@item.CustomerID" style="color:#fff;" class="label label-success">Chi tiết</a>
+                                }
+                            </div>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
+<div class="datatable-footer" id="paging_layout">
+    @Html.AjaxPagingHelper("paymentTransactionModule.onClickPaging", Model.TotalRecords, Model.PageSize, Model.PageIndex)
+</div>

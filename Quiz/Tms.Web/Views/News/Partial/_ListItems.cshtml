@@ -1,0 +1,165 @@
+﻿@model Tms.Models.NewsModel.NewsSearchModel
+@using Tms.Web.Framework.Helpers
+
+<style>
+    .width_5 {
+        width: 5%;
+    }
+
+    .width_10 {
+        width: 10%;
+    }
+
+    .width_15 {
+        width: 15%;
+    }
+
+    .width_20 {
+        width: 20%;
+    }
+
+    .width_30 {
+        width: 30%;
+    }
+
+    /**/
+    th {
+        background-color: #db3f4f !important;
+        color: #fff !important;
+        font-size: 1.5rem !important;
+        height: auto;
+        text-align: center !important;
+        overflow-wrap: break-word;
+        border: none !important;
+    }
+
+    td {
+        font-family: Tahoma;
+        font-size: 1.5rem !important;
+        height: 40px;
+        padding-left: 10px !important;
+        padding-right: 10px !important;
+    }
+
+        td.bNone {
+            border-left: none !important;
+            border-right: none !important;
+        }
+
+    hr {
+        background-color: red;
+        height: 3px;
+        width: 40px;
+        border: none;
+        opacity: 1;
+    }
+
+    .bd-top {
+        border-top: 1px solid rgb(236, 236, 236);
+    }
+
+        .bd-top a {
+            padding-top: 10px;
+        }
+
+    .bd-bottom {
+        border-bottom: 1px solid rgb(236, 236, 236);
+        padding-bottom: 15px;
+    }
+
+    #titles {
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        width: 330px;
+        overflow: hidden;
+    }
+
+    #description {
+        width: 600px;
+        white-space: pre-wrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        display: -webkit-box;
+    }
+</style>
+<div class="row">
+    <div class="datatable-scroll col-lg-8">
+        <div class="card-columns" style="column-count: 2; margin-right:20px">
+            @if (Model != null && Model.Newss != null && Model.Newss.Any())
+            {
+                foreach (var item in Model.Newss)
+                {
+                    var parent = Guid.NewGuid();
+                    <div class="card" style="margin: 0 0 25px 0" id="@parent">
+                        <a href="@Url.Action("NewsDetails", "News", new {id = @item.NewsId})">
+                            <img class="card-img-top" src="~/Uploads/NewsImages/@item.Image" alt="Card image cap">
+                            <div class="card-body">
+                                <h3 class="card-title" id="titles">@item.Title</h3>
+                                <p class="card-text">@item.SortDescription</p>
+                                @if (RoleHelper.IsQuanTriDisplay()) {
+                                    <div class="icons-group" style="margin-top:15px">
+                                        <a href="@Url.Action("Edit", "News", new {id = @item.NewsId})" title="Chỉnh sửa News" class="tip"><i class="icon-pencil3"></i></a>
+                                        <a href="javascript:void(0)" class="tip" data-id="@item.NewsId"><i data-id="@item.NewsId" class="icon-remove4"></i></a>
+                                        <a href="javascript:void(0)" data-parent="@parent" data-status="@item.Status" class="tip active" data-id="@item.NewsId">
+                                            @if (item.Status)
+                                            {
+                                                <i class="icon-eye5"></i>
+                                            }
+                                            else
+                                            {
+                                                <i class="icon-eye4"></i>
+                                            }
+                                        </a>
+                                    </div>
+                                }
+                            </div>
+                        </a>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+    <div class="col-lg-3" style="border-left: 1px solid #ececec ">
+        <div style="margin-left:20px">
+            <div>
+                <h3>QTEDU.,JSC</h3>
+                <hr />
+                <img src="https://qtedu.vn/wp-content/uploads/2021/04/z2424778040881_4663887fbd6bda1b8bf74a6e2fe4abf7.jpg" alt="Alternate Text" />
+            </div>
+            <div style="margin-top:30px">
+                <h3>BÀI MỚI</h3>
+                <hr />
+                <ul class="">
+                    @foreach (var item in Model.Newss)
+                    {
+                        <li class="row bd-bottom">
+                            <div class="col-lg-4" style="background-image: url(/Uploads/NewsImages/@item.Image) ;height: 50px;width: 50px;background-size: cover;border-radius: 30px;background-position: center; flex: 0 0 auto;min-width: auto;max-width: none;"></div>
+                            <div class="col-lg-8 align-self-center"><a href="@Url.Action("NewsDetails", "News", new {id = @item.NewsId})"><h5 class="card-title">@item.Title</h5></a></div>
+                        </li>
+                    }
+                </ul>
+            </div>
+
+                <div style="margin-top:30px">
+                    <h3>DANH MỤC</h3>
+                    <hr />
+                    <ul>
+                        @foreach (var item in ViewBag.CategoryList)
+                        {
+                            <li class="row bd-bottom"><a href="?cateId=@item.CategoryNewsId">@(item.Title)</a></li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
+
+
+@*<div class="datatable-footer" id="paging_layout">
+            @Html.AjaxPagingHelper("newsModule.onClickPaging", Model.TotalRecords, Model.PageSize, Model.PageIndex, Model.SortColumn, Model.SortDirection)
+    </div>*@

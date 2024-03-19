@@ -1,0 +1,83 @@
+﻿@model Tms.Models.UserTestModel.UserTestSearchModel
+@using Tms.Models
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style type="text/css">
+    .font-size {
+        font-size: 1.35rem !important;
+        font-weight: 500;
+    }
+
+    .rBtn {
+        background-color: #dc3545 !important;
+        color: white !important;
+        border-radius: 4px !important;
+    }
+
+    .tbw {
+        width: 225px !important;
+    }
+
+    .form-action {
+        width: 100%;
+        float: left;
+    }
+
+    .button-add {
+        width: 100%;
+        float: right;
+        padding: 0;
+    }
+</style>
+<div class="page-content-inner">
+    <div class="row form-group">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="tab-pane mg-top-25px">
+                    <div class="control-bar">
+                        <div class="row justify-content-between">
+                            <div class="page-header col-md-6">
+                                <div class="page-title text-left">
+                                    <h4>In chứng chỉ</h4>
+                                </div>
+                            </div>
+                            <div class="breadcrumb-line col-md-6">
+                                <ul class="breadcrumb float-right font-size">
+                                    <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">Trang chủ</a></li>
+                                    <li class="breadcrumb-item"><a href="@Url.Action("ExamHistoryCertificate", "UserTest")">In chứng chỉ</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <br />
+
+                    </div>
+                    <div id="main-userTestExamList" style="float: left;width: 100%;">
+                        @Html.Partial("~/Views/UserTest/Partial/_certificateListPatial.cshtml", Model)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="question-action"></div>
+@Html.Partial("Partial/_ConfirmPartial", new ConfirmModel { Id = "userTest", Title = "Xác nhận hành động", Content = "Bạn có muốn thực hiện xóa.?" })
+<div class="container">
+    <button id="model" type="button" style="display:none" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Chi tiết</button>
+    <div class="modal fade in" id="myModal" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content" id="resultModel">
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts
+{
+    <script src="~/Assets/scripts/Tms.UserTest.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            userTestModule.init();
+        });
+    </script>
+}

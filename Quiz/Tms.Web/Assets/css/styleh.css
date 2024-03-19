@@ -1,0 +1,256 @@
+﻿* {
+    font-family: "Quicksand", sans-serif;
+}
+
+#form-signin,
+#form-signup,
+#form-regain {
+    max-width: 770px;
+    border-radius: 10px;
+    backdrop-filter: blur(3px);
+    background-color: rgba(226, 229, 231, 0.103);
+    box-shadow: 2px 2px 10px #db3f4f;
+}
+
+    #form-signin button,
+    #form-signup button {
+        background-color: #db3f4f !important;
+        border-color: #db3f4f !important;
+    }
+
+    #form-signin .form-check-input:checked,
+    #form-signup .form-check-input:checked {
+        background-color: #db3f4f !important;
+        border-color: #db3f4f !important;
+    }
+
+#form-regain {
+    padding: 10px;
+    margin: auto;
+}
+
+#form-signin img,
+#form-signup img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 6%;
+    padding-bottom: 20px;
+}
+
+.text-white {
+    color: #fff !important;
+}
+
+#list-erros {
+    color: #d54589;
+}
+
+@media only screen and (max-width:500px) {
+    #form-signin,
+    #form-regain,
+    #form-signup {
+        margin: auto;
+    }
+}
+
+.float-r {
+    float: right;
+}
+
+.flex-r {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.form-btn-1 {
+    margin: 0px !important;
+}
+
+    .form-btn-1:hover {
+        background-color: #db3f4f !important;
+        border-color: #db3f4f !important;
+    }
+
+.form-button-1 {
+    border-bottom: 1px solid rgba(102, 102, 102, 0.4);
+}
+
+.fas {
+    padding-right: 0px !important;
+}
+
+.icon-placeholder {
+    position: absolute;
+    padding-bottom: 0px !important;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.form-placeholder {
+    position: relative;
+}
+
+    .form-placeholder .form-control {
+        padding-left: 40px;
+    }
+
+    .form-placeholder img {
+        transform: translateY(-50%);
+        top: 50%;
+        padding-left: 5px;
+    }
+
+.display-none {
+    display: none;
+}
+
+
+/* .profile-wrapper {
+    min-height: 300px;
+} */
+
+.profile-wrapper div a,
+.profile-wrapper div p {
+    text-decoration: none;
+    color: rgb(54, 53, 53);
+    display: inline-block;
+}
+
+.profile-img {
+    height: 34px;
+    width: 34px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+}
+
+.menuh-wrapper ul,
+.profile-wrapper ul {
+    display: inline;
+    margin: 0;
+    padding: 0;
+}
+
+    .menuh-wrapper ul li,
+    .profile-wrapper ul li {
+        display: inline-block;
+    }
+
+.profile-wrapper .profile-submenu-wrapper .profile-submenu-child:hover a {
+    color: white;
+}
+
+.profile-wrapper .profile-submenu-wrapper .profile-submenu-child {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+    .profile-wrapper .profile-submenu-wrapper .profile-submenu-child:hover {
+        background-color: #db3f4f;
+        border-radius: 20px;
+    }
+
+.menuh-wrapper ul li:hover ul,
+.profile-wrapper ul li:hover ul {
+    display: block !important;
+}
+
+.menuh-wrapper ul li ul,
+.profile-wrapper ul li ul {
+    position: absolute;
+    width: 240px;
+    display: none;
+    z-index: 99;
+    background-color: white;
+    border-radius: 10px;
+}
+
+.profile-wrapper .profile-submenu {
+    background: white;
+    display: block;
+    padding-left: 10px;
+    padding-right: 10px;
+    line-height: 20px;
+}
+
+    .profile-wrapper .profile-submenu p {
+        margin: 0px;
+    }
+
+    .menuh-wrapper .menuh-submenu a,
+    .profile-wrapper .profile-submenu a {
+        display: block !important;
+    }
+
+    .profile-wrapper .profile-submenu .fas {
+        padding-right: 5px !important;
+    }
+
+.profile-submenu-wrapper {
+    box-shadow: 2px 2px 10px #db3f4f;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.profile-bt10 {
+    border-bottom: 1px solid rgba(102, 102, 102, 0.4);
+}
+
+.lst-wrapper {
+    margin: auto;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    border: 1px solid #8C8C8C;
+}
+
+    .lst-wrapper table {
+        margin-bottom: 0px !important;
+    }
+
+.lsbt-title {
+    text-align: center;
+    font-size: 20px;
+    background-color: #db3f4f !important;
+    color: white;
+}
+
+.lsbt-cc {
+    color: black;
+    text-decoration: underline !important;
+}
+
+    .lsbt-cc:hover {
+        color: #db3f4f;
+    }
+
+.lst-wrapper,
+.lst-wrapper td {
+    text-align: center;
+}
+
+.menuh {
+    display: flex;
+    align-items: center;
+}
+
+.header-nav-main li:hover .sub-menu {
+    display: block !important;
+}
+
+.header-nav-main a {
+    font-size: 0.9em !important;
+}
+
+.tesst img {
+    margin-bottom: 0px;
+}
+
+.tesst .container {
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+.account-child {
+    margin-bottom: 0px;
+}

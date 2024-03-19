@@ -1,0 +1,77 @@
+﻿@model Tms.Models.ChoiceModel.ChoiceModel
+
+@{
+    ViewBag.Title = " Create Choice";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style type="text/css">
+    .font-size {
+        font-size: 1.35rem !important;
+        font-weight: 500;
+        height: 120%;
+    }
+</style>
+<div class="page-content-inner popup">
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="tab-pane mg-top-25px">
+                <div class="control-bar">
+                    <div class="row">
+                        <div class="page-header col-md-6">
+                            <div class="page-title">
+                                <h3>Tạo mới phần thi nhỏ</h3>
+                            </div>
+                        </div>
+                        <div class="breadcrumb-line col-md-6">
+                            <ul class="breadcrumb float-right font-size">
+                                <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">Trang chủ</a></li>
+                                <li class="breadcrumb-item"><a href="@Url.Action("Index", "Choice")">Lựa chọn</a></li>
+                                <li class="breadcrumb-item"><a href="@Url.Action("Create", "Choice")">Thêm mới</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        @using (Html.BeginForm("Create", "Choice", FormMethod.Post, new { id = "frmCreate", @class = "form-horizontal", enctype = "multipart/form-data" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            <div class="breadcrumb-line">
+                                <div class="form-actions action-breadcrumb">
+
+                                </div>
+                            </div>
+
+                            @Html.Partial("Partial/_FormInput", Model)
+
+                            <div class="form-actions text-right mr-10 margin-bottom-10">
+                                <button type="button" class="btn-xs btn btn-primary" onclick="location.href='@Url.Action("Index","Choice")'">
+                                    <i class="fas fa-save"></i> Hủy
+                                </button>
+                                <button type="submit" class="btn btn-xs btn-danger">
+                                    <i class="fas fa-sign-out-alt"></i> Lưu
+                                </button>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<br />
+
+@section styles
+{
+    <link rel="stylesheet" type="text/css" href="~/assets/plugins/chosen/chosen.min.custom.css">
+}
+@section scripts
+{
+    <script src="~/Assets/plugins/chosen/chosen.jquery.min.js"></script>
+    <script src="~/Assets/scripts/Tms.Choice.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            choiceModule.init();
+        });
+    </script>
+}

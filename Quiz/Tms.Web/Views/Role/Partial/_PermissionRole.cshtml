@@ -1,0 +1,78 @@
+﻿@model AccessRoleModel
+@using Tms.Models
+@using Tms.Web.Framework.Helpers
+@using Tms.Core.Helpers
+
+    @if (Model != null)
+    {
+        var listChecked = (Model.ModuleActions != null && Model.ModuleActions.Any(c => c.IsChecked)) ? string.Join(",", Model.ModuleActions.Where(c => c.IsChecked).Select(c => c.ModuleActionId)) : string.Empty;
+    <!-- modal info -->
+        <div id="accessRole_modal_info" class="modal fade in" tabindex="-1" role="dialog" aria-hidden="false">
+            <div class="modal-dialog modal-sm" style="width: 720px">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        <h4 class="modal-title"><i class="icon-users"></i>Phần Quyền truy cập hệ thống</h4>
+                    </div>
+                    <div class="modal-body with-padding">
+                        <div class="panel-body padding-none">
+                            <div class="form-group mg-bottom-60px">
+                                <label class="col-sm-4 control-label text-right mg-top5px">Phân quyền: </label>
+                                <div class="col-sm-5">
+                                    @if (Model.Roles != null && Model.Roles.Count != 0)
+                                    {
+                                        @Html.DropDownListFor(c => c.RoleId, new SelectList(Model.Roles, "RoleId", "Name"), new { @id = "roleId", @class = "form-control" })
+                                    }
+                                </div>
+                            </div>
+                            <div class="panel panel-default none-margin-bottom">
+                                <div class="panel-heading">
+                                    <h6 class="panel-title"><i class="icon-droplet"></i> Quyền truy cập hệ thống </h6>
+                                </div>
+                                <div class="panel-body padding-none scrollX">
+                                    @if (Model != null && Model.ModuleActions != null)
+                                    {
+                                        foreach (ModuleType roleType in Enum.GetValues(typeof(ModuleType)))
+                                        {
+                                            var parentId = Guid.NewGuid();
+                                            <div class="form-group role-form-group mg-top10px">
+                                                <div class="role-bd-right col-sm-12">
+                                                    <label class="control-label fw-600 text-right">
+                                                        <input type="checkbox" class="styled checkedAll" data-main="@parentId" />
+                                                        @(EnumHelper<ModuleType>.GetDisplayValue(roleType))
+                                                    </label>
+                                                </div>
+                                                <div class="col-sm-12 role-item">
+                                                    <div class="block-inner mg-bottom-10px" id="@parentId">
+                                                        @foreach (var item in Model.ModuleActions.Where(c => c.Module.Equals(roleType.ToString())))
+                                                        {
+                                                            <label class="checkbox-inline">
+                                                                @if (item.IsChecked)
+                                                                {
+                                                                    <input type="checkbox" checked="checked" data-role="@item.ModuleActionId" class="styled item-checked" />
+                                                                }
+                                                                else
+                                                                {
+                                                                    <input type="checkbox" data-role="@item.ModuleActionId" class="styled item-checked" />
+                                                                }
+                                                                @item.Action
+                                                            </label>
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <input type="hidden" id="hddModuleAction" value="@listChecked" />
+                    <div class="modal-footer">
+                        <button class="btn btn-warning confirm-no" data-dismiss="modal">Thoát</button>
+                        <button id="btn-accessRole" class="btn btn-default confirm-yes" onclick="">Lưu</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }

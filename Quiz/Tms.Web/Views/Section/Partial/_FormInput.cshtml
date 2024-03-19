@@ -1,0 +1,110 @@
+﻿@model SectionModel
+@using Tms.Models.SectionModel
+
+<div class="panel panel-default">
+    <div class="">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        @Html.Partial("~/Views/Shared/Partial/_MessagePartial.cshtml")
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="control-label">Tên phần thi nhỏ: </label>
+                    <div class="d-flex">
+                        @Html.TextBoxFor(c => c.SectionName, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(c => c.SectionName)
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label class="control-label">Phần thi chung: </label>
+                    <div class="d-flex">
+                        @Html.DropDownListFor(c => c.ContestID, (List<SelectListItem>)ViewBag.PhanThiChungs, "---Chọn phần thi chung---", new { @class = "form-control chosen-select" })
+                        @Html.ValidationMessageFor(c => c.ContestID)
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label class="control-label">Hiển thị âm thanh: </label>
+                    <div class="d-flex">
+                        @Html.DropDownListFor(c => c.Type, new List<SelectListItem> {
+                                                               new SelectListItem { Value = "0" , Text = "Có" },
+                                                               new SelectListItem { Value = "1" , Text = "Không" }
+                                                            },
+                                                            "---Chọn kiểu hiển thị---", new { @class = "form-control" })
+                        @Html.ValidationMessageFor(c => c.Type)
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label class="control-label">Thời gian bắt đầu: </label>
+                    <div class="d-flex">
+                        <label class="control-label label-time">Phút:</label>
+                        @Html.TextBoxFor(c => c.MinuteStart, new { @class = "form-control", type = "number" })
+                    </div>
+                    <div class="d-flex">
+                        <label class="control-label label-time">Giây:</label>
+                        @Html.TextBoxFor(c => c.SecoundStart, new { @class = "form-control", type = "number" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label class="control-label">Thời gian kết thúc: </label>
+                    <div class="d-flex">
+                        <label class="control-label label-time">Phút:</label>
+                        @Html.TextBoxFor(c => c.MinuteEnd, new { @class = "form-control", type = "number" })
+                    </div>
+                    <div class="d-flex">
+                        <label class="control-label label-time">Giây:</label>
+                        @Html.TextBoxFor(c => c.SecoundEnd, new { @class = "form-control", type = "number" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group h-auto">
+                    <label class="control-label">Chọn tệp: </label>
+                    <div class="d-flex">
+                        <div class="col-sm-5" style="padding-left: 0;">
+                            <button type="button" class="button-add rBtn" style="width:14rem !important;"><input type="file" class="input-answer image-file input-file" name="textFile" id="textFile" value="Chọn file âm ảnh" style="width: 10rem;" />Chọn tệp</button>
+                        </div>
+                        <div class="col-sm-7" style="padding-left: 0;">
+                            <input type="text" class="textFileImage input-form" name="textFileImage" value="Trống" style="color:#b39b98" readonly />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label class="control-label">Thứ tự hiển thị: </label>
+                    <div class="d-flex">
+                        @Html.TextBoxFor(c => c.OrderIndex, new { @class = "form-control",type="number" })
+                        @Html.ValidationMessageFor(c => c.OrderIndex)
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <div class="form-group h-auto">
+                    <label class="control-label">Mô tả: </label>
+                    <div class="col-md-10">
+                        @Html.TextAreaFor(c => c.Description, new { @class = "form-control", @id = "txtDescription", @rows = "5" })
+                        @Html.ValidationMessageFor(c => c.Description)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section styles
+{
+    <link rel="stylesheet" type="text/css" href="~/assets/plugins/chosen/chosen.min.custom.css">
+}
+

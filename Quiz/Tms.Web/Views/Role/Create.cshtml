@@ -1,0 +1,45 @@
+﻿@model Tms.Models.Role.RoleModel
+
+@{
+    ViewBag.Title = " Create Role";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+    <div class="page-content-inner">
+        <div class="row justify-content-between pt-2 mr-0 ml-0 align-items-center mb-2">
+            <div class="page-header">
+                <div class="page-title">
+                    <h3>Quản lý phân quyền</h3>
+                </div>
+            </div>
+            <div class="breadcrumb-line">
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">Trang chủ</a></li>
+                    <li class="breadcrumb-item"><a href="@Url.Action("Index", "Role")">Phân quyền</a></li>
+                    <li class="breadcrumb-item active">Thêm mới</li>
+                </ul>
+            </div>
+        </div>
+        @using (Html.BeginForm("Create", "Role", FormMethod.Post, new { id = "frmCreate", @class = "form-horizontal" }))
+        {
+            @Html.Partial("Partial/_Role", Model)
+
+            <div class="form-actions text-right mr-10 margin-bottom-10">
+
+                <button type="submit" class="btn btn-xs btn-info">
+                    <i class="icon-plus-circle"></i> Lưu
+                </button>
+                <button type="button" class="btn-xs btn btn-danger" onclick="location.href='@Url.Action("Index", "Role")'">
+                    <i class="icon-exit3"></i> Hủy
+                </button>
+            </div>
+        }
+    </div>
+@section scripts
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            roleModule.init();
+        });
+    </script>
+}

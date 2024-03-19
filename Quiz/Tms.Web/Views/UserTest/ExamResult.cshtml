@@ -1,0 +1,112 @@
+﻿@model Tms.Models.UserTestModel.ExamResultModel
+@using Tms.Models
+@{
+    ViewBag.Title = "Bài thi";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var modelStatistical = (Tms.Models.Models.QuizModel.StatisticalAllExam)ViewBag.ModelStatistical;
+    var countItem = 0;
+    var indexItem = 0;
+}
+<style>
+    #wrapper, #main {
+        background-color: rgb(231,231,231);
+    }
+</style>
+<div id="main" class="container">
+    <div id="main-top-section">
+        <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-7 col-xl-7" id="test-image-banner">
+                <a href="#"><img src="~/Assets/images/testbanner.jpg" style="width:635px" alt=""></a>
+            </div>
+            <div class="col-12 col-sm-12 col-md-12 col-lg-5 col-xl-5 d-flex justify-content-center" id="timer">
+                <div class="row result-infor">
+                    <div class="col-xl-12 col-lg-12 col-md-5 col-sm-8 col-7 row">
+                        <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 d-flex justify-content-center text-dark">
+                            <div id="test-result-label">Đề Số: @Model.QuizExam.QuizName</div>
+                        </div>
+                        <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 d-flex justify-content-center text-dark"">
+                            <div id="time-result">Thời gian: @modelStatistical.CraeteDate.ToString("dd/MM/yyyy")</div>
+                        </div>
+                    </div>
+                    <div class="col-xl-12 col-lg-12 col-md-7 col-sm-4 col-5 row d-flex align-items-center">
+                        <div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4 d-flex  justify-content-center text-dark"">
+                            <div id="total-question">Câu hỏi : @modelStatistical.totalQuestion</div>
+                        </div>
+                        <div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4 d-flex  justify-content-center text-dark"">
+                            <div id="right-answer">Chính xác : @(modelStatistical.CorrectNumberAll)</div>
+                        </div>
+                        <div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4 d-flex  justify-content-center text-dark"">
+                            <div id="total-score-result">Điểm : @modelStatistical.TotalPoint</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="main-lower-section">
+        <div class="row m-0">
+            <div class="col-sm-12 col-md-12 col-lg-3 col-xl-3" data="1" id="left-menu-fix">
+                <div class="test-result-info" id="chart-main" data-count="@modelStatistical.StatisticalDetails.Count()">
+                    @foreach (var item in modelStatistical.StatisticalDetails)
+                    {
+                        countItem++;
+                        indexItem++;
+                        var idTotal = "total" + indexItem;
+                        var idRight = "right" + indexItem;
+
+                        <div class="row d-flex align-items-center" style=" @(countItem == 1?"padding-top:5%;":"") margin:0">
+                            <div class="col-6 col-sm-6 col-md-6 col-lg-12 row">
+                                <div>@item.NameContest</div>
+                                <div id="@idTotal" data="@indexItem" data-val="@item.TotalNumber" class="col-lg-4 result-row">Câu: @item.TotalNumber</div>
+                                <div id="@idRight" data="@indexItem" data-val="@item.CorrectNumber" class="col-lg-4 result-row">Đúng: @item.CorrectNumber</div>
+                                <div id="@idTotal" data="@indexItem" data-val="@item.CorrectNumber" class="col-lg-4 result-row">Điểm: @item.TotalPoint</div>
+                            </div>
+                            <div class="col-6 col-sm-6 col-md-6 col-lg-12 result-row">
+                                <div style="background-color:white!important; height:10px; width: 90%">
+                                    <div class="chart" style="background-color: rgb(1,123,7); height: 10px;" data="@indexItem"></div>
+                                </div>
+                            </div>
+                        </div>
+                      
+                    }
+                </div>
+                <div id="questions-nav">
+                    @Html.Partial("~/Views/UserTest/ExamResultPartial/_ExamResultQuestion.cshtml", Model)
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-12 col-lg-9 col-xl-9">
+                <div id="questions-details">
+                    @Html.Partial("~/Views/UserTest/ExamResultPartial/_ExamResultAnswer.cshtml", Model)
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts
+{
+    <script src="~/Assets/plugins/chosen/chosen.jquery.min.js"></script>
+    <script src="~/Assets/scripts/Tms.UserTest.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            userTestModule.init();
+            var itemlength = $('#chart-main').attr('data-count');
+            for (var i = 1; i <= itemlength;i++ ) {
+                var idTotal = "#total" + i;
+                var idRight = "#right" + i;         
+                var right = $(idTotal).attr('data-val');
+                var total = $(idRight).attr('data-val');
+                let percent = (total / right) * 100;
+                $(".chart").each(function (e) {
+                    if (parseInt($(this).attr('data')) == i) {
+                        var percentString = percent + "%";
+                        $(this).css('width', percentString);
+                    }
+                });
+            }
+        });
+    </script>
+}
+
+
+
+

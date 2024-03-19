@@ -1,0 +1,44 @@
+﻿@model Tms.Models.User.UserModel
+@using Tms.Models
+@using Tms.Web.Framework.Helpers
+<link href="~/Assets/plugins/chosen/chosen.min.custom.css" rel="stylesheet" />
+<style>
+    input::-webkit-input-placeholder {
+        font-size: 12px;
+    }
+</style>
+
+@Html.AntiForgeryToken()
+
+<div class="panel panel-default border">
+    <div class="panel-heading border-bottom" style="background-color:#fafafa">
+        <h6 class="panel-title mb-0"><i class="icon-info"></i> Thông tin chính</h6>
+    </div>
+    <div class="panel-body bgc-fff p-3">
+        <input type="hidden" value="@Request.Params["type"]" id="FormType" name="FormType" />
+        <div class="form-group row">
+            <div class="col-sm-4">
+                <label class="col-sm-12 control-label text-left">Email: <span class="color-red">(*)</span></label>
+                <div class="col-sm-12">
+                    @Html.TextBoxFor(c => c.Email, new { @class = "form-control", @placeholder = "Nhập email" })
+                    @Html.ValidationMessageFor(c => c.Email)
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <label class="col-sm-12 control-label text-left">Mật khẩu : <span class="color-red">(*)</span></label>
+                <div class="col-sm-12">
+                    @Html.TextBoxFor(c => c.Password, new { @class = "form-control", @placeholder = "Nhập mật khẩu", @type = "password" })
+                    @Html.ValidationMessageFor(c => c.Password)
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <label class="col-sm-12 control-label text-left">Họ và tên: </label>
+                <div class="col-sm-12">
+                    @Html.TextBoxFor(c => c.UserName, new { @class = "form-control", @placeholder = "Nhập họ và tên" })
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+

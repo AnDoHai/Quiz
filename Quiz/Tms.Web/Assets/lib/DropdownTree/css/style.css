@@ -1,0 +1,164 @@
+﻿/*
+ * Imageless CSS3 Treeview with Checkbox Support
+ * @namespace window.AcidJs
+ * @class CSS3Treeview
+ * @version 3.0
+ * @author Martin Ivanov
+ * @url developer website: http://wemakesites.net/
+ * @url developer twitter: https://twitter.com/#!/wemakesitesnet
+ * @url developer blog http://acidmartin.wordpress.com/
+ **/
+
+.selectBox {
+    position: relative;
+    float: left;
+    width: 100%;
+    /*z-index: 1000;*/
+}
+
+.selectList {
+    background: white;
+    border: 1px solid #CCCCCC;
+    border-radius: 3px;
+    float: left;
+    height: 33px;
+    display: block;
+    padding: 3px 0 0;
+    position: relative;
+    width: 100%;
+    /*z-index: 1000;*/
+    overflow: hidden;
+}
+
+    .selectList span {
+        color: #333333;
+        font-size: 12px;
+        padding: 0px 0 0 15px;
+        text-shadow: 1px 2px 2px white;
+        line-height: 23px;
+    }
+
+.imgdow {
+    position: absolute;
+    right: 0px;
+    border-left: 1px solid #bbbbbb;
+    padding: 0px 0px 0px 7px;
+    height: 31px;
+    top: 0px;
+}
+
+
+.checkboxMain {
+    position: absolute;
+    float: left;
+    width: 100%;
+    border: 1px solid #CCCCCC;
+    display: none;
+    height: auto;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    background: white;
+    z-index: 99;
+    margin-top: 32px !important;
+}
+
+.treeview {
+    margin: 5px 0 5px 0px;
+    position: relative;
+    z-index: 10000;
+}
+
+ul {
+    list-style: none;
+}
+
+.treeview li {
+    padding: 0px 0 0px 15px;
+}
+
+.treeview > li:first-child > label {
+    /* style for the root element - IE8 supports :first-child
+  but not :last-child ..... */
+}
+
+.treeview li.last {
+    background-position: 0 -1766px;
+}
+
+.treeview li > input {
+    height: 16px;
+    width: 16px;
+    /* hide the inputs but keep them in the layout with events (use opacity) */
+    opacity: 0;
+    filter: alpha(opacity=0); /* internet explorer */
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(opacity=0)"; /*IE8*/
+}
+
+.treeview li .lb-radio {
+    background: url(http://www.thecssninja.com/demo/css_custom-forms/gr_custom-inputs.png) 0 -161px no-repeat !important;
+}
+
+.treeview li > label {
+    background: url(http://www.thecssninja.com/demo/css_custom-forms/gr_custom-inputs.png) 0 -1px no-repeat;
+    /* move left to cover the original checkbox area */
+    margin-left: -20px;
+    /* pad the text to make room for image */
+    padding-left: 20px;
+}
+
+/* Unchecked styles */
+
+.treeview .custom-unchecked {
+    background-position: 0 -1px;
+}
+
+.treeview .radio-unchecked {
+    background-position: 0 -161px !important;
+}
+
+.treeview .custom-unchecked:hover {
+    background-position: 0 -21px;
+}
+
+.treeview .radio-unchecked:hover {
+    background-position: 0 -181px !important;
+}
+
+/* Checked styles */
+
+.treeview .custom-checked {
+    background-position: 0 -81px;
+}
+
+.treeview .radio-checked {
+    background-position: 0 -240px !important;
+}
+
+    .treeview .custom-checked:hover {
+        background-position: 0 -101px;
+    }
+
+    .treeview .radio-checked:hover {
+        background-position: 0 -261px !important;
+    }
+
+/* Indeterminate styles */
+
+.treeview .custom-indeterminate {
+    background-position: 0 -141px;
+}
+
+    .treeview .custom-indeterminate:hover {
+        background-position: 0 -121px;
+    }
+
+.mask {
+    position: fixed;
+    float: left;
+    left: 0;
+    top: 0;
+    z-index: 10;
+    width: 100%;
+    height: 100%;
+    display: block;
+}

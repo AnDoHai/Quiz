@@ -1,0 +1,41 @@
+﻿@model Tms.Models.UserTestModel.UserTestModel
+
+@{
+    ViewBag.Title = "Edit UserTests";
+    Layout = null;
+}
+
+<div class="page-content-inner popup">
+    @using (Html.BeginForm("Edit", "UserTest", FormMethod.Post, new { id = "frmUpdate", @class = "form-horizontal" }))
+    {
+		@Html.AntiForgeryToken()
+        <div class="breadcrumb-line">
+            <div class="form-actions action-breadcrumb">
+
+            </div>
+            <div class="visible-xs breadcrumb-toggle">
+                <a class="btn btn-link btn-lg btn-icon" data-toggle="collapse" data-target=".breadcrumb-buttons"><i class="icon-menu2"></i></a>
+            </div>
+        </div>
+
+        @Html.HiddenFor(c => c.UserTestId)
+        @Html.Partial("Partial/_FormInput", Model)
+
+        <div class="form-actions text-right mr-10 margin-bottom-10">
+            <button type="button" class="btn-xs btn btn-primary" onclick="location.href=''">
+                <i class="icon-exit3"></i> Hủy
+            </button>
+            <button type="submit" class="btn btn-xs btn-danger">
+                <i class="icon-plus-circle"></i> Lưu
+            </button>
+        </div>
+    }
+</div>
+@section scripts
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            userTestModule.init();
+        });
+    </script>
+}

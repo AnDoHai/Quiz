@@ -1,0 +1,77 @@
+﻿@using Tms.Web.Framework.Helpers
+@model Tms.Models.User.UserSearchModel
+
+<div class="main-table">
+    <div class="table-bordered datatable shadow">
+        <table class="w-10 table-hover" role="grid">
+            <thead>
+                <tr role="row">
+                    <th class="listItems width_5">STT</th>
+                    <th class="listItems">Họ và tên</th>
+                    <th class="listItems">Email</th>
+                    <th class="listItems">Số điện thoại</th>
+                    <th class="listItems">Cấp độ</th>
+                    <th class="listItems">Ngày tạo</th>
+                    <th class="listItems">Trạng thái</th>
+                    <th class="listItems width_5">Tác vụ</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                @if (Model != null && Model.Users.Any())
+                {
+                    var index = 0;
+                    index = (Model.PageIndex - 1) * Model.PageSize;
+                    foreach (var item in Model.Users)
+                    {
+                        index++;
+                        var parent = Guid.NewGuid();
+                        <tr role="row" id="@parent">
+                            <td class="listItems">@index</td>
+                            <td class="listItems">@item.UserName</td>
+                            <td class="listItems">@item.Email</td>
+                            <td class="listItems">@item.Tel</td>
+                            <td class="listItems">@item.LevelName</td>
+                            <td class="listItems">@item.CreatedDate.ToString("dd/MM/yyyy HH:mm")</td>
+                            <td class="listItems">
+                                @{ var clssActive = "hide";}
+                                @{ var clssInActive = "hide";}
+                                @if (item.IsLockedOut == false)
+                                {
+                                    clssActive = "show";
+                                }
+                                else
+                                {
+                                    clssInActive = "show";
+                                }
+
+                                <span data-span="active_@item.UserId" class="mx-auto badge badge-success mg-left-5px @clssActive">Kích hoạt</span>
+                                <span data-span="inactive_@item.UserId" class="mx-auto badge badge-warning mg-left-5px @clssInActive">Ngừng kích hoạt</span>
+                            </td>
+                            <td class="text-left" style="text-align: center !important;">
+                                <div class="icons-group">
+                                    @*<a href="@Url.Action("Edit", "Account", new { id = @item.UserId, @type ="account" })" title="Chỉnh sửa tài khoản" class="tip"><i class="fas fa-pen-square"></i></a>
+                                    <a href="javascript:void(0)" class="tip" data-id="@item.UserId"><i data-id="@item.UserId" title="xóa tài khoản" class="fas fa-trash-alt btn_remove_account"></i></a>*@
+                                    <a href="javascript:void(0)" data-parent="@parent" data-status="@item.IsLockedOut" class="tip activeStatus btn_active_account" title="chuyển đổi trạng thái tài khoản" data-id="@item.UserId">
+                                        @if (item.IsLockedOut)
+                                        {
+                                            <i class="fas fa-toggle-off"></i>
+                                        }
+                                        else
+                                        {
+                                            <i class="fas fa-toggle-on"></i>
+                                        }
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div class="datatable-footer" id="paging_layout">
+        @Html.AjaxPagingHelper("accountModule.onClickPagingUser", Model.TotalRecords, Model.PageSize, Model.PageIndex, Model.SortColumn, Model.SortDirection)
+    </div>
+</div>

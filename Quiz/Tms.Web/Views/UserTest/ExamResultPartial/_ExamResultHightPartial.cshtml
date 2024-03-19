@@ -1,0 +1,44 @@
+﻿@model Tms.Models.UserTestModel.ExamResultModelHight
+
+@if (Model != null && Model.UserTestExams != null)
+{
+
+    <div class="contest-index">
+        <div class="section-index" id="section">
+            <div class="questions-parts section section-content section-label" data="1"> <a href="javascript:void(0)" class="btn text-white">SectionName</a></div>
+            <div class="main-question row ml-1" id="question-listing">
+                <div class="question-main">
+                    <div id="solution" class="col-11 col-sm-11 col-lg-11 row d-flex justify-content-center align-items-center question">
+                        <div class="question-item row col-7 col-sm-9 col-lg-7 d-flex align-items-center">
+                            @foreach (var item in Model.UserTestExams)
+                            {
+                                var answerText = "";
+                                var idInput = "input" + item.QuestionID;
+                                <div class="question-item">
+                                    <div class="question-tittle">
+                                        <div class="tittle-content">@Html.Raw(item.QuestionName)</div>
+                                    </div>
+                                    <div class="solution">
+                                        @if (item.Status == false)
+                                        {
+                                            answerText = "Chưa chấm";
+                                        }
+                                        else
+                                        {
+                                            answerText = item.Point.ToString();
+                                        }
+                                        <div class="solution-content">
+                                            <label for="@idInput">Điểm: </label><input type="text" id="@idInput" name="answer" value="@answerText" />
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+}
+

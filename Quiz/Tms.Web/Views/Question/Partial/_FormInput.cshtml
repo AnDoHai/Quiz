@@ -1,0 +1,328 @@
+﻿@model Tms.Models.QuestionModel.QuestionAllModel
+<style type="text/css">
+    .content-choice {
+        color: #716e6e;
+        min-height: 6rem;
+        border: 1.2px dashed #b3b2b2;
+        padding: 2rem;
+        min-width: 62.64% !important;
+        max-width: 62.64% !important;
+        margin-left: 1.4rem;
+    }
+
+    .span-input {
+        position: relative !important;
+        float: left;
+        /* height: 5rem; */
+        /* background: red; */
+        /* width: 5rem; */
+        border: 1.2px dashed #b3b2b2;
+        /* border: 1px black; */
+        margin-top: 1rem;
+        font-size: 2.2rem;
+        padding: 1.6rem;
+    }
+
+    .input-choice {
+        margin-top: 1rem !important;
+    }
+</style>
+<div class="">
+    <h3>@(Model != null && Model.Question != null && Model.Question.QuestionID > 0 ? "Cập nhật câu hỏi" : "Thêm mới câu hỏi")</h3>
+</div>
+<div class="panel panel-default">
+    <div class="">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        @Html.Partial("~/Views/Shared/Partial/_MessagePartial.cshtml")
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label class="control-label">Tên câu hỏi: </label>
+                    <div class="">
+                        @Html.TextAreaFor(c => c.Question.QuestionText, new { @class = "form-control", placeholder = "Nhập tên câu hỏi" })
+                        @Html.ValidationMessageFor(c => c.Question.QuestionText)
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group h-auto">
+                    <label class="control-label">Điểm: </label>
+                    <div class="d-flex">
+                        @Html.TextBoxFor(c => c.Question.Point, new { @class = "form-control", type = "number" })
+                        @Html.ValidationMessageFor(c => c.Question.Point)
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label class="control-label">Mã đề: </label>
+                    <div class="d-flex">
+                        @Html.DropDownListFor(c => c.Question.QuizID, (IEnumerable<SelectListItem>)TempData["QuizList"], "Chọn mã đề", new { @class = "form-control chosen-select" })
+                        @Html.ValidationMessageFor(c => c.Question.QuizID)
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group h-auto">
+                    <label class="control-label">Phần thi lớn: </label>
+                    <div class="d-flex">
+
+                        @Html.DropDownListFor(c => c.Question.ContestID, (IEnumerable<SelectListItem>)TempData["ContestList"], "----Chọn cuộc thi----", new { @class = "form-control  ", disabled = "disabled" })
+                        @Html.ValidationMessageFor(c => c.Question.ContestID)
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group h-auto">
+                    <label class="control-label">Phần thi nhỏ: </label>
+                    <div class="d-flex">
+                        @Html.DropDownListFor(c => c.Question.SectionID, (IEnumerable<SelectListItem>)TempData["SectionList"], "----Chọn phần thi----", new { @class = "form-control  ", disabled = "disabled" })
+                        @Html.ValidationMessageFor(c => c.Question.SectionID)
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group h-auto">
+                    <label class="control-label">Kiểu câu hỏi: </label>
+                    <div class="d-flex">
+                        @Html.DropDownListFor(c => c.Question.Type, (IEnumerable<SelectListItem>)TempData["Type"], "----Chọn kiểu câu hỏi----", new { @class = "form-control  " })
+                        @Html.ValidationMessageFor(c => c.Question.Type)
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 layout">
+                <div class="form-group h-auto">
+                    <label class="control-label">Kiểu hiển thị: </label>
+                    <div class="d-flex">
+                        @Html.DropDownListFor(c => c.Question.Layout, (IEnumerable<SelectListItem>)TempData["Layout"], "----Chọn kiểu hiển thị ----", new { @class = "form-control  " })
+                        @Html.ValidationMessageFor(c => c.Question.Layout)
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label class="control-label">Thời gian bắt đầu: </label>
+                    <div class="d-flex">
+                        <label class="control-label label-time">Phút:</label>
+                        @Html.TextBoxFor(c => c.Question.MinuteStart, new { @class = "form-control", type = "number" })
+                    </div>
+                    <div class="d-flex">
+                        <label class="control-label label-time">Giây:</label>
+                        @Html.TextBoxFor(c => c.Question.SecondStart, new { @class = "form-control", type = "number" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label class="control-label">Thời gian kết thúc: </label>
+                    <div class="d-flex">
+                        <label class="control-label label-time">Phút:</label>
+                        @Html.TextBoxFor(c => c.Question.MinuteEnd, new { @class = "form-control", type = "number" })
+                    </div>
+                    <div class="d-flex">
+                        <label class="control-label label-time">Giây:</label>
+                        @Html.TextBoxFor(c => c.Question.SecondEnd, new { @class = "form-control", type = "number" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group h-auto">
+                    <label class="control-label">Thứ tự hiển thị: </label>
+                    <div class="d-flex">
+                        @Html.TextBoxFor(c => c.Question.GroupIndex, new { @class = "form-control", type = "number" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 layout">
+                <div class="form-group h-auto">
+                    <label class="control-label">Giải thích: </label>
+                    <div class="d-flex">
+                        @Html.TextAreaFor(c => c.Question.Description, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(c => c.Question.Description)
+                    </div>
+                </div>
+            </div>
+            @*<div class="col-md-6 file-text">
+            <div class="form-group h-auto">
+                <label class="control-label">Chọn tệp ảnh: </label>
+                <div class="d-flex">
+                    <div class="col-4 col-sm-4 col-md-4 col-lg-3 col-xl-3" style="padding-left: 0;">
+                        <input type="file" class="image-file custom-file-inputs" name="textFileImage" />
+                    </div>
+                    <div class="col-8 col-sm-8 col-md-8 col-lg-9 col-xl-9" style="padding-left: 0;">
+                        <input type="text" class="textFileImage form-control" name="textFileImg" value="Trống" style="color:#b39b98" readonly />
+                    </div>
+                </div>
+            </div>
+        </div>*@
+        </div>
+    </div>
+</div>
+
+<div class="answer-create">
+    <div class="row">
+        <div class="col-lg-6">
+            <div>
+                <h3>Thêm mới lựa chọn</h3>
+            </div>
+            <div class="panel panel-default" id="question-answer" style="height: 33rem;">
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group h-auto">
+                                <label class="control-label">Kiểu lựa chọn: </label>
+                                <div class="d-flex">
+                                    @Html.DropDownListFor(c => c.Question.TypeChoice, (IEnumerable<SelectListItem>)TempData["Order"], "----Chọn kiểu trả lời----", new { @class = "form-control   answerType" })
+                                    @Html.ValidationMessageFor(c => c.Question.TypeChoice)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group h-auto">
+                                <label class="control-label">Tác vụ: </label>
+                                <div class="d-flex">
+                                    <button class="button-br button-text-br" type="button">Xuống dòng</button>
+                                    <button class="button-br button-text" type="button">Cách đoạn</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group h-auto addNewChoice" style="display:none;">
+                                <label class="control-label">Thêm lựa chọn: </label>
+                                <div class="d-flex">
+                                    <div class="col-sm-12" style="padding: 0;">
+                                        <div class="row">
+                                            <div class="addChoice">
+                                                <div class="col-sm-8 textChoice" style="padding: 0;">
+                                                    <input type="text" name="addchoice" class="dataChoice form-control" value="" placeholder="Thêm lựa chọn" />
+                                                    <button id="addChoice" class="rBtn" data="0" type="button">Thêm</button>
+                                                </div>
+                                                <div class="col-sm-8 fileChoice" style="display:none">
+                                                    <input class="file-choice form-control  " type="file" name="fileChoice" id="fileChoice" data-item="0" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="content-choice col-sm-8" style="float:left;margin: 0;">
+                                                <span class="span-choice" style="font-size:1.2rem"> Chưa có lựa chọn nào</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div>
+                <h3>Thêm mới trả lời</h3>
+            </div>
+            <div class="panel panel-default" id="question-answer" style="height: 33rem;">
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="row col-md-12">
+                            <div class="form-group row h-auto">
+                                <div class="col-lg-4 check-box-title">
+                                    <label class="control-label">Độ dài: </label>
+                                </div>
+                                <div class="col-lg-2">
+                                    @{ 
+                                        var valueTotal = 80;
+                                        if (Model.Question != null)
+                                        {
+                                            if (Model.Question.Maxlength != null)
+                                            {
+                                                valueTotal = Model.Question.Maxlength.Value;
+                                            }
+                                        }
+                                    }
+                                    @Html.TextBoxFor(c => c.Question.Maxlength, new { @class = "form-control", type = "number", @Value = valueTotal })
+                                    @Html.ValidationMessageFor(c => c.Question.Maxlength)
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="row col-md-12">
+                            <div class="form-group row h-auto">
+                                <div class="col-lg-4 check-box-title">
+                                    <label class="control-label">Trạng thái hiển thị: </label>
+                                </div>
+
+                                <div class="col-lg-2 check-box-status">
+                                    @Html.CheckBoxFor(c => c.Question.StatusTextbox, new { @class = "form-control", @checked = "checked" })
+                                    @Html.ValidationMessageFor(c => c.Question.StatusTextbox)
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="row col-md-12">
+                            <div class="form-group h-auto answer">
+                                <div class="d-flex">
+                                    <div class="col-md-12">
+                                        <div class="form-group h-auto">
+                                            <label class="control-label">Thêm câu trả lời: </label>
+                                            <div class="d-flex">
+                                                <div class="col-sm-12" style="padding: 0;">
+                                                    <div class="addAnswers">
+                                                        <div class="row">
+                                                            <div class="col-sm-12 textAnswer" style="padding: 0;">
+                                                                <input type="text" name="addAnswer" class="dataAnswer form-control" value="" placeholder="Thêm câu trả lời" />
+                                                                @{
+                                                                    var data = 0;
+                                                                    if (ViewBag.Answer != null)
+                                                                    {
+                                                                        var listAnswer = (List<Tms.Models.AnswerModel.AnswerModel>)ViewBag.Answer;
+                                                                        data = listAnswer.Count();
+                                                                    }
+                                                                }
+                                                                <button id="addAnswer" class="rBtn" data="@data" type="button">Thêm</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="content-answer col-sm-12" style="float:left;margin: 0;">
+                                                            @if (ViewBag.Answer != null)
+                                                            {
+                                                                var listAnswer = (List<Tms.Models.AnswerModel.AnswerModel>)ViewBag.Answer;
+                                                                var dataUpdate = 0;
+                                                                foreach (var item in listAnswer)
+                                                                {
+                                                                    dataUpdate++;
+                                                                    <div class="input-answer" data-id="@dataUpdate">
+                                                                        <i class="fas fa-minus-circle answer-icon" data-type="1" data-id="@dataUpdate" data="answer" style="float: left;"></i>
+                                                                        <input class="input-item input-form text-answer" type="text" id="Answer_@(dataUpdate-1)__AnswerText" name="Answer[@(dataUpdate-1)].AnswerText" value="@item.AnswerText" readonly />
+                                                                    </div>
+                                                                }
+                                                            }
+                                                            else
+                                                            {
+                                                                <span class="span-answer" style="font-size:1.2rem"> Chưa có câu trả lời nào</span>
+                                                            }
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+

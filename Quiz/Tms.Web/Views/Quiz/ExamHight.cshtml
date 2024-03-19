@@ -1,0 +1,125 @@
+﻿@model Tms.Models.Models.QuizModel.ExamHightModel
+@using Tms.Models
+@{
+    ViewBag.Title = "Bài thi";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    #wrapper, #main {
+        background-color: rgb(231,231,231);
+    }
+
+    #canvas {
+        width: 150px;
+        height: 25px;
+        top: 150px;
+        left: 45%;
+        text-align: center;
+    }
+</style>
+<div id="main" class="container" data-time="@Model.LimitTime" data-status="0" data="@Model.QuizId">
+    <div id="main-top-section">
+        <div class="row">
+            <div class="col-12 col-sm-12 col-md-12 col-lg-7 col-xl-3" id="timer">
+                <div class="row" style="margin:0">
+                    <div class="col-3 col-sm-8 col-md-8 col-xl-6 d-flex align-items-center">
+                        <div id="timer-left">
+                            <div class="check-mic">
+                                <img src="~/Assets/images/icon/podcast-1.gif" alt="this slowpoke moves" width="70px" class="imageHight" style="display:none" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-6 col-xl-6 my-2 text-center justify-content-center" style="padding: 15px 0;">
+                        <div class="row justify-content-center timer-title">Thời gian bài thi còn lại:</div>
+                        <div id="main-timer" data-status="true" data-contest="0">
+                            <div class="timmer row d-flex align-items-center justify-content-center align-items-center timer-row" data-minutes="' + minutes + '" data-seconds="' + seconds + '">
+                                <div class='minutes col-3 col-lg-5'>@Model.LimitTime</div>
+                                <div class='equas col-2 col-lg-2'>:</div>
+                                <div class='seconds col-3 col-lg-5'>0</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-5 col-lg-5 col-xl-9" id="test-image-banner">
+                <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                    <ol class="carousel-indicators">
+                        <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                        <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                        <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+                    </ol>
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <a href="https://qtedu.vn/thu-vien" target="_blank">
+                                <img class="d-block w-100" src="~/Assets/images/icon/dungsize1.png" alt="First slide">
+                            </a>
+
+                        </div>
+                        <div class="carousel-item">
+                            <a href="https://qtedu.vn/du-hoc" target="_blank">
+                                <img class="d-block w-100" src="~/Assets/images/icon/dungsize2.png" alt="Second slide">
+                            </a>
+
+                        </div>
+                        <div class="carousel-item">
+                            <a href="https://qtedu.vn/khoa-hoc" target="_blank">
+                                <img class="d-block w-100" src="~/Assets/images/icon/dungsize3.png" alt="Third slide">
+                            </a>
+                        </div>
+                    </div>
+                    <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div id="main-lower-section">
+            <div class="row">
+                <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12" style="padding-left:0!important">
+                    <div id="questions-details">
+                        @Html.Partial("~/Views/Quiz/Partial/_ExamAnswerHightPartial.cshtml", Model)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@Html.Partial("~/Views/Shared/Partial/_modalRulesListingPartial.cshtml")
+@Html.Partial("~/Views/Shared/Partial/_confirmExamHight.cshtml")
+@Html.Partial("~/Views/Shared/Partial/_loadingUploadExamPartial.cshtml")
+@Html.Partial("~/Views/Shared/Partial/_ConfirmExamPartial.cshtml", new ConfirmModel { Id = Model.QuizId.ToString(), Level = Model.HSKType.ToString() })
+@Html.Partial("~/Views/Shared/Partial/_confirmExamLimitTimePartial.cshtml", new ConfirmModel { Id = Model.QuizId.ToString(), Level = Model.HSKType.ToString() })
+<div class="container">
+    <button id="model" type="button" style="display:none" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Quy định</button>
+    <!-- Modal -->
+    <div class="modal fade in" id="myModal" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content" id="resultModel">
+
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts
+{
+    <script src="~/Assets/js/recorder.js"></script>
+    <script src="~/Assets/plugins/chosen/chosen.jquery.min.js"></script>
+    <script src="~/Assets/scripts/Tms.Quiz.js"></script>
+
+    <script src="~/Assets/js/webAudioRecord/WebAudioRecorder.js"></script>
+    <script type="text/javascript">
+        quizModule.init();
+    </script>
+}
+
+
+
+
+
+
+

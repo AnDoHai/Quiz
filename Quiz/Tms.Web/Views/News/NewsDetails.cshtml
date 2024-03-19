@@ -1,0 +1,75 @@
+﻿@model Tms.Models.NewsModel.NewsModel
+@using Tms.Models
+@{
+    ViewBag.Title = "NewsDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    hr {
+        background-color: red;
+        height: 3px;
+        width: 40px;
+        border: none;
+        opacity: 1;
+    }
+    .bd-top {
+        border-top: 1px solid rgb(236, 236, 236);
+    }
+
+    .bd-top a {
+            padding-top: 10px;
+    }
+</style>
+<div class="row" style="margin-top: 60px; margin-bottom: 60px; ">
+    <div class="datatable-scroll col-lg-8">
+
+        <h1 style="">@Html.DisplayTextFor(c => c.Title)</h1>
+        <div>@Html.Raw(Model.Description)</div>
+
+    </div>
+    <div class="col-lg-3" style="border-left: 1px solid #ececec ">
+        <div style="margin-left:20px">
+            <div>
+                <h3>QTEDU.,JSC</h3>
+                <hr />
+                <img src="https://qtedu.vn/wp-content/uploads/2021/04/z2424778040881_4663887fbd6bda1b8bf74a6e2fe4abf7.jpg" alt="Alternate Text" />
+            </div>
+            @*<div style="margin-top:30px">
+                    <h3>BÀI MỚI</h3>
+                    <hr />
+                    <ul class="">
+                        @foreach (var item in Model.Newss)
+                        {
+                            <li class="row bd-bottom">
+                                <div class="col-lg-4" style="background-image: url(/Uploads/NewsImages/@item.Image) ;height: 50px;width: 50px;background-size: cover;border-radius: 30px;background-position: center; flex: 0 0 auto;min-width: auto;max-width: none;"></div>
+                                <div class="col-lg-8 align-self-center"><h5 class="card-title">@item.Title</h5></div>
+                            </li>
+                        }
+                    </ul>
+                </div>*@
+
+            <div style="margin-top:30px">
+                <h3>CHUYÊN MỤC</h3>
+                <hr />
+                <div>
+                    <ul style="padding:0">
+                        <li><a href="#">Apply học bổng</a></li>
+
+                        <li class="bd-top"><a href="#">Các trường tại Trung Quốc</a></li>
+
+                        <li class="bd-top"><a href="#">Học Bổng Trung Quốc</a></li>
+
+                        <li class="bd-top"><a href="#">Khóa học ngắn hạn</a></li>
+
+                        <li class="bd-top"><a href="#">Ngữ pháp</a></li>
+
+                        <li class="bd-top"><a href="#">Sách tiếng Trung</a></li>
+
+                        <li class="bd-top"><a href="#">Tài liệu HSK</a></li>
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

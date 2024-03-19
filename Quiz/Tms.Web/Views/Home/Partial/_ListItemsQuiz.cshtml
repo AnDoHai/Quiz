@@ -1,0 +1,83 @@
+﻿@model Tms.Models.CategoryModel.CategorySearchModel
+@using Tms.Web.Framework.Helpers
+@using Tms.Models
+<!--THI HSK-->
+<div class="statistical-list-title text-center mb-30" style="margin-top: 25px;">
+    <h1 class="title" style="color:#dc3545">Thi HSK</h1>
+    <img src="~/Assets/images/aftd.png" />
+</div>
+<div class="datatable-scroll row" style="width: 79%; margin: auto;">
+    @foreach (var item in Model.Categorys)
+    {
+        var level = "";
+        var parent = Guid.NewGuid();
+        switch (item.Type)
+        {
+            case 1:
+            case 2:
+            case 3:
+            case 4:
+            case 5:
+            case 6:
+            case 7:
+                level = "normal";
+                <div class="col-md-4 col-lg-3">
+                    <div class="card-columns" style="column-count: 1;">
+                        <div class="card" style="margin: 0 0 50px 0" id="">
+                            <a href="javascript:void(0)" data="@item.CategoryId" class="exam-detail">
+                                <img src="Assets/images/Rectangle%2021.png" class="card-img-top" style="max-width: 100%">
+                                <div class="exam-starts">
+                                    <h3 class="card-title" id="titles" style="text-align:center">@item.Title</h3>
+                                    <div class="d-flex" style="justify-content: space-around;">
+                                        <span class="time-test btn btn-outline-danger button1" style="border: 1px solid red"><i class="fas fa-hourglass-half"></i> @item.TimeLimit Phút</span>
+                                        <span class="viewmore btn" data-id="@item.CategoryId" data-level="@level"><i class="far fa-arrow-alt-circle-right"></i>Vào thi</span>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                @Html.Partial("~/Views/Shared/Partial/_modalRulesPartial.cshtml", new ConfirmModel { Time = (int)(item.TimeLimit != null ? item.TimeLimit : 0), Id = item.CategoryId.ToString(), Level = @level,HSKId = item.CategoryId })
+                break;
+        }
+
+    }
+    <div class="col-md-12 col-lg-12"></div>
+</div>
+<!--THI HSKK-->
+<div class="statistical-list-title text-center mb-30">
+    <h1 class="title" style="color:#dc3545">Thi HSKK</h1>
+    <img src="~/Assets/images/aftd.png" />
+</div>
+<div class="datatable-scroll row" style="width: 79%; margin: auto;">
+    @foreach (var item in Model.Categorys)
+    {
+        var level = "";
+        var parent = Guid.NewGuid();
+        switch (item.Type)
+        {
+            case 8:
+            case 9:
+            case 10:
+                level = "hight";
+                <div class="col-md-4 col-lg-3">
+                    <div class="card-columns" style="column-count: 1;">
+                        <div class="card" style="margin: 0 0 50px 0" id="">
+                            <a href="javascript:void(0)" data="@item.CategoryId" class="exam-detail">
+                                <img src="@item.Description" class="card-img-top" style="max-width: 100%">
+                                <div class="card-body">
+                                    <h3 class="card-title" id="titles" style="text-align:center">@item.Title</h3>
+                                    <div class="d-flex" style="justify-content: center;">
+                                        <span class="time-test btn btn-outline-danger button1 mr-3" style="border: 1px solid red"><i class="fas fa-hourglass-half"></i> @item.TimeLimit Phút</span>
+                                        <span class="viewmore btn" data-id="@item.CategoryId" data-level="@level"><i class="far fa-arrow-alt-circle-right"></i>Vào thi</span>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                @Html.Partial("~/Views/Shared/Partial/_modalRulesPartial.cshtml", new ConfirmModel { Time = (int)(item.TimeLimit != null ? item.TimeLimit : 0), Id = item.CategoryId.ToString(), Level = @level, HSKId = item.CategoryId })
+                break;
+        }
+    }
+</div>

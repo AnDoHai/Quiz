@@ -1,0 +1,25 @@
+﻿@*@model Tms.Models.User.UserModel*@
+@{
+    ViewBag.Title = "Index";
+    Layout = null;
+}
+<style>
+    .ui-dialog-titlebar-close {
+        display:none
+    }
+</style>
+<div class="page-content-inner popup">
+
+        @Html.AntiForgeryToken()
+        @Html.Partial("Partial/_FormLockScreen")
+
+
+</div>
+@section scripts
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            headerModule.init();
+        });
+    </script>
+}

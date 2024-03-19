@@ -1,0 +1,56 @@
+﻿@model QuizModel
+@using Tms.Models.QuizModel
+
+
+<div class="panel panel-default">
+    <div class="">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        @Html.Partial("~/Views/Shared/Partial/_MessagePartial.cshtml")
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="">Tên bài thi: </label>
+                    <div class="d-flex">
+                        @Html.TextBoxFor(c => c.QuizName, new { @class = "form-control font-size" })
+                        @Html.ValidationMessageFor(c => c.QuizName)
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="">Cấp độ bài thi: </label>
+                    <div class="d-flex">
+                        @Html.DropDownListFor(c => c.CategoryId, new SelectList(ViewBag.DanhMucs, "Value", "Text"), new { @class = "form-control font-size" })
+                        @Html.ValidationMessageFor(c => c.CategoryId)
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="">Trạng thái: </label>
+                    <div class="d-flex">
+                        @Html.DropDownListFor(c => c.Status, new SelectList(ViewBag.TrangThais, "Value", "Text"), new { @class = "form-control font-size" })
+                        @Html.ValidationMessageFor(c => c.Status)
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-8">
+                <div class="form-group">
+                    <label class="">Mô tả: </label>
+                    <div class="d-flex">
+                        @Html.TextBoxFor(c => c.Description, new { @class = "form-control font-size" })
+                        @Html.ValidationMessageFor(c => c.Description)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

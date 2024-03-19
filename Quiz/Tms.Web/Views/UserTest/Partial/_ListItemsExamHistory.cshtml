@@ -1,0 +1,101 @@
+﻿@using Tms.Web.Framework.Helpers
+@model Tms.Models.UserTestModel.UserTestSearchModel
+
+<div class="datatable-scroll col-12">
+    <div class="lst-wrapper table-wrapper">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th colspan="7" class="">
+                        Lịch sử bài thi
+                    </th>
+                </tr>
+                <tr>
+                    <th scope="col">STT</th>
+                    <th scope="col">Cấp độ</th>
+                    <th scope="col">Thời gian</th>
+                    <th scope="col">Tổng điểm</th>
+                    <th scope="col">Kết quả</th>
+                    <th scope="col">In chứng chỉ</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null && Model.UserTests != null && Model.UserTests.Any())
+                {
+                    var index = 0;
+                    index = (Model.PageIndex - 1) * Model.PageSize;
+                    foreach (var item in Model.UserTests)
+                    {
+                        if (item.HSKId != 9 && item.HSKId != 10 && item.HSKId != 11)
+                        {
+                            //if (item.TotalPoint > 0)
+                            //{
+                            index++;
+                                <tr>
+                                    <td scope="row">@index</td>
+                                    <td scope="row" class="">@item.HSKName</td>
+                                    <td scope="row">@item.CreatedDate.ToString("dd-MM-yyyy HH:mm:00")</td>
+                                    <td>@item.TotalPoint</td>
+                                    <td><a href="@Url.Action("ExamResult", "UserTest", new { id = @item.UserTestId })" class="lsbt-cc">Xem kết quả</a></td>
+                                    <td>
+                                        @if (item.Status && !string.IsNullOrEmpty(item.Description))
+                                        {
+                                            <a class="lsbt-cc export-pdf" id="xuatPDF" title="In chứng chỉ" target="_blank" href="@item.Description">
+                                                <i class="fas fa-print"></i> In chứng chỉ
+                                            </a>
+                                        }
+                                        else
+                                        {
+                                            <a href="javascript:void(0)" class="lsbt-cc tip print" data="false" style="color:#bba3a3;">Đang xét duyệt</a>
+                                        }
+
+                                    </td>
+                                </tr>
+                                //}
+                            }
+                            else
+                            {
+                                index++;
+                            <tr>
+                                <td scope="row">@index</td>
+                                <td scope="row" class="">@item.HSKName</td>
+                                <td scope="row">@item.CreatedDate.ToString("dd-MM-yyyy HH:mm:00")</td>
+                                <td>@item.TotalPoint</td>
+                                @if (item.HSKId == 9 || item.HSKId == 10 || item.HSKId == 11)
+                                {
+                                    if (item.TotalPoint == 0)
+                                    {
+                                        <td><a href="javascript:void(0)" class="lsbt-cc">Đang chấm</a></td>
+                                    }
+                                    else
+                                    {
+                                        <td><a href="javascript:void(0)" class="lsbt-cc">Đã chấm</a></td>
+                                    }
+                                }
+                                <td>
+                                    @if (item.Status && !string.IsNullOrEmpty(item.Description))
+                                    {
+                                        <a class="lsbt-cc export-pdf" id="xuatPDF" title="In chứng chỉ" target="_blank" href="@item.Description">
+                                            <i class="fas fa-print"></i> In chứng chỉ
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <a href="javascript:void(0)" class="lsbt-cc tip print" data="false" style="color:#bba3a3;">Đang xét duyệt</a>
+                                    }
+
+                                </td>
+                            </tr>
+                        }
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+<br />
+<div class="datatable-footer col-12 mt-2" id="paging_layout">
+    @Html.AjaxPagingHelper("userTestModule.onClickPagingByUser", Model.TotalRecords, Model.PageSize, Model.PageIndex, Model.SortColumn, Model.SortDirection)
+</div>
+<br />
+

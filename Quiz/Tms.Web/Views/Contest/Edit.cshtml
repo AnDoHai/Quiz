@@ -1,0 +1,80 @@
+﻿@model Tms.Models.ContestModel.ContestModel
+
+@{
+    ViewBag.Title = "Sửa phần thi chung";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="page-content-inner">
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="tab-pane mg-top-25px">
+                <div class="control-bar">
+                    <div class="row">
+                        <div class="page-header col-md-6">
+                            <div class="page-title">
+                                <h3>Cập nhật phần thi chung</h3>
+                            </div>
+                        </div>
+                        <div class="breadcrumb-line col-md-6">
+                            <ul class="breadcrumb float-right font-size">
+                                <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">Trang chủ</a></li>
+                                <li class="breadcrumb-item"><a href="@Url.Action("Index", "Contest")">Phần thi chung</a></li>
+                                <li class="breadcrumb-item"><a href="@Url.Action("Edit", "Contest")">Cập nhật</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="row d-flex justify-content-center mt-3">
+                        @using (Html.BeginForm("Edit", "Contest", FormMethod.Post, new { id = "frmUpdate", @class = "form-horizontal" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            <div class="breadcrumb-line">
+                                <div class="form-actions action-breadcrumb">
+                                </div>
+                            </div>
+                            <br /><br /><br />
+                            <div class="col-12">
+                                @Html.HiddenFor(c => c.ContestID)
+                                @Html.Partial("Partial/_FormInput", Model)
+                            </div>
+
+                            <br /><br />
+                            <div class="col-12 mt-5 float-right">
+                                <div class="form-actions text-right mr-25">
+                                    <button type="submit" class="btn btn-xs rBtn">
+                                        <i class="fas fa-save"></i> Lưu
+                                    </button>
+                                    <button type="button" class="btn-xs btn btn-primary" onclick="location.href='@Url.Action("Index","Contest")'">
+                                        <i class="fas fa-sign-out-alt"></i> Hủy
+                                    </button>
+                                </div>
+                            </div>
+                        }
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    <script src="https://cdn.ckeditor.com/ckeditor5/29.1.0/classic/ckeditor.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            sectionModule.init();
+        });
+    </script>
+    <script>
+        ClassicEditor
+            .create(document.querySelector('#txtDescription'), {
+                // toolbar: [ 'heading', '|', 'bold', 'italic', 'link' ]
+            })
+            .then(editor => {
+                window.editor = editor;
+            })
+            .catch(err => {
+                console.error(err.stack);
+            });
+    </script>
+}

@@ -1,0 +1,71 @@
+﻿@model Tms.Models.UserTestQuestionAnswerModel.UserTestQuestionAnswerSearchModel
+@using Tms.Models
+@{ 
+    var indexQuestion = 0;
+}
+<style>
+    .point-label {
+        width: 5rem;
+        float: left;
+        line-height: 4rem;
+    }
+    .panel-body {
+        height: auto !important;
+    }
+</style>
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="row">
+            @if (Model != null && Model.UserTestQuestionAnswers != null)
+            {
+                var index = 0;
+                if (Model.TypeCategory == 8 || Model.TypeCategory == 9 || Model.TypeCategory == 10)
+                {
+                    <div class="d-flex justify-content-center video-tittle">
+                        <div class="row col-lg-12 justify-content-center">
+                            <audio controls style="width: 500px">
+                                <source src="@Model.UrlAudio.ToString()" type="audio/mpeg">
+                                Your browser does not support the audio element.
+                            </audio>
+                        </div>
+                    </div>
+                    <div class="row col-lg-12 justify-content-center">
+                        <p>Tên tệp: @Model.UrlAudio.ToString()</p>
+                    </div>
+                }
+                foreach (var item in Model.UserTestQuestionAnswers)
+                {
+                    indexQuestion++;
+                    var idText = "UserTestQuestionAnswers_" + index + "__UserTestQuestionAnswerText";
+                    var nameText = "UserTestQuestionAnswers[" + index + "].UserTestQuestionAnswerText";
+                    var idNumber = "UserTestQuestionAnswers_" + index + "__Point";
+                    var nameNumber = "UserTestQuestionAnswers[" + index + "].Point";
+                    var id = "UserTestQuestionAnswers[" + index + "].__UserTestQuestionAnswerID";
+                    var name = "UserTestQuestionAnswers[" + index + "].UserTestQuestionAnswerID";
+                    <div class="form-group row col-lg-12">
+                        <div class="number-question"><b>Câu: @indexQuestion</b></div>
+                        <label class="col-sm-2 control-label text-right" style="font-size: .97em; min-width: fit-content;">@Html.Raw(item.QuestionName) </label>
+                        <div class="col-sm-8">
+                            <input class="form-control" id="@id" name="@name" type="text" value="@item.UserTestQuestionAnswerID" readonly style="display:none">
+                            @if (item.Type == 3)
+                            {
+                                <input class="form-control" id="@id" name="@name" type="text" value="@item.UserTestQuestionAnswerText" readonly>
+                            }
+                            @if (item.Type == 4 || item.Type == 5)
+                            {
+                                <textarea class="form-control" id="@idText" name="@nameText" readonly>
+                                    @item.UserTestQuestionAnswerText
+                                </textarea>
+                            }
+                            <div class="point">
+                                <label class="point-label">Điểm:</label>
+                                <input type="number" name="@nameNumber" id="@idNumber" style="width:8rem" value="@(item.Point!= null?item.Point.Value:0)" />
+                            </div>
+                        </div>
+                    </div>
+                    index++;
+                }
+            }
+        </div>
+    </div>
+</div>

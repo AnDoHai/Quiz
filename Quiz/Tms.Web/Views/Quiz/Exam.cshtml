@@ -1,0 +1,185 @@
+﻿@model Tms.Models.Models.QuizModel.ExamModelSreach
+@using Tms.Models
+@{
+    ViewBag.Title = "Bài thi";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    #wrapper, #main {
+        background-color: rgb(231,231,231);
+    }
+</style>
+<div id="main" class="container" data-time="@Model.LimitTime" data-status="0" data-exam="0" data="@Model.QuizId" data-count-contest="@Model.ExamDetails.Count()" data-submit-count="1">
+    <div id="main-top-section">
+        <div class="row">
+            <div class="col-12 col-sm-12 col-md-12 col-lg-7 col-xl-3" id="timer">
+                <div class="row" style="margin:0">
+                    <div class="col-12 col-sm-10 col-md-10 col-xl-12" style="padding:0!important">
+                        <div class="row" id="timer-left">
+                            <div class="row col-md-6 col-lg-6 col-xl-12 my-2 text-center justify-content-center" style="padding: 15px 0; margin: 0 !important;">
+                                <div class="row justify-content-center timer-title col-lg-4">Thời gian làm bài còn:</div>
+                                <div id="main-timer" class="col-lg-7">
+                                </div>
+                            </div>
+                            <div class="row col-md-6 col-lg-6 col-xl-12 my-2 text-center justify-content-center" style="padding: 15px 0; margin: 0 !important; ">
+                                <div class="row justify-content-center timer-title col-lg-4"> Phần thi hiện tại còn:</div>
+                                <div id="main-timer-detail" class="col-lg-7" data-legth="@Model.ExamDetails.Count()" data-status="true" data-contest="0">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @*<div class="col-12 col-sm-2 col-md-2 col-xl-2" id="submit" data="true">
+                            <a href="javascript:void(0)" class="btn btn-default bg-white upload-exam" data="@Model.QuizId">Nộp bài</a>
+                        </div>*@
+                </div>
+            </div>
+            @*<div class="col-sm-12 col-md-5 col-lg-5 col-xl-9" id="test-image-banner">
+                    <a href="#"><img src="~/Assets/images/testbanner.jpg" id="img-banner" alt=""></a>
+                </div>*@
+
+            <div class="col-sm-12 col-md-5 col-lg-5 col-xl-9" id="test-image-banner">
+                <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                    <ol class="carousel-indicators">
+                        <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                        <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                        <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+                    </ol>
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <a href="https://qtedu.vn/thu-vien" target="_blank">
+                                <img class="d-block w-100" src="~/Assets/images/icon/dungsize1.png" alt="First slide">
+                            </a>
+
+                        </div>
+                        <div class="carousel-item">
+                            <a href="https://qtedu.vn/du-hoc" target="_blank">
+                                <img class="d-block w-100" src="~/Assets/images/icon/dungsize2.png" alt="Second slide">
+                            </a>
+
+                        </div>
+                        <div class="carousel-item">
+                            <a href="https://qtedu.vn/khoa-hoc" target="_blank">
+                                <img class="d-block w-100" src="~/Assets/images/icon/dungsize3.png" alt="Third slide">
+                            </a>
+                        </div>
+                    </div>
+                    <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="main-lower-section">
+        <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-3 col-xl-3" data="1" id="left-menu-fix">
+                <div id="questions-nav">
+                    @Html.Partial("~/Views/Quiz/Partial/_ExamQuestionPartial.cshtml", Model)
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-12 col-lg-9 col-xl-9 noselect" style="color:black!important">
+                <div id="questions-details">
+                    @Html.Partial("~/Views/Quiz/Partial/_ExamAnswerPartial.cshtml", Model)
+                </div>
+            </div>
+            <div id="loadingOverlay">
+                <div class="cv-spinner">
+                    <span class="loadingSpinner"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@Html.Partial("~/Views/Shared/Partial/_confirmTurnOffAudioPartial.cshtml")
+@Html.Partial("~/Views/Shared/Partial/_loadingUploadExamPartial.cshtml")
+@Html.Partial("~/Views/Shared/Partial/_confirmRuleStartExamPartial.cshtml")
+@Html.Partial("~/Views/Shared/Partial/_confirmChangeContestPartial.cshtml")
+@Html.Partial("~/Views/Shared/Partial/_ConfirmExamPartial.cshtml", new ConfirmModel { Id = Model.QuizId.ToString(), Level = Model.HSKType.ToString() })
+@Html.Partial("~/Views/Shared/Partial/_confirmExamLimitTimePartial.cshtml", new ConfirmModel { Id = Model.QuizId.ToString(), Level = Model.HSKType.ToString() })
+<div class="container">
+    <button id="model" type="button" style="display:none" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Quy định</button>
+    <!-- Modal -->
+    <div class="modal fade in" id="myModal" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content" id="resultModel">
+
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts
+{
+    <script src="~/Assets/plugins/chosen/chosen.jquery.min.js"></script>
+    <script src="~/Assets/scripts/Tms.Quiz.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            quizModule.init();
+            function showADialog(e) {
+                var confirmationMessage = 'checked';
+                (e || window.event).returnValue = confirmationMessage;
+                return confirmationMessage;
+            }
+            window.addEventListener("beforeunload", function (e) {
+                window.localStorage.setItem('QuizStatus', 'true');
+                return showADialog(e);
+            });
+
+            //document.addEventListener("contextmenu", function (e) {
+            //     e.preventDefault();
+            // }, false);
+            // document.addEventListener("keydown", function (e) {
+            //     document.onkeydown = function(e) {
+            //      "I" key
+            //     if (e.ctrlKey && e.shiftKey && e.keyCode == 73) {
+            //         disabledEvent(e);
+            //     }
+            //      "J" key
+            //     if (e.ctrlKey && e.shiftKey && e.keyCode == 74) {
+            //         disabledEvent(e);
+            //     }
+            //      "S" key + macOS
+            //     if (e.keyCode == 83 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)) {
+            //         disabledEvent(e);
+            //     }
+            //      "U" key
+            //     if (e.ctrlKey && e.keyCode == 85) {
+            //         disabledEvent(e);
+            //     }
+            //      "F12" key
+            //     if (event.keyCode == 123) {
+            //         disabledEvent(e);
+            //     }
+            // }, false);
+
+            function disabledEvent(e) {
+                if (e.stopPropagation) {
+                    e.stopPropagation();
+                } else if (window.event) {
+                    window.event.cancelBubble = true;
+                }
+                e.preventDefault();
+                return false;
+            }
+            if (performance.navigation.type == performance.navigation.TYPE_RELOAD) {
+                if (window.localStorage.getItem('QuizStatus')) {
+                    quizModule.randomQuiz();
+                }
+            } else {
+                console.log('reload error');
+            }
+            window.addEventListener("beforeunload", function (e) {
+                window.localStorage.setItem('QuizStatus', 'true');
+                return showADialog(e);
+            });
+        });
+    </script>
+}
+
+
+
+

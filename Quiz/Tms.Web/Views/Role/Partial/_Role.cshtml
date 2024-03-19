@@ -1,0 +1,142 @@
+﻿@model RoleModel
+@using Tms.Models
+@using Tms.Models.Role
+@using Tms.Core.Helpers
+@using Tms.Web.Framework.Helpers
+@Html.AntiForgeryToken()
+<div class="panel panel-default">
+    <div class="panel-heading border-bottom" style="background-color:#fafafa">
+        <h6 class="panel-title mb-0"><i class="icon-info"></i> Thông tin chính</h6>
+    </div>
+    <div class="panel-body d-flex pt-3 pb-3 bgc-fff">
+        <div class="align-items-center col-sm-3">
+            <label class="col-sm-12 control-label">Mã Quyền: </label>
+            <div class="col-sm-12">
+                @Html.TextBoxFor(c => c.Code, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class=" align-items-center col-sm-3">
+            <label class="col-sm-12 control-label ">Tên quyền :<span class="color-red">(*)</span> </label>
+            <div class="col-sm-12">
+                @Html.TextBoxFor(c => c.Name, new { @class = "form-control" })
+                @Html.ValidationMessageFor(c => c.Name)
+            </div>
+        </div>
+        <div class=" align-items-center col-sm-4">
+            <label class="col-sm-12 control-label">Ghi chú: </label>
+            <div class="col-sm-12">
+                @Html.TextAreaFor(c => c.Note, new { @class = "form-control", @rows = "4" })
+            </div>
+        </div>
+        <div class=" align-items-center col-sm-2">
+            <label class="control-label text-right" style="margin-right:3px;">Kích hoạt: </label>
+            <div class="">
+                <div class="checkbox ">
+                    <div class="custom-control custom-checkbox">
+                        @Html.CheckBoxFor(c => c.Status, new { @class = "styled item-checked custom-control-input", @id = "Kích Hoạt" })
+                        <label class="custom-control-label" for="Kích Hoạt"></label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @{var listChecked = (Model.ModuleActions != null && Model.ModuleActions.Any(c => c.IsChecked)) ? string.Join(",", Model.ModuleActions.Where(c => c.IsChecked).Select(c => c.ModuleActionId)) : string.Empty;}
+    <!-- modal info -->
+    <div class="panel-heading border-bottom">
+        <h6 class="panel-title"><i class="icon-droplet"></i> Quyền truy cập hệ thống </h6>
+    </div>
+    <div class="panel-body row bgc-fff" style="margin:0;padding:15px;">
+        <input type="hidden" name="roleModuleActionStr" id="hddModuleAction" value="@listChecked" />
+        @if (Model != null && Model.ModuleActions != null)
+        {
+            int index2 = 0;
+            foreach (ModuleGroup roleGroup in Enum.GetValues(typeof(ModuleGroup)))
+            {
+                index2++;
+                var parentId2 = Guid.NewGuid();
+                var rootItem2 = "root_" + parentId2;
+                <div class="role-bd-right col-sm-10 pl-0" style="margin-bottom:15px;">
+                    <div class="control-label fw-600 text-right custom-control custom-checkbox d-flex">
+                        <div class="text-left col-sm-2" style="margin-right:50px;">
+                            <input type="checkbox" class="styled display custom-control-input" id="@(EnumHelper<ModuleGroup>.GetDisplayValue(roleGroup))" />
+                            <div class="d-flex align-items-baseline check">
+                                <i class="fas fa-plus icon_role_plus" style="display:block;"></i>
+                                <i class="fas fa-minus icon_role_minus" style="display:none;"></i>
+                                <label class="" for="@(EnumHelper<ModuleGroup>.GetDisplayValue(roleGroup))" style="font-size:15px;">@(EnumHelper<ModuleGroup>.GetDisplayValue(roleGroup))</label>
+                            </div>
+                        </div>
+
+                        <div>
+                            <input id="@rootItem2" type="checkbox" class="styled checkedAll custom-control-input" data-main="@parentId2" />
+                            <label class="custom-control-label" for="@rootItem2" style="font-size:15px;">Chọn tất cả các tác vụ</label>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="form-group sub-check flex-wrap role-item" style="display:none; width:100%;margin-left:20px;" id="@parentId2">
+
+                    @{var rowCount = Enum.GetValues(typeof(ModuleType)).Length;
+
+                        var index = 0;
+                        var actionIndex = 0;
+                        //(ModuleType roleType in Enum.GetValues(typeof(ModuleType)))
+                        var css = Model.ModuleActions.GroupBy(c => c.Module).Select(g => g.FirstOrDefault()).ToList();
+                        var moduleActions = Model.ModuleActions.GroupBy(c => c.Module).Select(g => g.FirstOrDefault()).Where(c => c.Group.Equals((int)roleGroup));
+                        foreach (var roleType in moduleActions)
+                        {
+                            index++;
+                            var parentId = Guid.NewGuid();
+                            var rootItem = "root_" + parentId;
+                            var noneBorder = index == rowCount ? "role-form-group-last" : "";
+                            @*<div class="form-group role-form-group mg-top10px @noneBorder">*@
+                            <div class="form-group col-sm-4">
+
+                                <div class="role-bd-right col-sm-12 role-item">
+
+                                    <div class="control-label fw-600 text-right custom-checkbox d-flex" style="margin-bottom:15px;">
+                                        <input id="@rootItem" type="checkbox" class="styled checkedAll custom-control-input roleTypeGroup" data-role="@roleType.ModuleActionId" data-main="@parentId" />
+
+                                        <label class="custom-control-label bgc_highlight" for="@rootItem" style="font-size:13px; font-weight:800;">@RoleHelper.GetDisplayModuleName(roleType.Module)</label>
+                                    </div>
+
+                                    <div class="col-sm-12 role-item">
+                                        <div class="mg-bottom-10px row flex-wrap bgc_after" id="@parentId">
+                                            @{ var isCheckAll = 0; }
+                                            @foreach (var item in Model.ModuleActions.Where(c => c.Module.Equals(roleType.Module)))
+                                            {
+                                                <div class="col-md-6">
+                                                    <div class="checkbox-inline custom-control custom-checkbox">
+                                                        @if (item.IsChecked)
+                                                        {
+                                                            isCheckAll = (isCheckAll == 2) ? 2 : 1;
+                                                            <input type="checkbox" checked="checked" data-role="@item.ModuleActionId" class="styled item-checked custom-control-input" id="@(item.Action + "_" + parentId + "_" + actionIndex)" />
+                                                        }
+                                                        else
+                                                        {
+                                                            isCheckAll = 2;
+                                                            <input type="checkbox" data-role="@item.ModuleActionId" class="styled item-checked custom-control-input" id="@(item.Action + "_" + parentId + "_" + actionIndex)" />
+                                                        }
+                                                        <label class="custom-control-label" for="@(item.Action + "_" + parentId + "_" + actionIndex)" style="font-size:12px;">@RoleHelper.GetDisplayActionName(item.Action)</label>
+                                                    </div>
+                                                </div>
+                                                actionIndex++;
+                                            }
+                                            <input type="hidden" data-root="@rootItem" value="@(isCheckAll == 2 ? 0 : 1)" />
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <hr style="width:100%; margin-top:24px; display:none;" />
+
+                            </div>
+                        }
+                    }
+                </div>
+            }
+
+        }
+    </div>
+
+</div>

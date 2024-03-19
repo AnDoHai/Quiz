@@ -1,0 +1,199 @@
+@font-face {
+    font-family: Roboto;
+    src: url(/Assets/fonts/Roboto-Medium.ttf);
+}
+
+.datatable .table {
+    font-size: 12px;
+}
+
+html .datatable .table {
+    font-family: 'Roboto', sans-serif;
+}
+
+.datatable .table thead tr th {
+    white-space: nowrap;
+    text-align: center;
+    padding-left: 5px;
+    font-size: 12px;
+}
+
+.datatable .table tbody td {
+    padding-bottom: 2px;
+    padding-top: 2px;
+    font-size: 14px;
+    font-family: 'Roboto', sans-serif;
+}
+/*.datatable .table.no-status tbody td {
+        padding: 1.3em;
+    }*/
+
+.datatable th, .datatable td {
+    border: 1px solid #ddd !important;
+}
+
+.datatable .table tbody tr td .label {
+    width: 10em;
+}
+
+.datatable .table tbody tr td .label-primary {
+    background-color: #007bff;
+    /*margin: auto;
+    }
+
+    .datatable .table tbody tr td .label-info {
+        background-color: #17a2b8;
+        /*margin: auto;*/
+}
+
+.datatable .table tbody tr td .label-success {
+    background-color: #28a745;
+    /*margin: auto;*/
+}
+
+.datatable .table tbody tr td .badge {
+    /*padding: .8rem  ;*/
+    width: 9em;
+    /*margin: auto;*/
+    font-size: 10px;
+}
+
+.datatable .table.table-hover tbody tr {
+    -webkit-transition: .2s linear;
+    -o-transition: .2s linear;
+    -moz-transition: .2s linear;
+    transition: .2s linear;
+}
+
+
+.datatable .table.table-hover > tbody:not(.row-expand-wrapper) > tr:hover > td {
+    background-color: #d7e6e6 !important;
+}
+
+        .datatable .table.table-hover tbody tr:hover td.cell-error {
+            background-color: rgba(255, 0, 0, 0.6) !important;
+        }
+
+        .datatable .table.table-hover tbody tr:hover td .icons-group a i.icon-eye4 {
+            color: rgba(0, 128, 0, 0.349);
+        }
+
+            .datatable .table.table-hover tbody tr:hover td .icons-group a i.icon-eye4:hover {
+                color: green;
+                background-color: rgba(0, 128, 0, 0.349);
+            }
+
+        .datatable .table.table-hover tbody tr:hover td .icons-group a i.icon-remove4 {
+            color: rgba(255, 0, 0, 0.349);
+        }
+
+            .datatable .table.table-hover tbody tr:hover td .icons-group a i.icon-remove4:hover {
+                color: red;
+                background-color: rgba(255, 0, 0, 0.301);
+            }
+        .datatable .table.table-hover tbody tr:hover td .icons-group a i.icon-copy4 {
+            color: rgba(255, 0, 0, 0.349);
+        }
+
+            .datatable .table.table-hover tbody tr:hover td .icons-group a i.icon-copy4:hover {
+                color: rgba(0, 106, 255, 1);
+                background-color: rgba(64, 191, 153, 0.301);
+            }   
+        .datatable .table.table-hover tbody tr:hover td .icons-group a i.fa-clone {
+            color: rgba(255, 0, 0, 0.349);
+        }
+
+            .datatable .table.table-hover tbody tr:hover td .icons-group a i.fa-clone:hover {
+                color: rgba(0, 106, 255, 1);
+                background-color: rgba(64, 191, 153, 0.301);
+            }
+
+        .datatable .table.table-hover tbody tr:hover td .icons-group a i.icon-pencil3 {
+            color: #f1c40f5e;
+        }
+
+            .datatable .table.table-hover tbody tr:hover td .icons-group a i.icon-pencil3:hover {
+                color: #f39c12;
+                background-color: #f1c40f41;
+            }
+        .datatable .table.table-hover tbody tr:hover td .icons-group a i.icon-plus-circle {
+            color: #eb6d41;
+        }
+
+            .datatable .table.table-hover tbody tr:hover td .icons-group a i.icon-plus-circle:hover {
+                color: #d08739;
+                background-color: rgba(46, 236, 43, 0.25);
+            }
+
+    .datatable .table.table-hover tbody tr td .icons-group a i {
+        color: grey;
+        padding: .3rem;
+        -webkit-border-radius: 0.15rem;
+        -moz-border-radius: 0.15rem;
+        border-radius: 0.15rem;
+        -webkit-transition: .2s linear;
+        -o-transition: .2s linear;
+        -moz-transition: .2s linear;
+        transition: .2s linear;
+    }
+
+    .datatable .table.table-hover tbody tr td .icons-group {
+        min-width: 85px;
+    }
+
+        .datatable .table.table-hover tbody tr td .icons-group a i:hover {
+            color: #76838f;
+            background-color: #e4eaec;
+        }
+
+.table-hover > tbody > tr:hover > td {
+    background: none;
+}
+
+.width_date {
+    width: 8%;
+}
+
+.width_table_10 {
+    width: 10%;
+}
+
+.width_table_14 {
+    width: 14%;
+}
+
+.width_table_20 {
+    width: 20%;
+}
+
+.bcg_tacvu {
+    background: #ebebeb !important;
+}
+
+.table td, .table th {
+    padding: .15em;
+}
+
+.bgc_table_dkpmh {
+    background-color: #00bcda !important;
+    color: white !important;
+}
+
+.bgc_table_ycmh {
+    background-color: #518CA3 !important;
+    color: white !important;
+}
+
+.datatable td.cell-error {
+    background-color: rgba(255, 0, 0, 0.6) !important;
+}
+.dataTable td .chosen-container-single .chosen-single {
+    height: 28px;
+}
+    .dataTable td .chosen-container-single .chosen-single span {
+        line-height: 28px;
+        font-size: 14px;
+    }
+.dataTable td select{
+    height: 28px;
+}

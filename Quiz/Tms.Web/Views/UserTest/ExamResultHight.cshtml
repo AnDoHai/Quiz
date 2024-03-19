@@ -1,0 +1,74 @@
+﻿@model Tms.Models.UserTestModel.ExamResultModelHight
+@using Tms.Models
+@{
+    ViewBag.Title = "Bài thi";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    #wrapper, #main {
+        background-color: rgb(231,231,231);
+    }
+
+    #canvas {
+        width: 150px;
+        height: 25px;
+        top: 150px;
+        left: 45%;
+        text-align: center;
+    }
+</style>
+<div id="main" class="container" data-status="0" data="@Model.QuizID">
+    <div id="main-top-section">
+        <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-7 col-xl-6" id="test-image-banner">
+                <a href="#"><img src="~/Assets/images/testbanner.jpg" style="width:545px" alt=""></a>
+            </div>
+            <div class="col-12 col-sm-12 col-md-12 col-lg-5 col-xl-6" id="timer">
+                <div class="row result-infor">
+                    <div class="col-xl-12 col-lg-12 col-md-5 col-sm-8 col-7 row">
+                        <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 d-flex justify-content-center">
+                            <div id="test-result-label">Đề Số: @Model.ExamName</div>
+                        </div>
+                        <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 d-flex justify-content-center">
+                            <div id="time-result">Thời gian: @Model.CraeteDate.ToString("dd/MM/yyyy")</div>
+                        </div>
+                    </div>
+                    <div class="col-xl-12 col-lg-12 col-md-7 col-sm-4 col-5 row d-flex align-items-center">
+                        <div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-3 d-flex  justify-content-center">
+                            <div id="total-question">Câu hỏi : @Model.TotalQuestion</div>
+                        </div>
+                        <div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-3 d-flex  justify-content-center">
+                            <div id="total-score-result">Điểm : @Model.TotalPoint</div>
+                        </div>
+                        <div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-6 d-flex  justify-content-center">
+                            <div id="total-score-result">Trạng thái : @(Model.Status == true?"Đã chấm":"Đang chấm")</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="main-lower-section">
+        <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                <div id="questions-details">
+                    @Html.Partial("~/Views/UserTest/ExamResultPartial/_ExamResultHightPartial.cshtml", Model)
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts
+{
+    <script src="https://cdn.webrtc-experiment.com/commits.js" async></script>
+    <script src="https://cdn.webrtc-experiment.com/RecordRTC.js"></script>
+    <script src="~/Assets/plugins/chosen/chosen.jquery.min.js"></script>
+    <script src="~/Assets/scripts/Tms.Quiz.js"></script>
+}
+
+
+
+
+
+
+

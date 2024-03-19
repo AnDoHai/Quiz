@@ -1,0 +1,52 @@
+﻿@using Tms.Web.Framework.Helpers
+@model Tms.Models.CategoryModel.CategorySearchModel
+
+<div class="datatable-scroll">
+    <div class="main-table table-thong-ke">
+        <div class="table-wrapper">
+            <table class="table-content">
+                <thead>
+                    <tr role="row">
+                        <th class="listItems width_5">STT</th>
+                        <th class="listItems width_15">Cấp độ</th>
+                        <th class="listItems width_15">Ngày tạo</th>
+                        <th class="listItems width_10">Thời gian</th>
+                        <th class="listItems">Mô tả</th>
+                        <th class="listItems width_10">Tác vụ</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null && Model.Categorys != null && Model.Categorys.Any())
+                    {
+                        var index = 0;
+                        index = (Model.PageIndex - 1) * Model.PageSize;
+                        foreach (var item in Model.Categorys)
+                        {
+                            index++;
+                            var parent = Guid.NewGuid();
+                            <tr role="row" id="@parent">
+                                <td class="listItems">@index</td>
+                                <td class="listItems">@item.Title</td>
+                                <td class="listItems">@item.CreatedDate.ToString("dd-mm-yyyy")</td>
+                                <td class="listItems">@item.TimeLimit phút</td>
+                                <td class="listItems"><img src="@item.Description" width="100"/></td>
+
+                                <td class="listItems text-center">
+                                    <div class="icons-group">
+                                        <a href="@Url.Action("Edit", "Category", new { id = @item.CategoryId })" title="Chỉnh sửa cấp độ HSK" class="tip"><i class="fas fa-pen-square"></i></a>
+                                        <a href="javascript:void(0)" class="tip" data-id="@item.CategoryId"><i data-id="@item.CategoryId" class="fas fa-trash-alt" title="Xóa cấp độ"></i></a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="datatable-footer" id="paging_layout">
+    @Html.AjaxPagingHelper("categoryModule.onClickPaging", Model.TotalRecords, Model.PageSize, Model.PageIndex, Model.SortColumn, Model.SortDirection)
+</div>
+<br />
+<br />

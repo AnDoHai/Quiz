@@ -1,0 +1,105 @@
+﻿@using Tms.Web.Framework.Helpers
+@model Tms.Models.ContestModel.ContestSearchModel
+
+
+<div class="datatable-scroll">
+    <div class="main-table table-thong-ke">
+        <div class="table-wrapper">
+            <table class="table-content" role="grid">
+                <thead>
+                    <tr role="row">
+                        <th class="listItems width_5">STT</th>
+                        <th class="listItems width_5">Mã phần thi</th>
+                        <th class="listItems width_15">Tên phần thi chung</th>
+                        <th class="listItems width_15">Ngày tạo</th>
+                        <th class="listItems width_10">Thời gian thi</th>
+                        <th class="listItems width_15">Phân loại phần thi</th>
+                        <th class="listItems width_20">Đề thi</th>
+                        <th class="listItems width_10">Trạng thái</th>
+                        <th class="listItems width_10">Tác vụ</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null && Model.Contests != null && Model.Contests.Any())
+                    {
+                        var index = 0;
+                        var phanThi = "";
+                        index = (Model.PageIndex - 1) * Model.PageSize;
+                        foreach (var item in Model.Contests)
+                        {
+                            index++;
+                            if (item.Type == 1)
+                            {
+                                phanThi = "Phần nghe";
+                            }
+                            else if (item.Type == 2)
+                            {
+                                phanThi = "Phần đọc";
+                            }
+                            else if (item.Type == 3)
+                            {
+                                phanThi = "Phần viết";
+                            }
+                            var parent = Guid.NewGuid();
+                            <tr role="row" id="@parent">
+
+                                <td>@index</td>
+
+                                <td class="listItems ">@item.ContestID</td>
+
+                                <td class="listItems ">@item.ContestName</td>
+
+                                <td class="listItems">@item.CreatedDate.ToString("dd/MM/yyyy HH:mm")</td>
+
+                                <td class="listItems text-left">@item.TimeLimit phút</td>
+
+                                <td class="listItems">@phanThi</td>
+
+                                <td class="listItems">@item.QuizName</td>
+                                <td class="text-center">
+                                    @{ var clssActive = "hide";}
+                                    @{ var clssInActive = "hide";}
+                                    @if (item.Status == 0)
+                                    {
+                                        clssActive = "show";
+                                    }
+                                    else
+                                    {
+                                        clssInActive = "show";
+                                    }
+
+                                    <span data-span="active_@item.ContestID" class="label label-success mg-left-5px @clssActive">Hoạt động</span>
+                                    <span data-span="inactive_@item.ContestID" class="label label-warning mg-left-5px @clssInActive">Ngừng hoạt động</span>
+                                </td>
+
+                                <td class="text-center">
+                                    <div class="icons-group">
+                                        <a href="@Url.Action("Edit", "Contest", new {id = @item.ContestID})" title="Chỉnh sửa Contest" class="tip"><i class="fas fa-pen-square"></i></a>
+                                        <a href="javascript:void(0)" class="tip active" data-id="@item.ContestID" title="Trạng thái" data-status="@item.Status" data-parent="@parent">
+
+                                            @if (item.Status == 0)
+                                            {
+                                                <i class="fas fa-eye" style="background: #db3f4f;"></i>
+                                            }
+                                            else
+                                            {
+                                                <i class="fas fa-eye-slash" style="background: #db3f4f;"></i>
+                                            }
+                                        </a>
+                                        <a href="javascript:void(0)" class="tip remove-contest" data-id="@item.ContestID"><i data-id="@item.ContestID" class="fas fa-trash-alt"></i></a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<br />
+<div class="datatable-footer" id="paging_layout">
+    @Html.AjaxPagingHelper("contestModule.onClickPaging", Model.TotalRecords, Model.PageSize, Model.PageIndex, Model.SortColumn, Model.SortDirection)
+</div>
+<br />
+<br />

@@ -1,0 +1,123 @@
+﻿@model Tms.Models.User.UserModel
+@using Tms.Models
+@using Tms.Core.Helpers
+@using Tms.Web.Framework.Helpers
+<link href="~/Assets/plugins/chosen/chosen.min.custom.css" rel="stylesheet" />
+<style>
+    input::-webkit-input-placeholder {
+        font-size: 12px;
+    }
+</style>
+@Html.AntiForgeryToken()
+
+<div class="panel panel-default border">
+    <div class="panel-heading border-bottom" style="background-color:#fafafa">
+        <h6 class="panel-title mb-0"><i class="icon-info"></i> Thông tin chính</h6>
+    </div>
+    <div class="panel-body bgc-fff p-3">
+        <input type="hidden" value="@Request.Params["type"]" id="FormType" name="FormType" />
+        <div class="row">
+            <div class="form-group row col-sm-4">
+                <div class="col-sm-12 mb-3">
+                    <label class="col-sm-12 control-label text-left">Email: <span class="color-red">(*)</span></label>
+                    <div class="col-sm-12">
+                        @Html.TextBoxFor(c => c.Email, new { @class = "form-control", @placeholder = "Nhập email" })
+                        @Html.ValidationMessageFor(c => c.Email)
+                    </div>
+                </div>
+                <div class="col-sm-12 mb-3">
+                    <label class="col-sm-12 control-label text-left">Họ và tên: </label>
+                    <div class="col-sm-12">
+                        @Html.TextBoxFor(c => c.UserName, new { @class = "form-control", @placeholder = "Nhập họ và tên" })
+                    </div>
+                </div>
+                <div class="col-sm-12 mb-3">
+                    <label class="col-sm-12 control-label text-left">Đơn vị : </label>
+                    <div class="col-sm-12">
+                        @Html.DropDownListFor(c => c.DonViId, new SelectList(ViewBag.DonVis, "DonViId", "Title"), "Chọn đơn vị", new { @class = "form-control chosen-select" })
+                        @Html.ValidationMessageFor(c => c.DonViId)
+                    </div>
+                </div>
+
+            </div>
+            <div class="form-group row col-sm-4">
+                <div class="col-sm-12 mb-3">
+                    <div class="d-flex">
+                        <label class="col-sm-6 control-label text-left">
+                            Mật khẩu : <span class="color-red">(*)</span>
+                        </label>
+                        @*<input type="checkbox" id="isChangePassword"/> <label for="isChangePassword" class="control-label">Đổi mật khẩu?</label>*@
+                        @Html.CheckBoxFor(c => c.IsChangePassword, new { @class = "control-label" }) <label for="IsChangePassword" class="control-label" style="margin-left: 10px">Đổi mật khẩu?</label>
+                    </div>
+                    <div class="col-sm-12" id="passwordArea" @*style="display: none"*@>
+                        @Html.TextBoxFor(c => c.Password, new { @class = "form-control", @placeholder = "Nhập mật khẩu", @type = "password", @readonly = "readonly" })
+                        @Html.ValidationMessageFor(c => c.Password)
+                    </div>
+                </div>
+                <div class="col-sm-12 mb-3">
+                    <label class="col-sm-12 control-label text-left">
+                        Nhóm quyền: <span class="color-red">(*)</span>
+                    </label>
+                    <div class="col-sm-12">
+                        @Html.DropDownListFor(c => c.RoleId, new SelectList(ViewBag.Groups, "RoleId", "Name", Model), "Chọn nhóm", new { @class = "form-control  chosen-select" })
+                        @Html.ValidationMessageFor(c => c.RoleId)
+                    </div>
+                </div>
+                @*<div class="col-sm-12 mb-3">
+                        <label class="col-sm-12 control-label text-left">Bộ phận : </label>
+                        <div class="col-sm-12">
+                            <select id="BoPhanId" name="BoPhanId" data-placeholder="Chọn bộ phận" class="chosen-select" multiple required disabled="true">
+                                <option></option>
+                                @foreach (var s in ViewBag.BoPhans)
+                                {
+                                    <option class="search-choice" value="@s.BoPhanId" @(Model.BoPhans != null && Model.BoPhans.Contains((int)s.BoPhanId) ? "selected" : "")> @s.BoPhanId - @s.Title </option>
+                                }
+                            </select>
+                            @Html.ValidationMessageFor(c => c.BoPhans)
+                        </div>
+                    </div>*@
+                <div class="col-sm-12 mb-3">
+                    <label class="col-sm-12 control-label text-left">Là phụ trách đơn vị?</label>
+                    <div class="col-sm-12">
+                        @*@Html.DropDownListFor(c => c.KhoId, new SelectList(ViewBag.khos, "KhoId", "Title"), "Chọn kho", new { @class = "form-control chosen-select" })*@
+                        <div class="custom-control custom-checkbox">
+                            @Html.CheckBoxFor(c => c.IsPhuTrachDonVi, new { @class = "custom-control-input", @id = "Là phụ trách đơn vị?" })
+                            <label class="custom-control-label" for="Là phụ trách đơn vị?"></label>
+                        </div>
+                        @Html.ValidationMessageFor(c => c.IsPhuTrachDonVi)
+                    </div>
+                </div>
+
+            </div>
+            <div class="form-group row col-sm-4">
+                <div class="col-sm-12 mb-3">
+                    <label class="col-sm-12 control-label text-left">Chức vụ : </label>
+                    <div class="col-sm-12">
+                        @Html.TextBoxFor(c => c.ChucVu, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(c => c.ChucVu)
+                    </div>
+                </div>
+                <div class="col-sm-12 mb-3">
+                    <label class="col-sm-12 control-label text-left">Kho-xưởng: </label>
+                    <div class="col-sm-12">
+                        <select id="NhomXuongIds" name="NhomXuongIds" data-placeholder="Chọn kho" class="form-control chosen-select" multiple required>
+                            <option></option>
+                            @foreach (var s in ViewBag.khos)
+                            {
+                                <option class="search-choice" value="@s.KhoId" @(Model.NhomXuongIds != null && Model.NhomXuongIds.Contains((int)s.KhoId) ? "selected" : "")> @s.MaKho - @s.Title </option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-12 mb-3">
+                    <label class="col-sm-12 control-label text-left"></label>
+                    <div class="col-sm-12" style="visibility: hidden;">
+                        @Html.TextBoxFor(c => c.Status, new { @class = "form-control" })
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

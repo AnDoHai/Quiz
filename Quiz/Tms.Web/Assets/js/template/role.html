@@ -1,0 +1,233 @@
+﻿<script id="tpl-list-role" type="text/html">
+    {{#Data}}
+    <tr id="{{RoleId}}">
+        <td class="text-left">{{ItemIndex}}</td>
+        <td>{{Name}}</td>
+        <td>{{Description}}</td>
+        <td>{{LastModifiedBy}}</td>
+        <td>{{FormatLastModifiedAt}}</td>
+        <td>{{{FormatRecordStatus}}}</td>                
+        <td class="text-center command">
+            <button class="btn btn-icon btn-default tree-page" data-title="-- Pages --" data-container="body" data-toggle="popover" data-placement="left" data-trigger="hover"
+                    data-content="<ul class='listItems-unstyled'>{{#LstPage}}<li>{{Name}}</li>{{/LstPage}}</ul>"><i class="icon-paragraph-justify2"></i>
+            </button>
+            <div class="btn-group ml5">
+                <button type="button" class="btn btn-icon btn-default dropdown-toggle" data-toggle="dropdown" data-hover="dropdown"><i class="icon-cog"></i></button>
+                <ul class="dropdown-menu icons-right dropdown-menu-right">
+                    <li><a onclick="hrm.rolePageRelation.list({{RoleId}}, '{{Name}}');"><i class="icon-paragraph-justify2"></i> Setting Page</a></li>
+                    <li><a onclick="hrm.role.manipulate(config.action.getById, {{RoleId}});"><i class="icon-pencil3"></i> Edit</a></li>
+                    <li><a onclick="common.confirm('hrm.role.manipulate(config.action.del, {{RoleId}});');"><i class="icon-remove3"></i> Delete</a></li>
+                </ul>
+            </div>
+        </td>
+    </tr>
+    {{/Data}}
+
+    {{^Data}}
+    <tr>
+        <td colspan="7">No data!</td>
+    </tr>
+    {{/Data}}
+</script>
+
+
+<script id="tpl-listItems-role-type-radio" type="text/html">
+    <form class="validate" action="#" role="form" method="post">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title"><i class="icon-paragraph-justify2"></i> Roles</h4>
+        </div>
+
+        <!-- Form inside modal -->
+        <div class="modal-body with-padding">
+            <div class="panel panel-default">
+                <div class="panel-heading"><h6 class="panel-title"><i class="icon-table"></i> Please select a role for users</h6></div>
+                <table id="lstRole" class="table table-bordered table-striped datatable-selectable">
+                    <thead>
+                        <tr>
+                            <th class="w30 text-center">Number</th>
+                            <th>Role name</th>
+                            <th class="w100 text-center">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#Data}}
+                        <tr id="{{RoleId}}">
+                            <td class="w30 text-center">{{ItemIndex}}</td>
+                            <td>
+                                {{#SelectedRoleId}}
+                                <label class="radio-inline">
+                                    <input type="radio" name="inline-radio" checked="true" value="{{RoleId}}" class="styled">
+                                </label>{{Name}}
+                                {{/SelectedRoleId}}
+
+                                {{^SelectedRoleId}}
+                                <label class="radio-inline">
+                                    <input type="radio" name="inline-radio" value="{{RoleId}}" class="styled">
+                                </label>{{Name}}
+                                {{/SelectedRoleId}}
+                            </td>
+                            <td class="w100 text-center">{{{FormatRecordStatus}}}</td>
+                        </tr>
+                        {{/Data}}
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="3" style="margin: 0; padding: 0">
+                                <div class="datatable-footer">
+                                    <div class="dataTables_info"></div>
+                                    <div class="dataTables_paginate paging_full_numbers">
+                                        <ul class="pagination"></ul>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>            
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal" tabindex="2">Close</button>
+            <button onclick="hrm.user.manipulate(config.action.update, 0);" type="button" class="btn btn-success" tabindex="1">Save</button>
+        </div>
+    </form>
+</script>
+
+
+<script id="tpl-form-role" type="text/html">
+    <form class="validate" action="#" role="form" method="post">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title"><i class="icon-paragraph-justify2"></i> Manager Role</h4>
+        </div>
+
+        <!-- Form inside modal -->
+        <div class="modal-body with-padding">
+            <div class="block-inner text-danger">
+                <h6 class="heading-hr">Add new role <small class="display-block">(*) Required</small></h6>
+            </div>           
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <label>Role name <span class="mandatory">*</span></label>
+                        <input type="text" name="Name" tabindex="1" class="required form-control">
+                    </div>
+                    <div class="col-sm-6">
+                        <label>Status <span class="mandatory">*</span></label>
+                        <input id="ddlStatus" name="RecordStatus" tabindex="2" type="hidden" />
+                    </div>
+                </div>
+            </div>           
+
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <label style="white-space: nowrap">Description</label>
+                        <textarea class="form-control" name="Description" rows="5" tabindex="3"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal" tabindex="5">Close</button>
+            <button onclick="hrm.role.manipulate(config.action.save, 0);" type="button" class="btn btn-success" tabindex="4">Save</button>
+        </div>
+    </form>
+</script>
+
+
+<script id="tpl-get-role" type="text/html">
+    {{#Data}}
+    <form class="validate" action="#" role="form" method="post">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title"><i class="icon-paragraph-justify2"></i> Manager Role</h4>
+        </div>
+        <!-- Form inside modal -->
+        <div class="modal-body with-padding">
+            <div class="block-inner text-danger">
+                <h6 class="heading-hr">Edit infomation role <small class="display-block">(*) Required</small></h6>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <label>Role name <span class="mandatory">*</span></label>
+                        <input type="text" name="Name" value="{{Name}}" tabindex="1" class="required form-control">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <label>Status <span class="mandatory">*</span></label>
+                        <input id="ddlStatus" tabindex="2" type="hidden" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <label style="white-space: nowrap">Description</label>
+                        <textarea class="form-control" name="Description" rows="5" tabindex="3">{{Description}}</textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal" tabindex="5">Close</button>
+            <button onclick="hrm.role.manipulate(config.action.save, {{RoleId}});" type="button" class="btn btn-success" tabindex="4">Save</button>
+        </div>
+    </form>
+    {{/Data}}
+</script>
+
+
+<script id="tpl-listItems-role-page-relation" type="text/html">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title"><i class="icon-paragraph-justify2"></i> Setting Page</h4>
+    </div>
+
+    <div class="modal-body with-padding">
+        <div class="block-inner text-danger">
+            <h6 id="rolePageRelation" class="heading-hr"></h6>
+        </div>
+        <div class="panel panel-default">
+            <div id="lstRolePageRelation">
+                <table class="table table-bordered table-striped datatable-selectable">
+                    <thead>
+                        <tr>
+                            <th class="w30 text-center"><input type="checkbox" onclick="hrm.rolePageRelation.toogleCheckbox(this);" class="styled" /></th>
+                            <th class="w30 text-center">Number</th>
+                            <th>Page name</th>
+                            <th class="text-center">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#Data}}
+                        <tr id="{{PageId}}">
+                            <td class="w30 text-center"><input type="checkbox" onclick="hrm.rolePageRelation.toogleCheckbox(this);" class="styled {{ClassId}}" value="{{PageId}}" /></td>
+                            <td class="w30 text-center">{{ItemIndex}}</td>
+                            <td>{{Name}}</td>
+                            <td class="w80 text-center"><div class="btn-group mr5">{{{FormatRecordStatus}}}</div></td>
+                        </tr>
+                        {{/Data}}
+
+                        {{^Data}}
+                        <tr>
+                            <td colspan="3">No data!</td>
+                        </tr>
+                        {{/Data}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" onclick="hrm.rolePageRelation.save();" class="btn btn-success">Save</button>
+    </div>
+</script>

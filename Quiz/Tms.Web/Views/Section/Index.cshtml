@@ -1,0 +1,99 @@
+﻿@model Tms.Models.SectionModel.SectionSearchModel
+@using Tms.Models
+@{
+    ViewBag.Title = "Phần thi nhỏ";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var quizListHSK = (List<Tms.Models.CategoryModel.CategoryModel>)ViewBag.HSKList;
+}
+<div class="page-content-inner">
+    <div class="row form-group">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="tab-pane mg-top-25px">
+                    <div class="control-bar">
+                        <div class="row justify-content-between">
+                            <div class="page-header col-md-6">
+                                <div class="page-title text-left">
+                                    <h3>Quản lý phần thi nhỏ</h3>
+                                </div>
+                            </div>
+                            <div class="breadcrumb-line col-md-6">
+                                <ul class="breadcrumb float-right font-size">
+                                    <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">Trang chủ</a></li>
+                                    <li class="breadcrumb-item"><a href="@Url.Action("Index", "Section")">Phần thi nhỏ</a></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <br />
+
+                        <div class="row">
+                            <div class="col-md-10 left-form">
+                                <form action="" class="h-10">
+                                    <div class="d-flex h-10 align-items-center">
+                                        <div class="form-item">
+                                            <label class="font-size mb-3">Tìm kiếm </label>
+                                            <div>
+                                                @Html.TextBoxFor(c => c.TextSearch, new { @class = "form-control font-size tbw mt-1", @placeholder = "Nội dung tìm kiếm" })
+                                            </div>
+                                        </div>
+                                        <div class="form-item">
+                                            @if (ViewBag.HSKList != null)
+                                            {
+                                                <select name="hskSelect" id="hskSelect" class="font-size" style="height:30px">
+                                                    <option value="0">-----Chọn đề HSK------</option>
+                                                    @foreach (var itemSelect in quizListHSK)
+                                                    {
+                                                        <option value="@itemSelect.CategoryId">@itemSelect.Title</option>
+                                                    }
+                                                </select>
+                                            }
+                                        </div>
+                                        <div class="form-item">
+                                            <select name="quizSelect" id="quizSelect" class="font-size" style="height:30px" disabled>
+                                                <option value="">-----Chọn bài thi------</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-item">
+                                            <select name="contestSelect" id="contestSelect" class="font-size" style="height:30px" disabled>
+                                                <option value="">-----Chọn phần thi chung------</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-item">
+                                            <div>
+                                                <input type="button" id="btnSearch" value="Tìm kiếm" class="btn rBtn btn-outline-danger button-container w100" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="">
+                                    <a class="btn btn-right-icon btn-outline-danger float-right rBtn mt-3" title="Thêm mới Quiz" href="@Url.Action("Create", "Section")">
+                                        <i class="fas fa-plus"></i> Thêm mới
+                                    </a>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <br />
+                    <div id="main-section">
+                        @Html.Partial("~/Views/Section/Partial/_ListItems.cshtml", Model)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="section-action"></div>
+@Html.Partial("Partial/_ConfirmPartial", new ConfirmModel { Id = "section", Title = "Xác nhận hành động", Content = "Bạn có muốn thực hiện xóa.?" })
+@section scripts
+{
+    <script src="~/Assets/scripts/Tms.Section.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            sectionModule.init();
+        });
+    </script>
+}

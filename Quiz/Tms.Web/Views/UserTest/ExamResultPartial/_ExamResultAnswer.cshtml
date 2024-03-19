@@ -1,0 +1,364 @@
+﻿@model Tms.Models.UserTestModel.ExamResultModel
+@using Tms.Models
+@{
+    var index = 0;
+    var sortItem = 0;
+    var audioIndex = 0;
+    var indexSection = 0;
+    var sectionCount = 0;
+}
+<div style="padding: 13px; background-color:#DB3F4F; border-radius: 10px; width: 100%; margin-bottom:10px" class="btn text-left text-white" id="quiz-tittle">Kết quả bài thi</div>
+
+@if (Model != null && Model.QuizExam != null && Model.QuizExam.ContestExams != null)
+{
+    var indexQuestion = 0;
+    var classChange = "";
+    var dataContest = 0;
+    var audioSection = "";
+    foreach (var itemQuestion in Model.QuizExam.ContestExams)
+    {
+
+        dataContest++;
+        //var contesShow = "";
+        indexSection = 0;
+        <div class="contest-index view-result">
+            @*<div class="questions-type contest contest-content contest-item" data="1" data-contest="@dataContest" data-id="@itemQuestion.ContestID" data-legth="@itemQuestion.Sections.Count()"> <a href="#" class="btn text-white">@itemQuestion.ContestName</a></div>*@
+            @foreach (var itemSecsionDetail in itemQuestion.SectionExams)
+            {
+                var checkSection = 0;
+                indexSection++;
+                sectionCount++;
+                var audioClass = "";
+                if (itemSecsionDetail.Tittle != null)
+                {
+                    audioSection = "audioSection" + indexSection;
+                }
+            <div class="section-index  @audioClass" data="@indexSection" data-id="@itemSecsionDetail.SectionID" data-legth="@itemQuestion.SectionExams.Count()" data-contest="@itemQuestion.ContestID" data-count="0" data-audio="@audioSection">
+                <div class="questions-parts section section-content section-label" data="1"> <a href="javascript:void(0)" class="btn text-white"> @itemSecsionDetail.SectionName</a></div>
+                <div class="tittle section-image section-audio">
+                    @Html.Raw(itemSecsionDetail.Description)
+                </div>
+
+                @foreach (var itemQuestionDetail in itemSecsionDetail.QuestionExams)
+                {
+                    indexQuestion++;
+                    var stringClassChecked = "";
+                    var stringIcon = "";
+                    switch (itemQuestionDetail.StatusPoint)
+                    {
+                        case 1:
+                            stringClassChecked = "success";
+                            stringIcon = "fas fa-check";
+                            break;
+                        case 2:
+                            stringClassChecked = "error";
+                            stringIcon = "fas fa-times";
+                            break;
+                        case 3:
+                            stringClassChecked = "loading";
+                            stringIcon = "fas fa-user-edit";
+                            break;
+                        default:
+                            stringClassChecked = "error";
+                            stringIcon = "fas fa-times";
+                            break;
+                    };
+                    var indexDetail = 0;
+                    index++;
+                    var answer = "";
+                    var optradio = "";
+                    var audioId = "";
+                    var timeLimit = "";
+                    var questionId = "question" + itemQuestionDetail.QuestionID;
+                    if (itemQuestionDetail.TimeLimit != null)
+                    {
+                        timeLimit = itemQuestionDetail.TimeLimit.ToString();
+                    }
+                    var userResult = Model.UserTestQuestions.FirstOrDefault(c => c.QuestionID == itemQuestionDetail.QuestionID);
+                    var strUserResult = userResult != null && userResult.UserTestQuestionAnswerModels != null ? String.Join(", ", userResult.UserTestQuestionAnswerModels.Select(o => o.Code).ToArray()).ToUpper().Trim() : "";
+                    var strAnswer = itemQuestionDetail != null && itemQuestionDetail.Answers != null ? String.Join(", ", itemQuestionDetail.Answers.Select(o => o.Code).ToArray()).ToUpper().Trim() : "";
+
+                    <div class="main-question row ml-1 @classChange" id="@questionId" data-question="@itemQuestionDetail.QuestionID" data="@index" data-legth="@itemSecsionDetail.QuestionExams.Count()" style=" margin-bottom: 5rem;">
+                        <div id="question-num" class="col-1 col-sm-1 col-lg-1 d-flex align-items-center justify-content-center" style="height:fit-content">
+                            @*<p><b>Câu <span id="question-number">@indexQuestion</span>:</b></p>*@
+                            <div>@indexQuestion</div>
+                        </div>
+                        @switch (itemQuestionDetail.Type)
+                        {
+                            //Đúng sai
+                            case 0:
+                                audioIndex++;
+                                audioId = "Audio" + audioIndex;
+                                <div id="solution" class="solution-title col-11 col-sm-11 col-lg-11 row">
+                                    @if (itemQuestionDetail.QuestionOrder == 3)
+                                    {
+                                        <div class="question-sort row col-7 col-sm-9 col-lg-7" style="width: 50%;">
+                                            <div class="image-question image-item">
+                                                <img src="@itemQuestionDetail.Image" alt="Alternate Text" style="border-radius:1rem" />
+                                                <p style="font-size: 2rem; color: #7b7979;">@Html.Raw(itemQuestionDetail.QuestionName)</p>
+                                            </div>
+                                        </div>
+                                    }
+                                    else if (itemQuestionDetail.QuestionOrder == 4)
+                                    {
+                                        <div class="question-sort row col-7 col-sm-9 col-lg-7" style="width: 50%;">
+                                            <div class="icon-speak fas fa-volume-up col-lg-2" style="min-width: 7.33%; max-width: 7.33%;" data-audio="@audioIndex" data-time="@timeLimit">
+                                                <audio id="@audioId" controls style="display:none" data-time="0">
+                                                    <source src="@itemQuestionDetail.AudioUrl" type="audio/mpeg">
+                                                </audio>
+                                            </div>
+                                            <div class="image-question image-item">
+                                                <p style="font-size: 2rem; color: #7b7979;">@Html.Raw(itemQuestionDetail.QuestionName)</p>
+                                            </div>
+                                        </div>
+
+                                    }
+                                    else if (itemQuestionDetail.QuestionOrder == 5)
+                                    {
+                                        <div class="question-sort row col-7 col-sm-9 col-lg-7" style="width: 50%;">
+                                            <div class="icon-speak fas fa-volume-up col-lg-2" data-audio="@audioIndex" data-time="@timeLimit">
+                                                <audio id="@audioId" controls style="display:none" data-time="0">
+                                                    <source src="@itemQuestionDetail.AudioUrl" type="audio/mpeg">
+                                                </audio>
+                                            </div>
+                                            <div class="image-question image-item">
+                                                <img src="@itemQuestionDetail.Image" alt="Alternate Text" style="border-radius:1rem" />
+                                            </div>
+                                        </div>
+                                    }
+                                    @{
+                                        answer = "answer" + index;
+                                        optradio = "optradio" + index;
+                                    }
+                                    <div class="item-question item-detail col-3 col-sm-3 col-lg-4">
+                                        @foreach (var answerDetail in itemQuestionDetail.Choices)
+                                        {
+                                            indexDetail++;
+                                            var itemId = "item" + answerDetail.ChoiceID;
+                                            <div class="form-check justify-content-center" style="margin-top:10px">
+                                                <label class="form-check-label label-answer label-container label-detail choice-item @answer" for="@itemId" data-index="@index" data-item="@indexDetail" data-question="@itemQuestionDetail.QuestionID">
+                                                    @if (answerDetail.ChoiceText == "Sai" || answerDetail.ChoiceText == "sai")
+                                                    {
+                                                        <i class="fas fa-times"></i>
+                                                    }
+                                                    else
+                                                    {
+                                                        <i class="fas fa-check"></i>
+                                                    }
+                                                    <input type="radio" class="form-check-input input-check input-container choice @answer" id="@itemId" name="@optradio" data-point="@itemQuestionDetail.Point" data-type="@itemQuestionDetail.Type" data-typeId="@itemQuestion.ContestType" data-question="@itemQuestionDetail.QuestionID" data-contest="@itemQuestion.ContestID" data-section="@itemSecsionDetail.SectionID" data-choice="@answerDetail.ChoiceID" value="@answerDetail.ChoiceText" style="opacity: 0">
+                                                </label>
+                                            </div>
+                                        }
+                                    </div>
+                                    <!--TEST-->
+                                    <div class="item-question item-detail user-history">
+                                        <p class="@stringClassChecked">Câu trả lời của bạn: @strUserResult <i class="@stringIcon"></i></p>
+                                        <p class="answer-history">Đáp án đúng: @strAnswer.Replace(" ", "")</p>
+                                        <p class="answer-history">Giải thích: @Html.Raw(itemQuestionDetail.Desscription)</p>
+                                    </div>
+                                </div>
+                                break;
+                            //Chọn 1 đáp án đúng
+                            case 1:
+                                {
+                                    answer = "answer" + index;
+                                    optradio = "optradio" + index;
+                                    audioIndex++;
+                                    audioId = "Audio" + audioIndex;
+                                }
+                                var imageClass = "";
+                                if (itemQuestionDetail.AnswerType == 0 || itemQuestionDetail.QuestionOrder == 0)
+                                {
+                                    imageClass = "question-image";
+                                }
+                                <div id="solution" class="@imageClass col-11 col-sm-11 col-lg-11">
+                                    <div class="question-tittle noselect tittle-content row d-flex align-items-center">
+                                        @if (itemQuestionDetail.Image != null)
+                                        {
+                                            <div class="col-lg-2">
+                                                <img src="@itemQuestionDetail.Image" alt="Alternate Text" class="image-content" />
+                                            </div>
+                                        }
+                                        @if (itemQuestionDetail.QuestionName != null)
+                                        {
+                                            <div class="col-11 col-sm-11 col-md-11 col-lg-11 col-xl-11 tittle">@Html.Raw(itemQuestionDetail.QuestionName)</div>
+                                        }
+                                    </div>
+                                    <div class="item-question item-detail row d-flex">
+                                        @if (itemQuestionDetail.Choices != null)
+                                        {
+                                            var className = "col-sm-2 col-md-2 col-lg-2";
+                                            if (itemQuestionDetail.Layout.HasValue)
+                                            {
+                                                className = itemQuestionDetail.Layout.Value == 1 ? "col-sm-3 col-md-3 col-lg-3" :
+                                                    (itemQuestionDetail.Layout.Value == 2 ? "col-sm-6 col-md-6 col-lg-6" :
+                                                    (itemQuestionDetail.Layout.Value == 3 ? "col-sm-4 col-md-4 col-lg-4" :
+                                                    (itemQuestionDetail.Layout.Value == 5 ? "col-sm-12 col-md-12 col-lg-12" : className)));
+                                            }
+
+                                            foreach (var answerDetail in itemQuestionDetail.Choices)
+                                            {
+                                                indexDetail++;
+                                                var itemId = "item" + answerDetail.ChoiceID;
+                                                if (answerDetail.Type == 1)
+                                                {
+                                                    <div class="form-check col-12 @className" style="margin-top:10px">
+                                                        <label class="form-check-label choice-item label-container label-question choice-no-img @answer" for="@itemId" data-index="@index" data-item="@indexDetail" data-question="@itemQuestionDetail.QuestionID">
+                                                            <div class="tille-choice row d-flex align-items-center justify-content-center" style="margin: 0">
+                                                                <div class="tittle-choice-text col-xl-2 align-items-center" style="padding: 0">
+                                                                    @answerDetail.Title
+                                                                </div>
+                                                                @if (answerDetail.ChoiceText != "")
+                                                                {
+                                                                    <div class="tittle-choice-content col-xl-10 align-items-center" style="padding:0">
+                                                                        <div style="margin-left:10px">@Html.Raw(answerDetail.ChoiceText)</div>
+                                                                    </div>
+                                                                }
+                                                            </div>
+                                                            <input type="radio" class="form-check-input input-check input-container choice @answer" id="@itemId" name="@optradio" data-typeId="@itemQuestion.ContestType" data-point="@itemQuestionDetail.Point" data-type="@itemQuestionDetail.Type" data-question="@itemQuestionDetail.QuestionID" data-contest="@itemQuestion.ContestID" data-section="@itemSecsionDetail.SectionID" data-choice="@answerDetail.ChoiceID" value="@answerDetail.Title" style="display: none">
+                                                        </label>
+                                                    </div>
+                                                }
+                                                else if (answerDetail.Type == 0)
+                                                {
+                                                    <div class="form-check col-12 @className d-flex row" style="margin-top:10px">
+                                                        <div class="col-lg-12 justify-content-center" style="margin-bottom: 15px;">
+                                                            <div class="form-check-label choice-item label-container label-answer label-detail @answer" for="@itemId" data-index="@index" data-item="@indexDetail" data-question="@itemQuestionDetail.QuestionID">
+                                                                @answerDetail.Title
+                                                            </div>
+                                                        </div>
+                                                        <input type="radio" class="form-check-input input-check input-container choice @answer" id="@itemId" name="@optradio" data-typeId="@itemQuestion.ContestType" data-point="@itemQuestionDetail.Point" data-type="@itemQuestionDetail.Type" data-question="@itemQuestionDetail.QuestionID" data-contest="@itemQuestion.ContestID" data-section="@itemSecsionDetail.SectionID" data-choice="@answerDetail.ChoiceID" value="@answerDetail.Title" style="display: none">
+                                                        <div class="text-center col-lg-12">
+                                                            <label class="choice-item" for="@itemId" data-index="@index" data-item="@indexDetail" data-question="@itemQuestionDetail.QuestionID"><img src="@answerDetail.ChoiceText" alt="Alternate Text" style="border-radius:1rem" /></label>
+                                                        </div>
+                                                    </div>
+                                                }
+
+                                            }
+                                        }
+                                    </div>
+                                </div>
+
+                                <!--TEST-->
+                                <div class="item-question item-detail user-history">
+                                    <p class="@stringClassChecked">Câu trả lời của bạn: @strUserResult <i class="@stringIcon"></i></p>
+                                    <p class="answer-history">Đáp án đúng: @strAnswer.Replace(" ", "")</p>
+                                    <p class="answer-history">Giải thích: @Html.Raw(itemQuestionDetail.Desscription)</p>
+                                </div>
+                                break;
+                            //Sắp xếp thứ tự đúng
+                            case 2:
+                                <div class="question-tittle">
+                                    <div class="Sort" data="@itemQuestionDetail.QuestionID"></div>
+                                </div>
+                                <div id="solution" class="col-11 col-sm-11 col-lg-11">
+                                    @{
+                                        answer = "answer" + index;
+                                        sortItem++;
+                                        optradio = "optradio" + index;
+                                        var dataItem = 0;
+                                    }
+                                    <div class="item-question item-detail item-detaiSort row" data="@itemQuestionDetail.QuestionID">
+                                        @foreach (var answerDetail in itemQuestionDetail.Choices)
+                                        {
+                                            dataItem++;
+                                            var itemId = "item" + answerDetail.ChoiceID;
+                                            <div class="sort-choice" data="@dataItem" data-id="@itemQuestionDetail.QuestionID" style="width:auto!important">
+                                                <div class="form-check sort-item" data="@dataItem">
+                                                    <label class="form-check-label label-container label-detail label-choice" for="@itemId">
+                                                        @Html.Raw(answerDetail.ChoiceText)
+                                                        <input type="text" class="form-check-input input-check input-container sort @answer" id="@itemId" name="@optradio" data-point="@itemQuestionDetail.Point" data-type="@itemQuestionDetail.Type" data-question="@itemQuestionDetail.QuestionID" data-contest="@itemQuestion.ContestID" data-section="@itemSecsionDetail.SectionID" data-choice="@answerDetail.ChoiceID" value="@answerDetail.ChoiceText" data-legth="@itemQuestionDetail.Choices.Count()" style="opacity: 0">
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+
+                                    <!--TEST-->
+                                    <div class="item-question item-detail user-history">
+                                        <p class="@stringClassChecked">Câu trả lời của bạn: @strUserResult <i class="@stringIcon"></i></p>
+                                        <p class="answer-history">Đáp án đúng: @strAnswer.Replace(" ", "")</p>
+                                        <p class="answer-history">Giải thích: @Html.Raw(itemQuestionDetail.Desscription)</p>
+                                    </div>
+                                </div>
+                                break;
+                            @*Nhập câu trả lời*@
+                            case 3:
+                                <div id="solution" class="solution-title col-11 col-sm-11 col-lg-11">
+                                    @{
+                                        answer = "answer" + index;
+                                        optradio = "optradio" + index;
+                                    }
+                                    <div class="question-tittle">
+                                        <p>@Html.Raw(itemQuestionDetail.QuestionName)</p>
+                                    </div>
+                                    <div class="item-question item-detail user-history">
+                                        <p class="answer-text @stringClassChecked">Câu trả lời của bạn: @(userResult != null && userResult.UserTestQuestionAnswerModels != null ? String.Join(", ", userResult.UserTestQuestionAnswerModels.Select(o => o.UserTestQuestionAnswerText).ToArray()).Trim() : "") <i class="@stringIcon"></i></p>
+                                        @if (strAnswer != "" && strAnswer != null)
+                                        {
+                                            <p class="answer-history">Đáp án đúng: @strAnswer</p>
+                                            <p class="answer-history">Giải thích: @Html.Raw(itemQuestionDetail.Desscription)</p>
+                                        }
+                                    </div>
+                                </div>
+                                break;
+                            //Viết đoạn văn mô tả
+                            case 4:
+                                <div id="solution" class="solution-title col-11 col-sm-11 col-lg-11">
+                                    @{
+                                        answer = "answer" + index;
+                                        optradio = "optradio" + index;
+                                    }
+                                    <div class="solution">
+                                        @{
+                                            answer = "answer" + index;
+                                            optradio = "optradio" + index;
+                                        }
+                                        <div class="question-tittle tittle-content">
+                                            <p>@Html.Raw(itemQuestionDetail.QuestionName)</p>
+                                        </div>
+                                        <div class="item-question item-detail professor">
+
+                                        </div>
+                                    </div>
+                                    <div class="item-question item-detail user-history">
+                                        <p class="answer-text @stringClassChecked">Câu trả lời của bạn: @(userResult != null && userResult.UserTestQuestionAnswerModels != null ? String.Join(", ", userResult.UserTestQuestionAnswerModels.Select(o => o.UserTestQuestionAnswerText).ToArray()).Trim() : "") <i class="@stringIcon"></i></p>
+                                        @if (strAnswer != "" && strAnswer != null)
+                                        {
+                                            <p class="answer-history">Đáp án đúng: @strAnswer</p>
+                                            <p class="answer-history">Giải thích: @Html.Raw(itemQuestionDetail.Desscription)</p>
+                                        }
+                                    </div>
+                                </div>
+                                break;
+                            case 5:
+                                <div id="solution" class="solution-title col-11 col-sm-11 col-lg-11">
+                                    @{
+                                        answer = "answer" + index;
+                                        optradio = "optradio" + index;
+                                    }
+                                    <div class="solution">
+                                        @{
+                                            answer = "answer" + index;
+                                            optradio = "optradio" + index;
+                                        }
+                                        <div class="question-tittle tittle-content">
+                                            <p>@Html.Raw(itemQuestionDetail.QuestionName)</p>
+                                        </div>
+                                        <div class="item-question item-detail professor writing" style="width: 100%;margin-left: 0;">
+
+                                        </div>
+                                    </div>
+                                    <div class="item-question item-detail user-history">
+                                        <p class="answer-text">Trả lời: @(userResult != null && userResult.UserTestQuestionAnswerModels != null ? String.Join(", ", userResult.UserTestQuestionAnswerModels.Select(o => o.UserTestQuestionAnswerText).ToArray()).Trim() : "")</p>
+                                    </div>
+                                </div>
+                                break;
+                        }
+                    </div>
+                }
+            </div>
+            }
+        </div>
+    }
+}

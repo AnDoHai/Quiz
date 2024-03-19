@@ -1,0 +1,94 @@
+﻿@model List<H4U.Models.User.UserModel>
+@using H4U.Mvc
+
+<div class="col-md-12">
+    <div class="box box-primary">
+        <div class="box-header">
+            <i class="fa fa-table"></i>
+            <h3 class="box-title">Danh sách tài khoản: <label class="g_countRowsPaging">@ViewBag.Total</label></h3>
+        </div>
+        <div class="row margin" id="routes_message_out"></div>
+        <div class="box-body no-padding">
+            @if (Model != null)
+            {
+                <table class="table table-striped dataTable table-bordered">
+                    <thead>
+                        <tr>
+                            <th>
+                                STT
+                            </th>
+                            <th>
+                                Tên tài khoản
+                            </th>
+                            <th>
+                                Tên doanh nghiệp
+                            </th>
+                            <th>
+                                Trạng thái
+                            </th>
+                            <th>
+                                Tác vụ
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                var index = 0;
+                foreach (var item in Model)
+                {
+                    index++;
+                    <tr>
+                        <td>
+                            @((int)ViewBag.PageSize * ((int)ViewBag.PageIndex - 1) + index)
+                        </td>
+                        <td>
+                            @item.Email
+                        </td>
+                        <td>
+                        </td>
+
+                        <td style="width: 150px;">
+                            @(item.IsActive ? "Đã kích hoạt" : "Chưa kích hoạt")
+                        </td>
+                        <td style="width: 120px;">
+                            @Html.EmsMvc().ButtonConfirm("resetPw" + item.UserId.ToString()).Property(new ButtonConfirmInfo { Url = "/Account/ResetPassword", Text = "<span class='glyphicon glyphicon-erase'> </span>", ToolTip = "Thiết lập lại mật khẩu", Method = "POST", Data = "{id:" + item.UserId + "}", ConfirmMessage = "Bạn có chắc chắn muốn thiết lập lại mật khẩu cho tài khoản '" + item.Email + "', mật khẩu mặc định 'ems@123'", UrlSuccess = "/Account/Index", TagIdSuccess = "resultAccountMain", TagIdError = "accountMain" })
+                            @if (item.IsActive)
+                            {
+                                @Html.EmsMvc().ButtonConfirm("changeStatus" + item.UserId.ToString()).Property(new ButtonConfirmInfo { Url = "/Account/ToggleUser", Text = "<span class='glyphicon glyphicon-ban-circle'> </span>", Method = "POST", Data = "{id:" + item.UserId + ",active:false" + "}", ToolTip = "Vô hiệu hóa", ConfirmMessage = "Bạn có chắc chắn muốn vô hiệu hóa tài khoản '" + item.Email + "'", UrlSuccess = "/Account/Index", TagIdSuccess = "resultAccountMain", TagIdError = "accountMain" })
+                            }
+                            else
+                            {
+                                @Html.EmsMvc().ButtonConfirm("changeStatus" + item.UserId.ToString()).Property(new ButtonConfirmInfo { Url = "/Account/ToggleUser", Text = "<span class='glyphicon glyphicon-ok-circle'> </span>", Method = "POST", Data = "{id:" + item.UserId + ",active:true" + "}", ToolTip = "Kích hoạt", ConfirmMessage = "Bạn có chắc chắn muốn kích hoạt tài khoản '" + item.Email + "'", UrlSuccess = "/Account/Index", TagIdSuccess = "resultAccountMain", TagIdError = "accountMain" })
+                            }
+                        </td>
+
+                    </tr>
+                }
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <p>Chưa có tài khoản nào!</p>
+            }
+
+        </div>
+        <div class="box-footer clearfix">
+        </div>
+        <div class="box-footer clearfix text-right">
+            <div class="row">
+                <div class="col-md-3">
+
+                </div>
+                <div class="col-md-4">
+
+                </div>
+                <div class="col-md-5">
+                    @Html.AjaxPagingHelper("H4U.Client.Common.Paging", "Account/Search", "resultAccountMain", "frmSearch", (int)ViewBag.Total, (int)ViewBag.PageSize, (int)ViewBag.PageIndex, null, null)
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

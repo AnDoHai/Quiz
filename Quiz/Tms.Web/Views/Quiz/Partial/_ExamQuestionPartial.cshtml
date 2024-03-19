@@ -1,0 +1,95 @@
+﻿@model Tms.Models.Models.QuizModel.ExamModelSreach
+@using Tms.Models
+
+
+@if (Model != null && Model.ExamDetails != null)
+{
+    <div class="exam-tittle questions-type row d-flex align-items-center" id="name-tittle" data-contest="1" data-count-contest="@Model.ExamDetails.Count()">
+        <div class="col-xl-6">
+            <a href="#" class="btn text-white">@Model.HSKName</a>
+        </div>      
+        <div class="col-12 col-sm-2 col-md-2 col-xl-6" id="submit" data="true">
+                <a href="javascript:void(0)" class="btn btn-default bg-white upload-exam" data="@Model.QuizId">Nộp bài</a>
+        </div>
+    </div>
+    var indexQuestion = 0;
+    var indexSection =0;
+    var indexContest = 0;
+    var totalContest = 0;
+    foreach (var item in Model.ExamDetails)
+    {
+        indexContest++;
+        var stringContest = "contest-row" + item.ContestID;
+        var contestClass = "contest" + indexContest;
+        var idContest = "idContest" + item.ContestID;
+        var classContestParent = "contestParent" + indexContest;
+        var indexSectionDetail = 0;
+        <div id="@stringContest">
+            @if (item.ContestType == 1)
+            {
+                <div class="questions-type contest @classContestParent" id="@idContest" data-count="@item.Sections.Count()" data="@item.ContestID" data-index="@indexContest" data-id="@item.ContestID" data-time="@item.LimitTime">
+                    <div class="row question-content-row">
+                        <div class="audio-active col-1 col-sm-1 col-md-1 col-lg-2 d-flex align-items-center icon-questions">
+                            <div>
+                                <a href="javascript:void(0)" class="btn text-white" id="audio" data="true">
+                                    <i class="fas fa-volume-up"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="btn text-white col-4 col-sm-2 col-md-2 col-lg-4 question-content text-left">@item.ContestName</div>
+                    </div>
+                </div>
+            }
+            else if (item.ContestType == 2)
+            {
+                <div class="questions-type contest @classContestParent" id="@idContest" data-count="@item.Sections.Count()" data="@item.ContestID" data-index="@indexContest" data-id="@item.ContestID" data-time="@item.LimitTime">
+                    <div class="row question-content-row">
+                        <div class="col-1 col-sm-1 col-md-1 col-lg-2 d-flex align-items-center icon-questions"><div><i class="fas fa-book-open"></i></div></div>
+                        <div class="btn text-white col-4 col-sm-2 col-md-2 col-lg-4 question-content text-left">@item.ContestName</div>
+                    </div>
+                </div>
+            }
+            else if (item.ContestType == 3)
+            {
+                <div class="questions-type contest @classContestParent" id="@idContest" data-count="@item.Sections.Count()" data="@item.ContestID" data-index="@indexContest" data-id="@item.ContestID" data-time="@item.LimitTime">
+                    <div class="row question-content-row">
+                        <div class="col-1 col-sm-1 col-md-1 col-lg-2 d-flex align-items-center icon-questions"><div><i class="fas fa-pen-alt"></i></div></div>
+                        <div class="btn text-white col-4 col-sm-2 col-md-2 col-lg-4 question-content text-left">@item.ContestName</div>
+                    </div>
+                </div>
+            }
+            else if (item.ContestType == 4)
+            {
+                <div class="questions-type contest @classContestParent" id="@idContest" data-count="@item.Sections.Count()" data="@item.ContestID" data-index="@indexContest" data-id="@item.ContestID" data-time="@item.LimitTime">
+                    <div class="row question-content-row">
+                        <div class="col-1 col-sm-1 col-md-1 col-lg-2 d-flex align-items-center icon-questions"><div><i class="fas fa-language"></i></div></div>
+                        <div class="btn text-white col-4 col-sm-2 col-md-2 col-lg-4 question-content text-left">@item.ContestName</div>
+                    </div>
+                </div>
+            }
+            @foreach (var sectionDetail in item.Sections)
+            {
+                indexSection++;
+                indexSectionDetail++;
+                var rowData = "row-menu" + indexSection;
+                var classIndex = "row-count" + indexSection;
+                <div id="@rowData" class="row-index @classIndex" data="@indexSection" data-id="@sectionDetail.SectionID">
+                    @*<div class="d-flex justify-content-center section-menu" style="margin-top:20px" data="@sectionDetail.SectionID">
+                        <div><a href="#" class="btn" style="font-weight: bold; font-size: 15px;"> @sectionDetail.SectionName</a></div>
+                    </div>*@
+                <div class="row row-left-ques d-flex justify-content-center">
+                    @foreach (var questionDetail in sectionDetail.QuestionModels)
+                    {
+                        indexQuestion++;
+                        var idQuestion = "question" + questionDetail.QuestionID;
+                        <div class="col-xl-2 col-lg-2 col-sm-2 col-2 question-icon @contestClass" data-type="@item.ContestType" data-count="@indexSection" data-length="@item.Sections.Count()"  data-index-detail="@indexSectionDetail" data-index-section="@indexSection" data-contest-index="@indexContest" data-index="@indexQuestion" data-contest-count="@Model.ExamDetails.Count()" data-contest="@item.ContestID" data-count-section="@totalContest" data-section="@sectionDetail.SectionID" data="@Model.ExamDetails.SelectMany(c=>c.Sections).Count()" data-question="@questionDetail.QuestionID">
+                            <a href="javascript:void(0)" class="btn btn-default rounded-circle question-button question-item" id="@idQuestion" data-question="@questionDetail.QuestionID">@indexQuestion</a>
+                        </div>
+                    }
+                </div>
+                </div>
+            }
+        </div>
+        totalContest += Model.ExamDetails.Where(c => c.ContestID == item.ContestID).SelectMany(c => c.Sections).Count();
+    }
+}

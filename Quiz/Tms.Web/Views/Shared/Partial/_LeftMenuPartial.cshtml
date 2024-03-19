@@ -1,0 +1,80 @@
+﻿@model Tms.Models.User.UserCommon
+@using Tms.Web.Framework.Helpers
+@using Tms.Web.Framework.Security
+@using System.Configuration
+<div class="sidenav sidebar-hover body-leftmenu" id="side-bar">
+    <div class="left-menu-default">
+        <ul class="side-nav__menu" tabindex="1" style=" padding: 0 !important;">
+            <li class="set-color li-directory">
+                <a class="set-data directory" href="javascript:void(0)">
+                    <span class=""><i class="fas fa-home ml-10 mr-2"></i></span>
+                    <span class="show-on-hover ml-5 ">Quản lí danh mục<i class="fas fa-chevron-right icon-menu"></i></span>
+
+                </a>
+                <ul class="side-nav__menu1" style="display:none;" data-show="false">
+                    <li class="set-color li-directory">
+                        <a href="/quan-ly/li-do-nghi-phep" class="set-data directory-content">
+                            <span class="show-on-hover ml-5">Quản lý nghỉ lí do nghỉ phép</span>
+                        </a>
+                    </li>
+                    <li class="set-color li-directory">
+
+                        <a href="/Question/Index" class="set-data directory-content">
+                            <span class="show-on-hover ml-5 ">Quản lý câu hỏi</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li class="set-color">
+                <a href="/Question/Index" class="set-data">
+                    <span class=""><i class="fas fa-tag ml-10 mr-2"></i></span>
+                    <span class="show-on-hover ml-5 ">Quản lý câu hỏi</span>
+                </a>
+            </li>
+            <li class="set-color">
+                <a href="/Choice/Index" class="set-data">
+                    <span class=""><i class="fas fa-tag ml-10 mr-2"></i></span>
+                    <span class="show-on-hover ml-5 ">Quản lý lựa chọn</span>
+                </a>
+            </li>
+            <li class="set-color">
+                <a href="/Answer/Index" class="set-data">
+                    <span class=""><i class="fas fa-tag ml-10 mr-2"></i></span>
+                    <span class="show-on-hover ml-5">Quản lý câu trả lời</span>
+                </a>
+            </li>
+            <li class="set-color">
+                <a href="/quan-ly/danh-sach-diem-danh-admin" class="set-data">
+                    <span class=""><i class="fas fa-tag ml-10 mr-2"></i></span>
+                    <span class="show-on-hover ml-5">Danh sách điểm danh</span>
+                </a>
+            </li>
+            <li class="set-color">
+                <a href="/quan-ly/thoi-gian-lam-viec" class="set-data">
+                    <span class=""><i class="fas fa-tag ml-10 mr-2"></i></span>
+                    <span class="show-on-hover ml-5">Quản lý thời gian làm việc</span>
+                </a>
+            </li>
+        </ul>
+        <ul class="side-nav__menu" style=" padding: 0 !important;">
+            <li class="set-color">
+                <a href="/quan-ly/nghi-phep-staff" class="set-data">
+                    <span class=""><i class="fas fa-home ml-10 mr-2"></i></span>
+                    <span class="show-on-hover ml-5 ">Quản lý nghỉ phép(Staff)</span>
+                </a>
+            </li>
+            <li class="set-color">
+                <a href="/quan-ly/danh-sach-diem-danh-staff" class="set-data">
+                    <span class=""><i class="fas fa-tag ml-10 mr-2"></i></span>
+                    <span class="show-on-hover ml-5">Danh sách điểm danh(Staff)</span>
+                </a>
+            </li>
+            <li class="set-color">
+                <a href="/quan-ly/danh-sach-diem-danh-guard" class="set-data">
+                    <span class=""><i class="fas fa-tag ml-10 mr-2"></i></span>
+                    <span class="show-on-hover ml-5 ">Danh sách điểm danh(Guard)</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>

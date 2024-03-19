@@ -1,0 +1,149 @@
+﻿@model Tms.Models.AnswerModel.AnswerSearchModel
+@using Tms.Models
+@{
+    ViewBag.Title = "Quản lý đáp án";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style type="text/css">
+    .font-size {
+        font-size: 1.35rem !important;
+        font-weight: 500;
+    }
+
+    .rBtn {
+        background-color: #dc3545 !important;
+        color: white !important;
+        border-radius: 4px !important;
+    }
+
+    .tbw {
+        width: 225px !important;
+    }
+
+    .sreach {
+        width: 26rem;
+    }
+
+    .sreach-label {
+        float: left;
+        /* position: relative; */
+        margin-top: 0.7rem;
+    }
+
+    .sreach-input {
+        float: left;
+        /* position: absolute; */
+        width: 18rem;
+        /* padding-left: 1rem; */
+        margin-left: 1rem;
+        line-height: -17rem;
+        margin-top: 0rem;
+    }
+
+    .sreach-button {
+        font-size: 1.2rem;
+        height: 3rem;
+        line-height: 1.2rem;
+        margin-left: 0;
+        margin-top: 0rem;
+    }
+
+    .form-action {
+        width: 100%;
+        float: left;
+    }
+
+    .button-add {
+        width: 100%;
+        float: right;
+        padding: 0;
+    }
+
+    .quiz_title {
+        text-decoration: underline !important;
+        font-weight: bold !important;
+    }
+</style>
+<!--page content-->
+<div class="page-content-inner">
+    <div class="row form-group">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="tab-pane mg-top-25px">
+                    <div class="control-bar">
+                        <div class="row justify-content-between">
+                            <div class="page-header col-md-6">
+                                <div class="page-title text-left">
+                                    <h3 class="quiz_title">Quản lý câu trả lời</h3>
+                                </div>
+                            </div>
+                            <div class="breadcrumb-line col-md-6">
+                                <ul class="breadcrumb float-right font-size">
+                                    <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">Trang chủ</a></li>
+                                    <li class="breadcrumb-item"><a href="@Url.Action("Index", "Answer")">Quản lý đáp án</a></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <br />
+
+                        <div class="row">
+                            <div class="col-md-10 left-form">
+                                <form action="" class="h-10">
+                                    <div class="d-flex h-10 align-items-center">
+                                        <div class="form-item">
+                                            <label class="font-size mb-3">Tìm kiếm </label>
+                                            <div>
+                                                @Html.TextBoxFor(c => c.TextSearch, new { @class = "form-control font-size tbw mt-1", @placeholder = "Nội dung tìm kiếm" })
+                                            </div>
+                                        </div>
+                                        <div class="form-item">
+                                            <div>
+                                                <input type="button" id="btnSearch" value="Tìm kiếm" class="btn rBtn btn-outline-danger button-container w100" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="">
+                                    <a class="btn btn-right-icon btn-outline-danger float-right rBtn mt-3" title="Thêm mới câu trả lời" href="/Answer/Create">
+                                        <i class="fas fa-plus"></i> Thêm mới
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br />
+
+                <div id="main-question">
+                    @Html.Partial("~/Views/Answer/Partial/_ListItems.cshtml", Model)
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="answer-action"></div>
+<!--modal popup-->
+@Html.Partial("Partial/_ConfirmPartial", new ConfirmModel { Id = "answer", Title = "Xác nhận hành động", Content = "Bạn có muốn thực hiện xóa.?" })
+<div class="container">
+    <button id="model" type="button" style="display:none" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Chi tiết</button>
+    <div class="modal fade in" id="myModal" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content" id="resultModel">
+            </div>
+        </div>
+    </div>
+</div>
+<!--end modal popup-->
+@section scripts
+{
+    <script src="~/Assets/scripts/Tms.Answer.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            answerModule.init();
+        });
+    </script>
+}

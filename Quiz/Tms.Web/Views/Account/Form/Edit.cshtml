@@ -1,0 +1,100 @@
+﻿@model Tms.Models.User.UserModel
+@using Tms.Models
+
+@{
+    ViewBag.Title = "Chỉnh sửa thông tin tài khoản";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var type = Request.Params["type"].ToLower();
+}
+
+<div class="page-content-inner">
+    <div class="row justify-content-between pt-2 mr-0 ml-0 align-items-center pb-2">
+        <div class="page-header">
+            <div class="page-title">
+                @if (Request.Params["type"] != null && Request.Params["type"] == "dmnv")
+                {
+                    <h3>Quản lý danh mục nhân viên</h3>
+                }
+                else
+                {
+                    <h3>Quản lý tài khoản</h3>
+                }
+            </div>
+        </div>
+        <div class="breadcrumb-line">
+            <ul class="breadcrumb">
+                <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">Trang chủ</a></li>
+                @if (Request.Params["type"] != null && Request.Params["type"] == "dmnv")
+                {
+                    <li class="breadcrumb-item"><a href="@Url.Action("DanhMucNhanVien", "Account")">Danh mục nhân viên</a></li>
+                }
+                else
+                {
+                    <li class="breadcrumb-item"><a href="@Url.Action("Index", "Account")">Tài khoản</a></li>
+                }
+                <li class="active breadcrumb-item">Chỉnh sửa</li>
+            </ul>
+            <div class="visible-xs breadcrumb-toggle">
+                <a class="btn btn-link btn-lg btn-icon" data-toggle="collapse" data-target=".breadcrumb-buttons"><i class="icon-menu2"></i></a>
+            </div>
+        </div>
+    </div>
+    @using (Html.BeginForm("Edit", "Account", FormMethod.Post, new { id = "frmUpdate", @class = "form-horizontal" }))
+    {
+        @Html.HiddenFor(c => c.UserId)
+        @Html.Partial("Partial/_FormEdit", Model)
+
+        <div class="form-actions text-right mr-10 margin-bottom-10">
+            @if (type == "dmnv")
+            {
+                <button type="button" class="btn-xs btn btn-danger" onclick="location.href = '/Account/DanhMucNhanVien'">
+                    <i class="icon-exit3"></i> Thoát
+                </button>
+            }
+            @if (type == "account")
+            {
+                <button type="button" class="btn-xs btn btn-danger" onclick="location.href = '/Account'">
+                    <i class="icon-exit3"></i> Thoát
+                </button>
+            }
+            <button type="submit" class="btn btn-xs btn-info">
+                <i class="icon-plus-circle"></i> Lưu
+            </button>
+        </div>
+    }
+</div>
+@section scripts
+{
+    <script src="~/Assets/plugins/chosen/chosen.jquery.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            accountModule.init();
+            $('.chosen-select').chosen({ width: '100%' });
+            $.validator.setDefaults({ ignore: ":hidden:not(select)" });
+            $("#Password").val("11111111");
+            $(document).on("change", "#IsChangePassword", function () {
+                //$("#passwordArea").toggle($("#IsChangePassword").prop("checked"));
+                //$("#Password").val("");
+                //if (!$("#IsChangePassword").prop("checked")) {
+                //$("#Password").val("abc123");
+                //}
+                var status = $("#IsChangePassword").prop("checked");
+                $("#Password").prop("readonly", !status);
+                if ($("#IsChangePassword").prop("checked")) {
+                    $("#Password").val("");
+                }
+                else {
+                    $("#Password").val("11111111");
+                }
+            });
+            $(document).on("submit", "#frmUpdate", function () {
+                var roleId = $("#RoleId").val();
+                if (roleId == "") {
+                    $("span[data-valmsg-for = 'RoleId']").text("Nhóm quyền không được bỏ trống");
+                    $("span[data-valmsg-for = 'RoleId']").css('color', 'red');
+                    return false;
+                }
+            })
+        });
+    </script>
+}

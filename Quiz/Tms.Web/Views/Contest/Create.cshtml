@@ -1,0 +1,68 @@
+﻿@model Tms.Models.ContestModel.ContestModel
+
+@{
+    ViewBag.Title = "Tạo phần thi chung";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="page-content-inner popup">
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="tab-pane mg-top-25px">
+                <div class="control-bar">
+                    <div class="row">
+                        <div class="page-header col-md-6">
+                            <div class="page-title">
+                                <h3>Tạo mới phần thi chung</h3>
+                            </div>
+                        </div>
+                        <div class="breadcrumb-line col-md-6">
+                            <ul class="breadcrumb float-right font-size">
+                                <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">Trang chủ</a></li>
+                                <li class="breadcrumb-item"><a href="@Url.Action("Index", "Contest")">Phần thi chung</a></li>
+                                <li class="breadcrumb-item"><a href="@Url.Action("Create", "Contest")">Thêm mới</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="row d-flex justify-content-center mt-3">
+                        @using (Html.BeginForm("Create", "Contest", FormMethod.Post, new { id = "frmCreate", @class = "form-horizontal" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            <div class="breadcrumb-line">
+                                <div class="form-actions action-breadcrumb">
+
+                                </div>
+                            </div>
+                            <br/><br/><br/>
+                            @Html.Partial("Partial/_FormInput", Model)
+                            <div class="col-12 mt-5 float-right">
+                                <div class="form-actions text-right mr-25">
+                                    <button type="submit" class="btn btn-xs rBtn">
+                                        <i class="fas fa-save"></i> Lưu
+                                    </button>
+                                    <button type="button" class="btn-xs btn btn-primary" onclick="location.href='@Url.Action("Index","Quiz")'">
+                                        <i class="fas fa-sign-out-alt"></i> Hủy
+                                    </button>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section styles
+{
+    <link rel="stylesheet" type="text/css" href="~/assets/plugins/chosen/chosen.min.custom.css">
+}
+@section scripts
+{
+    <script src="~/Assets/plugins/chosen/chosen.jquery.min.js"></script>
+    <script src="~/Assets/scripts/Tms.Contest.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            contestModule.init();
+            $('.chosen-select').chosen({ width: '100%' });
+        });
+    </script>
+}

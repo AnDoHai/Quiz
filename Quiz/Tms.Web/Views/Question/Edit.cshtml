@@ -1,0 +1,198 @@
+﻿@model Tms.Models.QuestionModel.QuestionAllModel
+
+@{
+    ViewBag.Title = " Create Question";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="page-content-inner">
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="tab-pane mg-top-25px">
+                <div class="control-bar">
+                    <div class="row">
+                        <div class="page-header col-md-6">
+                            <div class="page-title">
+                                <h3>Tạo mới bài thi</h3>
+                            </div>
+                        </div>
+                        <div class="breadcrumb-line col-md-6">
+                            <ul class="breadcrumb float-right font-size">
+                                <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">Trang chủ</a></li>
+                                <li class="breadcrumb-item"><a href="@Url.Action("Index", "Question")">Câu hỏi</a></li>
+                                <li class="breadcrumb-item"><a href="@Url.Action("Create", "Question")">Thêm mới</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        @using (Html.BeginForm("Edit", "Question", FormMethod.Post, new { id = "frmUpdate", @class = "form-horizontal" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            <div class="breadcrumb-line">
+                                <div class="form-actions action-breadcrumb">
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                @Html.HiddenFor(c => c.Question.QuestionID)
+                                @Html.Partial("Partial/_FormInput", Model)
+                            </div>
+                            <div class="col-12 float-right">
+                                <div class="form-actions text-right mr-25">
+                                    <button type="submit" class="btn btn-xs rBtn">
+                                        <i class="fas fa-save"></i> Lưu
+                                    </button>
+                                    <button type="button" class="btn-xs btn btn-primary" onclick="location.href='@Url.Action("Index","Question")'">
+                                        <i class="fas fa-sign-out-alt"></i> Hủy
+                                    </button>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section styles
+{
+    <link rel="stylesheet" type="text/css" href="~/assets/plugins/chosen/chosen.min.custom.css">
+}
+@section scripts
+{
+    <script src="~/Assets/plugins/chosen/chosen.jquery.min.js"></script>
+    <script src="~/Assets/scripts/Tms.Question.js"></script>
+    <script src="~/Scripts/ckeditor/ckeditor.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            questionModule.init();
+            CKEDITOR.replace('Question_QuestionText', {
+                extraPlugins: 'abbr'
+            });
+            CKEDITOR.replace('Question_Description', {
+                extraPlugins: 'abbr'
+            });
+            var typeAnswer = 0;
+            $('#Question_ContestID').attr('disabled', false);
+            $('#Question_SectionID').attr('disabled', false);
+            var stringHttp = window.location.href;
+            var arrHttp = stringHttp.split("/");
+            var idQuestion = arrHttp.at(-1);
+            $.ajax({
+                url: '/Question/GetQuestion',
+                type: 'POST',
+                data: { questionId: idQuestion },
+                success: function (response) {
+                    if (response.IsError == false) {
+                        if (response.data.TimeLimit != null) {
+                            $('#Question_TimeLimit').val(response.data.TimeLimit).change();
+                            $('#Question_TimeLimit').attr('disabled', false);
+                        }
+                        if (response.data.Layout != null) {
+                            $('#Question_Layout').attr('disabled', false);
+                            $('#Question_ContestID').attr('disabled', false);
+                            $('#Question_SectionID').attr('disabled', false);
+                            $('#Question_Order').attr('disabled', false);
+                        }
+                    } else {
+                        console.log("Err");
+                    }
+                }
+            });
+            $.ajax({
+                url: '/Choice/GetChoiceByQuestionId',
+                type: 'POST',
+                data: { id: idQuestion },
+                success: function (response) {
+                    if (response.IsError === false) {
+                        var index = 0;
+                        var countCheck = 0;
+                        var type = "";
+                        var countIndex = 0;
+                        jQuery.each(response.data, function (key, val) {
+                            index = index + 1;
+                            typeAnswer = val.Type;
+                            if (val.Type == 0 && parseInt(countCheck) == 0) {
+                                countCheck++;
+                                $('#Question_TypeChoice').val('0').change();
+                                type = "isPicture";
+                                $('.addChoice').html('');
+                                $('.content-choice').html('');
+                                var stringHtml = '<div class="image-left" style="float: left;margin-right: 1rem;"></div><div class="image-right"><span class="span-input" style="float: left;">+<input type="file" data-index="' + index + '" class="input-file"/></span></div>';
+                                $('.content-choice').append(stringHtml);
+                                $('#Question_ContestID').attr('disabled', false);
+                            }
+                            if (val.Type == 1 && countCheck == 0) {
+                                countCheck++;
+                                type = "isLetter";
+                                var html = '<div class="col-sm-8 textChoice" style="padding:0"><input type="text" name="addchoice" class="dataChoice input-form" value = "" placeholder = "Thêm lựa chọn" /><button id="addChoice" class="button-add rBtn" data="0" type="button">Thêm</button><div class="col-sm-8 fileChoice" style="display:none"><input class="file-choice" type="file" name="fileChoice" id="fileChoice" data-item="0" /></div>';
+                                $('.addChoice').html('');
+                                $('.addChoice').append(html);
+                                $('.content-choice').html('');
+                                $('.content-choice').html('<span class="span-choice"> Chưa có lựa chọn nào</span>');
+                                $('#Question_TypeChoice').val('1').change();
+                                $('#Question_ContestID').attr('disabled', false);
+                            }
+                            if (countCheck == 1 && type == "isPicture") {
+                                var alphabet = 'abcdefghijklmnopqrstuvwxyz'.split('');
+                                var html = '<div class="input-choice" style="float: left;" data-id="' + countIndex + '"><i class="fas fa-minus-circle icon" data-type="0" data-id="' + countIndex + '" data="choice"></i><input class="input-item input-form input-label" data-type="1" type="text" id="Choice_' + countIndex + '__Title" name="Choice[' + countIndex + '].Title"  value="' + alphabet[countIndex].toUpperCase() + '" readonly/><input type="text" name="Image[' + countIndex + ']" id="Image_' + countIndex + '" style="display:none" value="' + val.ChoiceText + '"/><img style="height: 6rem;width: 7rem;" src="' + val.ChoiceText + '"/></div>';
+                                $('.image-left').append(html);
+                                countIndex++;
+                            }
+                            if (countCheck == 1 && type == "isLetter") {
+                                var CountData = countIndex + 1;
+                                var alphabet = 'abcdefghijklmnopqrstuvwxyz'.split('');
+                                var html = '<div class="input-choice" data-id="' + countIndex + '"><i class="fas fa-minus-circle icon" data-type="1" data-id="' + countIndex + '" data="choice"></i><input class="input-item input-form input-label" type="text" id="Choice_' + countIndex + '__Title" name="Choice[' + countIndex + '].Title"  value="' + alphabet[countIndex].toUpperCase() + '" readonly/><input class="input-item input-form text-choice" type="text" id="Choice_' + countIndex + '__ChoiceText" name="Choice[' + countIndex + '].ChoiceText"  value="' + val.ChoiceText + '"/></div>';
+                                $('#addChoice').attr('data', CountData);
+                                $('.span-choice').html('');
+                                $('.content-choice').append(html);
+                                countIndex++;
+                            }
+                        });
+                        if (countIndex > 0 && type == "isLetter") {
+                            var itemHeight = countIndex * 100;
+                            let heightItem = parseInt($('#question-answer').height());
+                            heightItem += itemHeight;
+                            var stringHeightItem = heightItem + "px";
+                            $('#question-answer').css('height', stringHeightItem);
+                        }
+                        $('#Answer_AnswerText').val(response.dataAnswer.AnswerText);
+                    } else {
+                        console.log("Err");
+                    }
+                }
+            });
+            var typeQuestion = $('#Question_Type').val();
+            //0: Đúng sai
+            //1: chọn 1 đáp án đúng
+            //2: sắp xếp thứ tự đúng
+            //3: nhập câu trả lời
+            //4: nhập đoạn văn mô tả
+            //5: đọc 1200 nhớ và viết lại
+            if (typeQuestion == 0 || typeQuestion == 3 || typeQuestion == 4) {
+                $('.answer-create').css('display', 'block');
+                $('.addNewChoice').css('display', 'none');
+                $('#Question_TypeChoice').attr('disabled', true);
+                $('#Question_TypeChoice').val('1');
+            } else if (typeQuestion == 1 || typeQuestion == 2) {
+                $('.answer-create').css('display', 'block');
+                $('.addNewChoice').css('display', 'block');
+                $('.layout').css('display', 'block');
+                if (typeQuestion == 2) {
+                    $('#Question_TypeChoice').attr('disabled', true);
+                    $('#Question_TypeChoice').val('1');
+
+                }
+            } else if (typeQuestion == 5 || typeQuestion == 6) {
+                $('.addNewChoice').css('display', 'none');
+                $('#Question_TypeChoice').attr('disabled', true);
+                $('#Question_TypeChoice').val('1');
+                if (typeQuestion == 5) {
+                    $('.answer-create').css('display', 'block');
+                } else{
+                    $('.answer-create').css('display', 'none');
+                }
+            }
+        });
+    </script>
+}

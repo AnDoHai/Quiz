@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="4577da7726924701a96e403326332e5e" Name="Diagram1" ZoomLevel="78">
+        <EntityTypeShape EntityType="QuizSystemModel.AccountToken" Width="1.5" PointX="10.75" PointY="0.75" />
+        <EntityTypeShape EntityType="QuizSystemModel.Answer" Width="1.5" PointX="14.25" PointY="21.5" />
+        <EntityTypeShape EntityType="QuizSystemModel.Category" Width="1.5" PointX="0.75" PointY="11.5" />
+        <EntityTypeShape EntityType="QuizSystemModel.CategoryNew" Width="1.5" PointX="7.75" PointY="9.375" />
+        <EntityTypeShape EntityType="QuizSystemModel.Choice" Width="1.5" PointX="12" PointY="27.25" />
+        <EntityTypeShape EntityType="QuizSystemModel.Configuration" Width="1.5" PointX="10.75" PointY="3.75" />
+        <EntityTypeShape EntityType="QuizSystemModel.Contest" Width="1.5" PointX="5.25" PointY="15.625" />
+        <EntityTypeShape EntityType="QuizSystemModel.Country" Width="1.5" PointX="12.75" PointY="0.75" />
+        <EntityTypeShape EntityType="QuizSystemModel.EmailTemplate" Width="1.5" PointX="12.75" PointY="3.75" />
+        <EntityTypeShape EntityType="QuizSystemModel.ModuleAction" Width="1.5" PointX="5.75" PointY="7.375" />
+        <EntityTypeShape EntityType="QuizSystemModel.News" Width="1.5" PointX="10" PointY="9" />
+        <EntityTypeShape EntityType="QuizSystemModel.Question" Width="1.5" PointX="9.75" PointY="16.125" />
+        <EntityTypeShape EntityType="QuizSystemModel.Quiz" Width="1.5" PointX="3" PointY="11.25" />
+        <EntityTypeShape EntityType="QuizSystemModel.RoleModuleAction" Width="1.5" PointX="8" PointY="2.5" />
+        <EntityTypeShape EntityType="QuizSystemModel.Role" Width="1.5" PointX="5.75" PointY="1.875" />
+        <EntityTypeShape EntityType="QuizSystemModel.Section" Width="1.5" PointX="7.5" PointY="22.75" />
+        <EntityTypeShape EntityType="QuizSystemModel.UserRole" Width="1.5" PointX="8" PointY="5.625" />
+        <EntityTypeShape EntityType="QuizSystemModel.User" Width="1.5" PointX="3" PointY="3.25" />
+        <EntityTypeShape EntityType="QuizSystemModel.UserTestQuestionAnswer" Width="1.5" PointX="14.25" PointY="16.125" />
+        <EntityTypeShape EntityType="QuizSystemModel.UserTestQuestion" Width="1.5" PointX="12" PointY="16.75" />
+        <EntityTypeShape EntityType="QuizSystemModel.UserTest" Width="1.5" PointX="5.25" PointY="10.625" />
+        <AssociationConnector Association="QuizSystemModel.FK__Answers__ChoiceI__1F98B2C1" />
+        <AssociationConnector Association="QuizSystemModel.FK_Answers_Questions" />
+        <AssociationConnector Association="QuizSystemModel.FK_Quiz_Category" />
+        <AssociationConnector Association="QuizSystemModel.FK_News_CategoryNews" />
+        <AssociationConnector Association="QuizSystemModel.FK_Choices_Questions" />
+        <AssociationConnector Association="QuizSystemModel.FK_Contest_Quiz" />
+        <AssociationConnector Association="QuizSystemModel.FK_Questions_Contest" />
+        <AssociationConnector Association="QuizSystemModel.FK_Section_Quiz" />
+        <AssociationConnector Association="QuizSystemModel.FK_UserTestQuestion_Contest" />
+        <AssociationConnector Association="QuizSystemModel.FK_RoleModuleAction_ModuleAction" />
+        <AssociationConnector Association="QuizSystemModel.FK_Questions_Quiz" />
+        <AssociationConnector Association="QuizSystemModel.FK_Questions_Section" />
+        <AssociationConnector Association="QuizSystemModel.FK_UserTestQuestion_Questions" />
+        <AssociationConnector Association="QuizSystemModel.FK_UserTest_Quiz" />
+        <AssociationConnector Association="QuizSystemModel.FK_RoleModuleAction_Roles" />
+        <AssociationConnector Association="QuizSystemModel.FK_UserRole_Role" />
+        <AssociationConnector Association="QuizSystemModel.FK_UserTestQuestion_Section" />
+        <AssociationConnector Association="QuizSystemModel.FK_UserRole_User" />
+        <AssociationConnector Association="QuizSystemModel.FK__UserTest__UserId__5812160E" />
+        <AssociationConnector Association="QuizSystemModel.FK_UserTestQuestionAnswers_UserTestQuestion" />
+        <AssociationConnector Association="QuizSystemModel.FK_UserTestQuestion_UserTest" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

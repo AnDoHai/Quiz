@@ -1,0 +1,40 @@
+﻿@model Tms.Models.User.UserModel
+<div  class="form-horizontal margin">
+    <div class="col-sm-12">
+        <div class="control-group">
+            <label class="col-sm-3 control-label">Chọn doanh nghiệp</label>
+            <div class="col-sm-9">
+                @Html.DropDownListFor(model => model.OrganizationId, (List<SelectListItem>)ViewBag.Organizations, new { @class = "form-control", @placeholder = "Chọn doanh nghiệp" })
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="col-sm-3 control-label">Tên tài khoản</label>
+            <div class="col-sm-9">
+                <input style="display:none" type="text" id="fakeusernameremembered1" name="fakeusernameremembered" />
+                <input style="display:none" type="text" id="fakeusernameremembered" name="fakeusernameremembered" />
+                <input type="password" name="password_fake1" id="password_fake" class="hidden" autocomplete="off" style="display: none;">
+                <input type="password" name="password_fake" id="password_fake" class="hidden" autocomplete="off" style="display: none;">
+                @Html.ValidationMessageFor(model => model.Email)
+                @Html.TextBoxFor(x => x.Email, new { @class = "form-control", @placeholder = "Nhập tên tài khoản" })
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="col-sm-3 control-label">Mật khẩu</label>
+            <div class="col-sm-9">
+                @Html.ValidationMessageFor(model => model.Password)
+                @Html.PasswordFor(x => x.Password, new { @class = "form-control", @placeholder = "Nhập mật khẩu" })
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="col-sm-3 control-label">Kích hoạt</label>
+            <div class="col-sm-9">
+                @Html.CheckBoxFor(x => x.IsActive)
+            </div>
+        </div>
+    </div>
+    @*<div class="col-sm-6">
+      
+
+    </div>*@
+</div>
+

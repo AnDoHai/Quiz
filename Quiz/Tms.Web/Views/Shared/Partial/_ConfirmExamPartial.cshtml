@@ -1,0 +1,33 @@
+﻿@model Tms.Models.ConfirmModel
+@{
+    var dataId = Model.Id;
+    var level = Model.Level;
+}
+<!-- modal rules -->
+<div id="layout_modal_exam" class="modal fade in" tabindex="-1" role="dialog" aria-hidden="false" style="display: none;">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"><i class="fas fa-clipboard-list"></i><span class="modal-content-title"> Xác nhận nộp bài</span></h4>
+            </div>
+
+            <div class="modal-body with-padding">
+                <p class="modal-content-info" style="padding:2rem">
+                    Bạn có muốn xác nhận nộp bài?
+                </p>
+            </div>
+
+            <div class="modal-footer">
+                <button id="btn_un_unexam" class="btn btn-default confirm-yes rules-unconfirm" data-dismiss="modal" onclick="">Không</button>
+                @if (level != "9" && level != "10" && level != "11")
+                {
+                    <button id="btn_confirm_exam" class="btn btn-default confirm-yes rules-confirm" data-dismiss="modal" data="@dataId" onclick="">Nộp bài</button>
+                }
+                else
+                {
+                    <button id="btn_confirm_limit_hight_exam" class="btn btn-default confirm-yes rules-confirm" data-dismiss="modal" data="@dataId" onclick="">Nộp bài</button>
+                }
+            </div>
+        </div>
+    </div>
+</div>

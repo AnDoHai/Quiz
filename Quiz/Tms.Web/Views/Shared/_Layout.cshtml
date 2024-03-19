@@ -1,0 +1,204 @@
+﻿@using System.Configuration
+@using Tms.Web.Models
+@using Tms.Models
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en" translate="no">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1">
+    <meta property="og:url" content="https://thihsk.qtedu.vn/" />
+    <meta property="og:title" content="Thi thử hsk trực tuyến" />
+    <meta property="og:image" content="~/Uploads/Images/hsk-thumbinal.jpg" />
+    <meta property="og:description" content="Trang thi thử hsk trực tuyến" />
+    <title>QTEDU</title>
+    <link rel="icon" sizes="192x192" href="~/Assets/images/cropped-c3d754b3f89d0dc3548c-32x32.jpg">
+    @Styles.Render("~/admin-bundles/csshome")
+    @RenderSection("styles", false)
+    <style type="text/css">
+        body {
+            font-size: 1.6rem !important;
+        }
+    </style>
+    <script type="text/javascript">
+        function killCopy(e) {
+            return false
+        }
+        function reEnable() {
+            return true
+        }
+        if (window.sidebar) {
+            document.onmousedown = killCopy
+            document.onclick = reEnable
+        }
+    </script>
+</head>
+<body class="@ViewBag.BodyClass" lang="vi" id="admin-index-page">
+    <div id="wrapper">
+        <!-- Navbar -->
+        @Html.Action("Header", "Home")
+        <!-- /Navbar -->
+        <!-- Left Menu-->
+        @*@Html.Action("LeftMenu", "Home")*@
+        <!-- /Left Menu-->
+        <!-- Page container -->
+        @RenderBody()
+        
+        <!-- /Page container -->
+        <!-- Footer -->
+        @Html.Partial("~/Views/Shared/Partial/_FooterPartial.cshtml")
+    </div>
+    <!-- /footer -->
+    <div id="divAjaxLoadingRequest" class=""></div>
+    <a id="layout_modal_button" class="hidden" data-toggle="modal" data-backdrop="static" data-keyboard="false" role="button" href="#" data-target="#"></a>
+    <!-- modal -->
+
+    @Html.Partial("~/Views/Shared/Partial/_modalPartial.cshtml")
+    @Html.Partial("Partial/_ConfirmPartial", new ConfirmModel { Id = "userNote", Title = "Xác nhận hành động", Content = "Bạn có muốn thực hiện xóa?" })
+
+    <!-- /page container -->
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/jscommon")
+    @Scripts.Render("~/bundles/jqueryval")
+
+    @RenderSection("scripts", false)
+
+    <script src="~/Assets/js/bootstrap-notify.min.js"></script>
+    <script type="text/javascript">
+        var cookieName = "page_scroll";
+        var expdays = 365;
+
+        // An adaptation of Dorcht's cookie functions.
+
+        function setCookie(name, value, days) {
+            var expires = new Date();
+            expires.setTime(expires.getTime() + (days * 24 * 60 * 60 * 1000));
+            document.cookie = name + "=" + escape(value) + "; path=/" +
+            ((expires == null) ? "" : "; expires=" + expires.toGMTString())
+        }
+
+        function getCookie(name) {
+            var arg = name + "="
+            var alen = arg.length
+            var clen = document.cookie.length
+            var i = 0
+            while (i < clen) {
+                var j = i + alen
+                if (document.cookie.substring(i, j) == arg) {
+                    return getCookieVal(j)
+                }
+                i = document.cookie.indexOf(" ", i) + 1
+                if (i == 0) break
+            }
+            return null
+        }
+
+        function getCookieVal(offset) {
+            var endstr = document.cookie.indexOf(";", offset)
+            if (endstr == -1)
+                endstr = document.cookie.length
+            return unescape(document.cookie.substring(offset, endstr))
+        }
+
+        function deleteCookie(name) {
+            document.cookie = name + "=" + "; path=/" +
+            "; expires=Thu, 01-Jan-00 00:00:01 GMT"
+        }
+        $(function () {
+            @if (TempData["success"] != null)
+            {
+                @:common.notify.showSuccess("@TempData["success"]");
+            }
+            @if (TempData["error"] != null)
+            {
+                @:common.notify.showError("@TempData["error"]");
+            }
+            function reposition() {
+                var modal = $(this),
+                    dialog = modal.find('.modal-dialog');
+                modal.css('display', 'block');
+                // Dividing by two centers the modal exactly, but dividing by three
+                // or four works better for larger screens.
+                dialog.css("margin-top", Math.max(0, ($(window).height() - dialog.height()) / 2));
+            }
+            // Reposition when a modal is shown
+            $('.modal').on('show.bs.modal', reposition);
+            // Reposition when the window is resized
+            $(window).on('resize', function() {
+                $('.modal:visible').each(reposition);
+            });
+        });
+    </script>
+    <script src="~/Assets/scripts/tms.LeftMenu.js"></script>
+    <script src="~/Assets/scripts/Tms.Header.js?v=@(System.Configuration.ConfigurationManager.AppSettings["VersionNumber"])"></script>
+
+    <script>
+        $(document).ready(function () {
+            headerModule.init();
+            LeftMenuModule.init();
+            var email = $("#currentemail").val();
+            if (email != null && email.length > 0) {
+                $("#row-949413445").css({ "display": "none" });
+            }
+        });
+    </script>
+    <script type="text/javascript">
+        // Change password
+        $(document).on("click", "#changePassword", function () {
+            $("#change-pass").css({ "display": "block" });
+            common.modal.show("changePass_modal_info");
+        });
+        $(document).on("click", "#btn_changePassword", function () {
+            var form = $("#frmChangePass").serialize();
+            if ($("#OldPassword").val() == "") {
+                $("[data-valmsg-for = OldPassword]").text("Mật khẩu cũ không được bỏ trống");
+                $("[data-valmsg-for = OldPassword]").css("color", "red");
+            }
+            if ($("#NewPassword").val() == "") {
+                $("[data-valmsg-for = NewPassword]").text("Mật khẩu mới không được bỏ trống");
+                $("[data-valmsg-for = NewPassword]").css("color", "red");
+            }
+            if ($("#NewPassword").val() != $("#ConfirmPassword").val()) {
+                $("[data-valmsg-for = ConfirmPassword]").text("Mật khẩu xác nhận không trùng khớp");
+                $("[data-valmsg-for = ConfirmPassword]").css("color", "red");
+            }
+            $.ajax({
+                url: "/Account/ChangePassword",
+                type: "POST",
+                data: form,
+                success: function (data) {
+                    if (data.IsError === false) {
+                        common.notify.showSuccess(data.Message);
+                        $(".btn-warning").click();
+                        $("#OldPassword").val("");
+                        $("#NewPassword").val("");
+                        $("#ConfirmPassword").val("");
+                        $("#changePass_modal_info").modal("hide");
+                    } else {
+                        if ("" != data.Message && undefined != data.Message) {
+                            common.notify.showError(data.Message);
+                        } else {
+                            $(".modal-backdrop").remove();
+                            $("#change-pass").html("");
+                            $("#change-pass").html(data.HTML);
+                            $("#change-pass").css({ "display": "block" });
+                            $.validator.unobtrusive.parse($('frmChangePass'));
+                            $("#changePassword").click();
+                        }
+                    }
+                },
+                error: function () {
+                    console.log("Err");
+                }
+            });
+        });
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,50 @@
+﻿@using Tms.Web.Framework.Helpers
+
+<style>
+    a.viewmore1 {
+        background-color: white;
+        color: #dc3545 !important;
+        border: 2px solid #dc3545;
+    }
+
+        a.viewmore1:hover {
+            background-color: #dc3545;
+            color: white !important;
+        }
+
+    .cropped1 {
+        width: 100%;
+        height: 300px;
+        object-fit: cover !important;
+    }
+
+    .test1 {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-size: 1.4rem;
+    } 
+</style>
+<div class="datatable-scroll row">
+    @foreach (var item in ViewBag.ListFeaturedNews)
+    {
+        var parent = Guid.NewGuid();
+        <div class="col-md-4">
+            <div class="card-columns" style="column-count:1;">
+                <div class="card" style="margin: 0 0 25px 0" id="@parent">
+                    <div>
+                        <img class="cropped1 card-img-top" src="~/Uploads/NewsImages/@item.Image" alt="Card image cap">
+                        <div class="card-body">
+                            <h5 class="card-title" id="titles">@item.Title</h5>
+                            <h6>@item.CreatedDate.ToString("dd/MM/yyyy")</h6>
+                            <p class="test1 card-text">@item.SortDescription</p>
+                            <a href="@Url.Action("NewsDetails", "News", new { id = item.NewsId })" class="viewmore1 btn">XEM THÊM</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    }
+
+</div>

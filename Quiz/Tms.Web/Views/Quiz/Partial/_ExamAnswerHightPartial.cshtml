@@ -1,0 +1,104 @@
+﻿@model Tms.Models.Models.QuizModel.ExamHightModel
+@using Tms.Models
+@{
+    var index = 0;
+    var sortItem = 0;
+    var audioIndex = 0;
+    var indexSection = 0;
+    var sectionCount = 0;
+}
+<style>
+    .item-question{
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        -o-user-select: none;
+        user-select: none;
+    }
+</style>
+<div class="tittle section-image section-audio" data-contest="@Model.Sections.FirstOrDefault()."  style="display:none">
+    <audio id="audio" class="audio-section" controls>
+        <source src="@Model.FileMedia" type="audio/mpeg">
+    </audio>
+</div>
+
+<div class="speaking-background">
+    <div class="container-section row m-0">
+        @foreach (var itemSection in Model.Sections)
+        {
+            var stringClassTimeEnd = "";
+            var stringClassTimeStart = "";
+            var dataMinuteSectionStart = "";
+            var dataSecoundSectionStart = "";
+            var dataMinuteSectionEnd = "";
+            var dataSecoundSectionEnd = "";
+
+            if (itemSection.TimeLimit != "" && itemSection.TimeLimit != null)
+            {
+                var stringTimeSection = itemSection.TimeLimit.Split(',');
+                var stringTimeStartQuestion = stringTimeSection[0].Split(':');
+                dataMinuteSectionStart = stringTimeStartQuestion[0];
+                dataSecoundSectionStart = stringTimeStartQuestion[1];
+                var stringTimeEndQSection = stringTimeSection[1].Split(':');
+                dataMinuteSectionEnd = stringTimeEndQSection[0];
+                dataSecoundSectionEnd = stringTimeEndQSection[1];
+
+                var dataTimeSecoundStart = (Int32.Parse(dataMinuteSectionStart) * 60) +  Int32.Parse(dataSecoundSectionStart);
+                stringClassTimeStart = "ssmst-" + dataTimeSecoundStart;
+
+                var dataTimeSecoundEnd = (Int32.Parse(dataMinuteSectionEnd) * 60) + Int32.Parse(dataSecoundSectionEnd);
+                stringClassTimeEnd = "ssmed-" + dataTimeSecoundEnd;
+            }
+            if (dataSecoundSectionEnd != "0" && dataMinuteSectionEnd != "0")
+            {
+                <div class="image-item d-flex justify-content-center align-items-center @stringClassTimeStart @stringClassTimeEnd">
+                    <div class="item-section speaking-section @stringClassTimeStart @stringClassTimeEnd" style="display:none">@Html.Raw(itemSection.SectionName)</div>
+                </div>
+            }
+        }
+    </div>
+    <div class="container-question row m-0 text-center mt-4 mb-4">
+        <div class="speaking-test main-container d-flex align-items-center">
+            <div class="opacity-bg">
+                @foreach (var itemQuestion in Model.Questions)
+                {
+                    var stringClassTimeStart = "";
+                    var stringClassTimeEnd = "";
+                    var dataMinuteEnd = "";
+                    var dataSecoundEnd = "";
+                    if (itemQuestion.Tittle != "" && itemQuestion.Tittle != null)
+                    {
+                        var stringTimeQuestions = itemQuestion.Tittle.Split(',');
+                        var stringTimeStartQuestion = stringTimeQuestions[0].Split(':');
+                        var dataMinuteStart = stringTimeStartQuestion[0];
+                        var dataSecoundStart = stringTimeStartQuestion[1];
+                        var stringTimeEndQuestion = stringTimeQuestions[1].Split(':');
+                        dataMinuteEnd = stringTimeEndQuestion[0];
+                        dataSecoundEnd = stringTimeEndQuestion[1];
+                        var dataTimeQuestionStart = (Int32.Parse(dataMinuteStart) * 60) + Int32.Parse(dataSecoundStart);
+                        stringClassTimeStart = "qsmst-" + dataTimeQuestionStart;
+                        var dataTimeQuestionEnd = (Int32.Parse(dataMinuteEnd) *60) + Int32.Parse(dataSecoundEnd);
+                        stringClassTimeEnd = "qsmed-" + dataTimeQuestionEnd;
+                    }
+                    if (dataMinuteEnd != "0" && dataSecoundEnd != "0")
+                    {
+                        <div class="item-question @stringClassTimeStart @stringClassTimeEnd" style="display:none">
+                            <div class="text-speaking-test">@Html.Raw(itemQuestion.QuestionName)</div>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="question-pagi" class="row justify-content-end m-0">
+    <ul class="pagination">
+        <li class="page-item pre" id="record"><a class="page-link" id="check-micro" href="javascript:void(0)">Kiểm tra mic</a></li>
+        <li class="page-item next" id="start" @*style="display:none"*@ disabled style="opacity: 0.4;"><a class="page-link start-exam" href="javascript:void(0)">Làm bài</a></li>
+        <li class="page-item next" id="stop" @*style="display:none"*@ disabled style="opacity: 0.4;"><a class="page-link" href="javascript:void(0)">Nộp bài</a></li>
+    </ul>
+</div>
+

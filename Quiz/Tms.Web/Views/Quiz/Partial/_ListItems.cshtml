@@ -1,0 +1,84 @@
+﻿@using Tms.Web.Framework.Helpers
+@model Tms.Models.QuizModel.QuizSearchModel
+<style>
+</style>
+<div class="datatable-scroll">
+    <div class="main-table table-thong-ke">
+        <div class="table-wrapper">
+            <table class="table-content" role="grid">
+                <thead>
+                    <tr role="row">
+                        <th class="listItems width_5">STT</th>
+                        <th class="listItems width_15">Tên bài thi</th>
+                        <th class="listItems width_10">Cấp độ</th>
+                        <th class="listItems width_10">Ngày tạo</th>
+                        <th class="listItems" style="width: 25%;">Mô tả</th>
+                        <th class="listItems width_5">Thời gian</th>
+                        <th class="listItems width_10">Trạng thái</th>
+                        <th class="listItems width_5" style="width: 7%;">Tác vụ</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null && Model.Quizs != null && Model.Quizs.Any())
+                    {
+                        var index = 0;
+                        var state = "";
+                        index = (Model.PageIndex - 1) * Model.PageSize;
+                        foreach (var item in Model.Quizs)
+                        {
+                            index++;
+                            var stringExamLink = "Exam";
+                            if (item.CategoryType == 9 || item.CategoryType == 10 || item.CategoryType == 8)
+                            {
+                                stringExamLink = "ExamHight";
+                            }
+                            if (item.Status == 1)
+                            {
+                                state = "Khởi tạo";
+                            }
+                            else if (item.Status == 2)
+                            {
+                                state = "Đang thi";
+                            }
+                            else
+                            {
+                                state = "Kết thúc";
+                            }
+                            var parent = Guid.NewGuid();
+                            <tr role="row" id="@parent">
+
+                                <td class="listItems text-center">@index</td>
+
+                                <td class="listItems">@item.QuizName</td>
+
+                                <td class="listItems">@item.HSKName</td>
+
+                                <td class="listItems">@item.CreatedDate.ToString("dd/MM/yyyy")</td>
+
+                                <td class="listItems">@item.Description</td>
+
+                                <td class="listItems">@item.TimeLimit phút</td>
+
+                                <td class="listItems">@state</td>
+                                <td class="listItems text-center">
+                                    <div class="icons-group">
+                                        <a href="@Url.Action("SortQuizIndex", "Quiz", new {id = @item.QuizID})" title="Sắp xếp Đề thi" class="tip"><i class="fas fa-sort"></i></a>
+                                        <a href="@Url.Action("Edit", "Quiz", new {id = @item.QuizID})" title="Chỉnh sửa Đề thi" class="tip"><i class="fas fa-pen-square"></i></a>
+                                        <a href="@Url.Action(stringExamLink, "Quiz", new {id = @item.QuizID})" target="_blank" title="Xem bài thi" class="tip"><i class="fas fa-eye"></i></a>
+                                        <a href="javascript:void(0)" class="tip" data-id="@item.QuizID"><i data-id="@item.QuizID" class="fas fa-trash-alt"></i></a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<br />
+<div class="datatable-footer" id="paging_layout">
+    @Html.AjaxPagingHelper("quizModule.onClickPaging", Model.TotalRecords, Model.PageSize, Model.PageIndex, Model.SortColumn, Model.SortDirection)
+</div>
+<br />
+<br />

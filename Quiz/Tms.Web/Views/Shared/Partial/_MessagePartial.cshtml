@@ -1,0 +1,29 @@
+﻿
+@if (TempData["success"] != null)
+{
+    <div style="width:100% !important;background-color: #dff0d8;border-color: #d6e9c6;color: #3c763d;"  class="alert alert-success fade in" role="alert">
+        @*<a class="close">×</a>*@
+        <strong>Thành công!</strong> <span>@TempData["success"]</span>
+    </div>
+}
+@if (TempData["info"] != null)
+{
+    <div style="width:100% !important;color: #31708f; background-color: #d9edf7; border-color: #bce8f1;"  class="alert alert-info fade in" role="alert">
+        @*<a class="close">×</a>*@
+        <strong>Chú ý!</strong><span> @TempData["info"]</span>
+    </div>
+}
+@if (TempData["warning"] != null)
+{
+    <div style="width:100% !important;color: #8a6d3b; background-color: #fcf8e3; border-color: #faebcc;"  class="alert alert-warning fade in" role="alert">
+        @*<a class="close">×</a>*@
+        <strong>Cảnh báo!</strong><span> @TempData["warning"]</span>
+    </div>
+}
+@if (TempData["error"] != null)
+{
+    <div style="width:100% !important;color: #a94442;background-color: #f2dede; border-color: #ebccd1;"  class="alert alert-danger fade in" role="alert">
+        @*<a class="close">×</a>*@
+        <strong>Lỗi!</strong><span> @TempData["error"]</span>
+    </div>
+}

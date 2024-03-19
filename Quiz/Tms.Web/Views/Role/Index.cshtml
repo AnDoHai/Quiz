@@ -1,0 +1,83 @@
+﻿@model Tms.Models.Role.RoleSearchModel
+@using Tms.Models
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="page-content-inner">
+    <div class="row justify-content-between pt-2 mr-0 ml-0 align-items-center pb-2">
+        <div class="page-header">
+            <div class="page-title">
+                <h3>Quản lý phân quyền</h3>
+            </div>
+        </div>
+        <div class="breadcrumb-line">
+            <ul class="breadcrumb">
+                <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">Trang chủ</a></li>
+                <li class="breadcrumb-item"><a href="@Url.Action("Index", "Role")">Phân quyền</a></li>
+            </ul>
+            <div class="visible-xs breadcrumb-toggle">
+                <a class="btn btn-link btn-lg btn-icon" data-toggle="collapse" data-target=".breadcrumb-buttons">
+                    <i class="icon-menu2"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+    <!-- /breadcrumbs line -->
+    <div class="page-container">
+        <!-- Page content -->
+        <div class="row form-group">
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="tab-pane mg-top-25px">
+                        <div class="row justify-content-between pt-2 mr-0 ml-0 align-items-center pb-2">
+                            <form class="form-horizontal">
+                                <div class="form-group d-flex align-items-center mb-0">
+                                    <label class="control-label text-right mb-0">Tìm kiếm</label>
+                                    <div class="col-sm-5">
+                                        @Html.TextBoxFor(c => c.TextSearch, new { @class = "form-control", @placeholder = "Tìm kiếm tên quyền" })
+                                    </div>
+                                    <div class="col-sm-1">
+                                        <input type="button" id="btnSearch" value="Tìm kiếm" class="btn btn-info w100" />
+                                    </div>
+                                    @*<div class="right-button col-sm-4 mg-right-20px">
+                                        </div>*@
+                                </div>
+                            </form>
+                            <div class="flex-row-reverse kq_themmoi">
+                                <div class="right-button col-mb-3 kq_select pl-0 pr-0">
+                                    <select id="pagesizelist" class="form-control">
+
+                                        
+                                        <option value="50">50</option>
+                                        <option value="100">100</option>
+                                    </select>
+                                </div>
+                                <div class="right-button ">
+                                    <button type="button" class="btn btn-right-icon btn-info float-right" onclick="location.href='@Url.Action("Create", "Role")'">
+                                        <i class="icon-plus"></i> Thêm mới
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="main-role">
+                            @Html.Partial("~/Views/Role/Partial/_TableRole.cshtml", Model)
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /page content -->
+    </div>
+
+</div>
+<div id="role-action"></div>
+@Html.Partial("Partial/_ConfirmPartial", new ConfirmModel { Id = "role", Title = "Xác nhận hành động", Content = "Bạn có muốn thực hiện xóa?" })
+@section scripts
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            roleModule.init();
+        });
+    </script>
+}

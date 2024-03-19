@@ -1,0 +1,45 @@
+﻿@model CategoryModel
+@using Tms.Models.CategoryModel
+
+<div class="panel panel-default">
+    <div class="">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        @Html.Partial("~/Views/Shared/Partial/_MessagePartial.cshtml")
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label>Tiêu đề: </label>
+                    <div class="d-flex">
+                        @Html.TextBoxFor(c => c.Title, new { @class = "form-control font-size" })
+                        @Html.ValidationMessageFor(c => c.Title)
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label>Thời gian(phút): </label>
+                    <div class="d-flex">
+                        @Html.TextBoxFor(c => c.TimeLimit, new { @class = "form-control font-size"})
+                        @Html.ValidationMessageFor(c => c.TimeLimit)
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label>Passing Score: </label>
+                    <div class="d-flex">
+                        @Html.TextBoxFor(c => c.PassingScore, new { @class = "form-control font-size" })
+                        @Html.ValidationMessageFor(c => c.PassingScore)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

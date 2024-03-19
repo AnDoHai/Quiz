@@ -1,0 +1,293 @@
+﻿@model Tms.Models.User.UserCommon
+@using Tms.Web.Framework.Helpers
+@using Tms.Web.Framework.Security
+@using System.Configuration
+<style type="text/css">
+</style>
+<header id="header" class="header has-sticky sticky-jump">
+    <div class="header-wrapper">
+        <input type="hidden" value="@(Model != null? Model.Email: "")" id="currentemail" />
+        <div id="top-bar" class="header-top hide-for-sticky nav-dark hide-for-medium">
+            <div class="flex-row container">
+                <div class="flex-col hide-for-medium flex-left">
+                    <ul class="nav nav-left medium-nav-center nav-small  nav-divided">
+                        <li class="html custom html_topbar_left">
+                            <p style="font-size: 12px;"><i class="fas fa-map-marker-alt"></i> Địa chỉ: Tầng 12, Tòa nhà Diamond Flower, Số 48 Lê Văn Lương, Phường Nhân Chính, Thanh Xuân, Hà Nội, Việt Nam</p>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="flex-col hide-for-medium flex-center">
+                    <ul class="nav nav-center nav-small  nav-divided">
+                    </ul>
+                </div>
+
+                <div class="flex-col hide-for-medium flex-right">
+                    <ul class="nav top-bar-nav nav-right nav-small  nav-divided">
+                        <li class="html custom html_topbar_right">
+                            <p style="font-size: 12px;">
+                                <i class="fab fa-acquisitions-incorporated"></i> MST: 0109572372
+                            </p>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+        <div id="masthead" class="header-main ">
+            <div class="header-inner flex-row container logo-left" role="navigation">
+
+                <!-- Logo -->
+                <div id="logo" class="flex-col logo">
+                    <!-- Header logo -->
+                    <a href="/Home/Index" title="Thi HSK" rel="home">
+                        <img width="292" height="107" src="~/Assets/images/logo-chinh-nam-ngang-mau-goc-1400x355-1.png" class="header_logo header-logo" alt="Du Học">
+                    </a>
+                </div>
+
+                <!-- Mobile Left Elements -->
+                <div class="flex-col show-for-medium flex-left">
+                    <ul class="mobile-nav nav nav-left ">
+                    </ul>
+                </div>
+
+                <!-- Left Elements -->
+                <div class="flex-col hide-for-medium flex-left flex-grow" style="max-width: 85rem;">
+                    <!--main menu-->
+                    <ul class="side-nav__menu header-nav-main nav nav-left  nav-spacing-medium nav-uppercase">
+                        <li id="menu-item-708" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-home menu-item-has-children menu-item-708 menu-item-design-default has-dropdown">
+                            <a href="https://qtedu.vn/" class="nav-top-link m-2" id="homes"> <i class="fas fa-home mr-2 mb-1"></i>Trang chủ </a>
+                        </li>
+                        <li id="menu-item-303" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-303 menu-item-design-default">
+                            <a href="/Home/Index" class="nav-top-link m-2" id="test">THI HSK(K)</a>
+                        </li>
+
+                        @if (RoleHelper.IsNguoiDungDisplay())
+                        {
+                            <li id="menu-item-710">
+                                <a href="/UserTest/ExamHistory" class="nav-top-link m-2" id="history">Lịch sử thi</a>
+                            </li>
+                        }
+                        @if (RoleHelper.IsQuanTriDisplay())
+                        {
+                            <li class="account-item has-icon">
+                                <div class="container-fluid profile-wrapper tesst">
+                                    <div class="container">
+                                        <div>
+                                            <ul class="">
+                                                <li class="account-child">
+                                                    <a href="javascript:void(0)" class="nav-top-link set-data directory font-weight-bold mb-1">QUẢN TRỊ <i class="fas fa-angle-down iconic-menu"></i></a>
+                                                    <ul class="profile-submenu-wrapper" style="padding-top: 10px;">
+                                                        <li class="profile-submenu">
+                                                            <a href="/UserTest/Index" class="btn btn-outline-danger text-left">CHẤM THI</a>
+                                                        </li>
+                                                        <li class="profile-submenu">
+                                                            <a href="/Category/Index" class="btn btn-outline-danger text-left">CẤP ĐỘ HSK(K)</a>
+                                                        </li>
+                                                        <li class="profile-submenu">
+                                                            <a href="/Quiz/Index" class="btn btn-outline-danger text-left">ĐỀ THI HSK(K)</a>
+                                                        </li>
+
+                                                        <li class="profile-submenu">
+                                                            <a href="/Contest/Index" class="btn btn-outline-danger text-left">PHẦN THI CHUNG</a>
+                                                        </li>
+
+                                                        <li class="profile-submenu">
+                                                            <a href="/Section/Index" class="btn btn-outline-danger text-left">PHẦN THI NHỎ</a>
+                                                        </li>
+
+                                                        <li class="profile-submenu">
+                                                            <a href="/Question/Index" class="btn btn-outline-danger text-left">CÂU HỎI</a>
+                                                        </li>
+                                                        <li class="profile-submenu">
+                                                            <a href="/UserTest/ExamList" class="btn btn-outline-danger text-left">BÀI THI</a>
+                                                        </li>
+                                                        <li class="profile-submenu">
+                                                            <a href="/Account/Index" class="btn btn-outline-danger text-left">TÀI KHOẢN</a>
+                                                        </li>
+                                                    </ul>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        }
+
+                    </ul>
+
+                </div>
+
+                <nav class="navbar navbar-expand-lg navbar-light show-for-medium">
+                    <button class="navbar-toggler m-0" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav profile-submenu-wrapper navbar-mobile">
+                            <li id="menu-item-708" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-home menu-item-has-children menu-item-708 menu-item-design-default has-dropdown">
+                                <a href="https://qtedu.vn/" class="nav-top-link m-2 btn text-left" id="homes"> <i class="fas fa-home mr-2 mb-1"></i>Trang chủ </a>
+                            </li>
+                            <li id="menu-item-303" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-303 menu-item-design-default">
+                                <a href="/Home/Index" class="nav-top-link m-2 btn text-left" id="test">THI HSK(K)</a>
+                            </li>
+                            @if (RoleHelper.IsNguoiDungDisplay())
+                            {
+                                <li class="nav-item" id="menu-item-710">
+                                    <a href="/UserTest/ExamHistory" class="nav-top-link m-2 btn text-left" id="history">Lịch sử thi</a>
+                                </li>
+                            }
+
+                            @if (RoleHelper.IsQuanTriDisplay())
+                            {
+                                <li class="nav-item">
+                                    <div class="container-fluid profile-wrapper tesst">
+                                        <div class="container justify-content-center">
+                                            <div>
+                                                <ul class="">
+                                                    <li class="account-child">
+                                                        <a href="javascript:void(0)" class="btn text-left">Quản Trị<i class="fas fa-angle-down iconic-menu"></i></a>
+                                                        @*<a href="javascript:void(0)" class="nav-top-link set-data directory font-weight-bold mb-1">QUẢN TRỊ <i class="fas fa-angle-down iconic-menu"></i></a>*@
+                                                        <ul class="profile-submenu-wrapper" style="padding-top: 10px;">
+                                                            <li class="profile-submenu">
+                                                                <a href="/UserTest/Index" class="btn btn-outline-danger text-left">CHẤM THI</a>
+                                                            </li>
+                                                            <li class="profile-submenu">
+                                                                <a href="/Category/Index" class="btn btn-outline-danger text-left">CẤP ĐỘ HSK(K)</a>
+                                                            </li>
+                                                            <li class="profile-submenu">
+                                                                <a href="/Quiz/Index" class="btn btn-outline-danger text-left">ĐỀ THI HSK(K)</a>
+                                                            </li>
+
+                                                            <li class="profile-submenu">
+                                                                <a href="/Contest/Index" class="btn btn-outline-danger text-left">PHẦN THI CHUNG</a>
+                                                            </li>
+
+                                                            <li class="profile-submenu">
+                                                                <a href="/Section/Index" class="btn btn-outline-danger text-left">PHẦN THI NHỎ</a>
+                                                            </li>
+
+                                                            <li class="profile-submenu">
+                                                                <a href="/Question/Index" class="btn btn-outline-danger text-left">CÂU HỎI</a>
+                                                            </li>
+                                                            <li class="profile-submenu">
+                                                                <a href="/UserTest/ExamList" class="btn btn-outline-danger text-left">BÀI THI</a>
+                                                            </li>
+                                                            <li class="profile-submenu">
+                                                                <a href="/Account/Index" class="btn btn-outline-danger text-left">TÀI KHOẢN</a>
+                                                            </li>
+                                                        </ul>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                </nav>
+
+
+                <!-- Right Elements -->
+                <div class="flex-col flex-right">
+                    <ul class="header-nav header-nav-main nav nav-right  nav-spacing-medium nav-uppercase">
+
+                        @if (RoleHelper.IsNguoiDungDisplay() || RoleHelper.IsQuanTriDisplay())
+                        {
+                            <li class="account-item has-icon">
+                                <div class="container-fluid profile-wrapper tesst">
+                                    <div class="container">
+                                        <div>
+                                            <ul class="">
+                                                <li class="account-child">
+                                                    <i class="far fa-user" style=" background-color: #db3f4f; width: 38px; height: 38px; padding-top: 9px; text-align: center; border: 1px solid; color: white; border-radius: 50px;"></i>
+                                                    <ul class="profile-submenu-wrapper" style="padding-top: 10px;">
+                                                        <li class="profile-submenu" style="border-top-left-radius:20px ; border-top-right-radius: 20px;">
+                                                            <p id=""><strong>@Model.UserName</strong></p>
+                                                        </li>
+                                                        <li class="profile-submenu" style="">
+                                                            <a class="u-info">@Model.Email</a>
+                                                        </li>
+                                                        <li class="profile-submenu  profile-bt10"></li>
+                                                        <li class="profile-submenu ">
+                                                            <a href="/Account/UserInfo" class="btn btn-outline-danger text-left">
+                                                                <i class="fas fa-users"></i>
+                                                                Thông tin cá nhân
+                                                            </a>
+                                                        </li>
+                                                        <li class="profile-submenu  profile-bt10"></li>
+                                                        <li class="profile-submenu">
+                                                            <a href="/UserTest/ExamHistory" class="btn btn-outline-danger text-left">
+                                                                <i class="fas fa-history"></i>
+                                                                Lịch sử thi
+                                                            </a>
+                                                        </li>
+                                                        <li class="profile-submenu  profile-bt10"></li>
+                                                        <li class="profile-submenu ">
+                                                            <a href="/UserTest/ExamHistoryCertificate" class="btn btn-outline-danger text-left">
+                                                                <i class="fas fa-medal"></i>
+                                                                Nhận chứng chỉ
+                                                            </a>
+                                                        </li>
+                                                        <li class="profile-submenu  profile-bt10"></li>
+                                                        <li class="profile-submenu " style="text-align: center; padding-left: 10px;">
+                                                            <a href="@Url.Action("LogOff", "Account")" class="btn btn-outline-danger text-left">
+                                                                <i class="fas fa-sign-out-alt"></i>
+                                                                &nbsp;Đăng xuất
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="html header-button-1">
+                                <div class="header-button">
+                                    <a href="@Url.Action("LogIn", "Account")" class="button primary" style="border-radius:99px;">
+                                        <span>Đăng nhập</span>
+                                    </a>
+                                </div>
+                            </li>
+                        }
+                        @*Zalo*@
+                        <li class="html header-button-1 hide-for-medium">
+                            <div class="header-button">
+                                <a href="https://id.zalo.me/0965520521" class="button primary" style="border-radius:99px;">
+                                    <span>Zalo: 0965 520 521</span>
+                                </a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <!-- Mobile Right Elements -->
+                @*<div class="flex-col show-for-medium flex-right">
+            <ul class="mobile-nav nav nav-right ">
+                <li class="nav-icon has-icon">
+                    <div class="header-button">
+                        <a href="#" data-open="#main-menu" data-pos="left" data-bg="main-menu-overlay" data-color="" class="icon primary button round is-small" aria-label="Menu" aria-controls="main-menu" aria-expanded="false">
+
+                            <i class="fas fa-bars"></i>
+                        </a>
+                    </div>
+                </li>
+
+            </ul>
+        </div>*@
+            </div>
+
+            <div class="container">
+                <div class="top-divider full-width"></div>
+            </div>
+        </div>
+        <div class="header-bg-container fill">
+            <div class="header-bg-image fill"></div>
+            <div class="header-bg-color fill"></div>
+        </div>
+    </div>
+    <br />
+</header>

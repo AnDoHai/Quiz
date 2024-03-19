@@ -1,0 +1,79 @@
+﻿@model Tms.Models.User.UserSearchModel
+@using Tms.Models
+@{
+    ViewBag.Title = "Danh sách tài khoản";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style type="text/css">
+    .font-size {
+        font-size: 1.35rem !important;
+        font-weight: 500;
+    }
+
+    .rBtn {
+        border-radius: 4px !important;
+    }
+</style>
+
+<div class="page-content-inner">
+
+    <!-- Page content -->
+    <div class="row form-group">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="tab-pane mg-top-25px">
+                    <div class="control-bar">
+                        <div class="row justify-content-between">
+                            <div class="page-header col-md-6">
+                                <div class="page-title text-left">
+                                    <h3>Danh sách tài khoản người dùng</h3>
+                                </div>
+                            </div>
+                            <div class="breadcrumb-line col-md-6">
+                                <ul class="breadcrumb float-right font-size">
+                                    <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">Trang chủ</a></li>
+                                    <li class="breadcrumb-item"><a href="@Url.Action("Index", "Account")">Tài khoản</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <br />
+
+                        <div class="row">
+                            <div class="col-md-12 left-form">
+                                <form action="" class="h-10">
+                                    <div class="d-flex h-10 align-items-center">
+                                        <div class="form-item">
+                                            <label class="font-size mb-3">Tìm kiếm </label>
+                                            <div>
+                                                @Html.TextBoxFor(c => c.TextSearch, new { @class = "form-control font-size tbw mt-1", @placeholder = "Tìm kiếm tên tài khoản" })
+                                            </div>
+                                        </div>
+                                        <div class="form-item">
+                                            <div>
+                                                <input type="button" id="btnSearch" value="Tìm kiếm" class="btn rBtn btn-outline-danger button-container w100" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="main-accountIndex">
+                        @Html.Partial("~/Views/Account/Partial/_TableUser.cshtml", Model)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="account-action"></div>
+@Html.Partial("Partial/_ConfirmPartial", new ConfirmModel { Id = "account", Title = "Xác nhận hành động", Content = "Bạn có muốn thực hiện xóa?", Class = "confirmdelete" })
+@section scripts
+{
+    <script src="~/Assets/scripts/tms.account.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            accountModule.init();
+        });
+    </script>
+}

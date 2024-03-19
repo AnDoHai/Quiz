@@ -1,0 +1,29 @@
+﻿@model Tms.Models.ConfirmModel
+
+@{
+    var button = Model.Id + "_modal_button";
+    var formModel = Model.Id + "_modal_info";
+    var btnClick = "btn_" + Model.Id;
+    var classbtn =  Model.Class != null ? "btn_" + Model.Class : "btn_confirmdelete";
+}
+<a id="@button" class="hidden" data-toggle="modal" role="button" href="javascript:void(0);" data-target="#"></a>
+<!-- modal info -->
+<div id="@formModel" class="modal fade in" tabindex="-1" role="dialog" aria-hidden="false" style="display: none;">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header @classbtn">
+                <h4 class="modal-title">@Model.Title</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+
+            <div class="modal-body with-padding d-flex justify-content-center align-items-center">
+                <div class="modal-content-info py-4">@Model.Content</div>
+            </div>
+
+            <div class="modal-footer">
+                <button id="@btnClick" class="btn rBtn confirm-yes @classbtn" onclick="">Đồng ý</button>
+                <button class="btn confirm-no btn-primary" data-dismiss="modal">Hủy</button>
+            </div>
+        </div>
+    </div>
+</div>

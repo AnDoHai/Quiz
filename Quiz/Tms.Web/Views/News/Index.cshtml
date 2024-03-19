@@ -1,0 +1,100 @@
+﻿@model Tms.Models.NewsModel.NewsSearchModel
+@using Tms.Models
+@using Tms.Web.Framework.Helpers
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style type="text/css">
+    .font-size {
+        font-size: 1.35rem !important;
+        font-weight: 500;
+    }
+
+    .rBtn {
+        background-color: #dc3545 !important;
+        color: white !important;
+        border-radius: 4px !important;
+    }
+
+    .tbw {
+        width: 225px !important;
+    }
+</style>
+<div class="page-content-inner">
+    <div class="row form-group">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="tab-pane mg-top-25px">
+                    @if (RoleHelper.IsQuanTriDisplay())
+                    {
+                        <div class="control-bar">
+                            <div class="row justify-content-between">
+                                <div class="page-header col-md-6">
+                                    <div class="page-title text-left">
+                                        <h4>Quản lý Tin Tức</h4>
+                                    </div>
+                                </div>
+                                <div class="breadcrumb-line col-md-6">
+                                    <ul class="breadcrumb float-right font-size">
+                                        <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">Trang chủ</a></li>
+                                        <li class="breadcrumb-item"><a href="@Url.Action("Index", "News")">Quản lý Tin Tức</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-10 left-form">
+                                    <form action="" class="h-10">
+                                        <div class="d-flex h-10 align-items-center">
+                                            <div class="form-item">
+                                                <label class="font-size mb-3">Tìm kiếm </label>
+                                                <div>
+                                                    @Html.TextBoxFor(c => c.TextSearch, new { @class = "form-control font-size tbw mt-1", @placeholder = "Nội dung tìm kiếm" })
+                                                </div>
+                                            </div>
+                                            <div class="form-item">
+                                                <div>
+                                                    <input type="button" id="btnSearch" value="Tìm kiếm" class="btn rBtn btn-outline-danger button-container w100" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="">
+                                        <a class="btn btn-right-icon btn-outline-danger float-right rBtn mt-3" title="Thêm mới Quiz" href="@Url.Action("Create", "News")">
+                                            <i class="fas fa-plus"></i> Thêm mới
+                                        </a>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    }
+                </div>
+                <br />
+
+                <div id="main-news" style="float: left;width: 100%;">
+                    @Html.Partial("~/Views/News/Partial/_ListItems.cshtml", Model)
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<div id="news-action"></div>
+
+@Html.Partial("Partial/_ConfirmPartial", new ConfirmModel { Id = "news", Title = "Xác nhận hành động", Content = "Bạn có muốn thực hiện xóa.?" })
+@section scripts
+{
+    <script src="~/Assets/scripts/ecommerceSystem.News.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            newsModule.init();
+        });
+    </script>
+}

@@ -1,0 +1,93 @@
+﻿
+@model Tms.Models.UserTestModel.UserTestSearchModel
+@using Tms.Models
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="page-content-inner">
+    <div class="row form-group">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="tab-pane mg-top-25px">
+                    <div class="control-bar">
+                        <div class="row justify-content-between">
+                            <div class="page-header col-md-6">
+                                <div class="page-title text-left">
+                                    <h4>Danh sách bài thi</h4>
+                                </div>
+                            </div>
+                            <div class="breadcrumb-line col-md-6">
+                                <ul class="breadcrumb float-right font-size">
+                                    <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">Trang chủ</a></li>
+                                    <li class="breadcrumb-item"><a href="@Url.Action("ExamList", "UserTest")">Quản lý bài thi</a></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <br />
+
+                        <div class="row">
+                            <div class="col-md-10 left-form">
+                                <form action="" class="h-10">
+                                    <div class="d-flex h-10 align-items-center">
+                                        <div class="form-item">
+                                            <label class="font-size mb-3">Tìm kiếm </label>
+                                            <div>
+                                                @Html.TextBoxFor(c => c.TextSearch, new { @class = "form-control font-size tbw mt-1", @placeholder = "Nội dung tìm kiếm" })
+                                            </div>
+                                        </div>
+                                        <div class="form-item">
+                                            <div>
+                                                <input type="text" class="form-control font-size tbw mt-1 datepicker" placeholder="Nhập ngày thi" name="stringDate" id="stringDate" style="border: 1px solid #ddd !important;" />
+                                            </div>
+                                        </div>
+                                        <div class="form-item">
+                                            <div>
+                                                <input type="button" id="btnSearchExamList" value="Tìm kiếm" class="btn rBtn btn-outline-danger button-container w100" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="main-userTest" style="float: left;width: 100%;">
+                        @Html.Partial("~/Views/UserTest/Partial/_ListItemsAllExams.cshtml", Model)
+                    </div>
+                </div>
+                <div id="loadingOverlay">
+                    <div class="cv-spinner">
+                        <span class="loadingSpinner"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="question-action"></div>
+@Html.Partial("~/Views/Shared/Partial/_loadingUploadExamPartial.cshtml")
+@Html.Partial("Partial/_ConfirmPartial", new ConfirmModel { Id = "userTest", Title = "Xác nhận hành động", Content = "Bạn có muốn thực hiện xóa.?" })
+<div class="container">
+    <button id="model" type="button" style="display:none" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Chi tiết</button>
+    <div class="modal fade in" id="myModal" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content" id="resultModel">
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts
+{
+    <script src="~/assets/js/bootstrap-datepicker.js" type="text/javascript"></script>
+    <script src="~/assets/js/datepicker-vi.js" type="text/javascript"></script>
+    <script src="~/Assets/plugins/chosen/chosen.jquery.min.js"></script>
+    <script src="~/Assets/scripts/Tms.UserTest.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            userTestModule.init();
+            $.fn.datepicker.defaults.language = 'vi';
+            $(".datepicker").datepicker({ autoclose: true, });
+        });
+    </script>
+}

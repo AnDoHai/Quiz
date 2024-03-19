@@ -1,0 +1,117 @@
+﻿@model ChoiceModel
+@using Tms.Models.ChoiceModel
+<style type="text/css">
+    .input-form {
+        height: 3.4rem;
+        font-size: 1.2rem;
+    }
+
+    .input-file {
+        position: absolute;
+        z-index: 999;
+        top: 0px;
+        width: 3rem;
+        height: 4rem;
+        left: 0.2rem;
+        opacity: 0;
+    }
+    .input-answer {
+        position: absolute;
+        z-index: 999;
+        top: 0px;
+        width: 3rem;
+        height: 4rem;
+        left: 0.2rem;
+        opacity: 0;
+    }
+
+    .span-input {
+        /* height: 12rem !important; */
+        padding: 1rem;
+        position: relative;
+        cursor: pointer;
+        /* width: 17rem; */
+        border: 1.2px dashed #b3b2b2;
+    }
+
+    .color-red {
+        color: red !important;
+    }
+
+    .span-form {
+        position: absolute;
+        right: 21rem;
+        top: 2.4rem;
+    }
+
+    .label-content {
+        text-align: left !important;
+    }
+</style>
+<style type="text/css">
+    .font-size {
+        font-size: 1.35rem !important;
+        font-weight: 500;
+        height: 120%;
+    }
+</style>
+
+<div class="panel panel-default" style="height: 25rem;">
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        @Html.Partial("~/Views/Shared/Partial/_MessagePartial.cshtml")
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="control-label">Tên câu hỏi: </label>
+                    <div class="d-flex">
+                        @Html.DropDownListFor(c => c.QuestionID, (IEnumerable<SelectListItem>)TempData["QuestionList"], "----Chọn câu hỏi----", new { @class = "form-control input-form" })
+                        @Html.ValidationMessageFor(c => c.QuestionID)
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="control-label">Tiêu đề: </label>
+                    <div class="d-flex">
+                        @Html.TextBoxFor(c => c.Title, new { @class = "form-control font-size" })
+                        @Html.ValidationMessageFor(c => c.Title)
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="control-label">Ghi chú: </label>
+                    <div class="d-flex">
+                        @Html.TextBoxFor(c => c.Description, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(c => c.Description)
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="control-label">Kiểu lựa chọn: </label>
+                    <div class="d-flex">
+                        @Html.DropDownListFor(c => c.Type, (IEnumerable<SelectListItem>)TempData["Type"], "----Chọn kiểu trả lời----", new { @class = "form-control input-form choiceType" })
+                        @Html.ValidationMessageFor(c => c.Type)
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group h-auto">
+                    <label class="control-label">Thêm lựa chọn: </label>
+                    <div class="d-flex textAnswer">
+                        @Html.TextBoxFor(c => c.ChoiceText, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(c => c.ChoiceText)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

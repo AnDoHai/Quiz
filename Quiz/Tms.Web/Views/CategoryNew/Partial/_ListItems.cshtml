@@ -1,0 +1,61 @@
+﻿@model Tms.Models.CategoryNewModel.CategoryNewSearchModel
+<style>
+    td{
+        text-align:center;
+    }
+</style>
+
+
+<div class="datatable-scroll">
+    <div class="main-table table-thong-ke">
+        <div class="table-wrapper">
+            <div class="table-content" style=" width: 100%;">
+                <table class="w-10 text-center">
+                    <thead>
+                        <tr role="row">
+                            <th class="task-deadline">Kiểu Danh Mục</th>
+                            <th class="task-deadline">Tên</th>
+                            <th class="task-deadline">Ngày Tạo</th>
+                            <th class="task-deadline">Mô tả</th>
+                            @*<th class="task-deadline">Trạng thái</th>*@
+                            <th class="task-date-added">Tác vụ</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model != null && Model.CategoryNews != null && Model.CategoryNews.Any())
+                        {
+                            var index = 0;
+                            index = (Model.PageIndex - 1) * Model.PageSize;
+                            foreach (var item in Model.CategoryNews)
+                            {
+                                index++;
+                                var parent = Guid.NewGuid();
+                                <tr role="row" id="@parent">
+                                    <td style="text-align:center">@item.Type</td>
+                                    <td>@item.Title</td>
+                                    <td>@item.CreatedDate</td>
+                                    <td>@item.Description</td>
+                                    <td class="text-center">
+                                        <div class="icons-group">
+                                            <a href="@Url.Action("Edit", "CategoryNew", new {id = @item.CategoryNewsId})" title="Chỉnh sửa CategoryNew" class="tip icon-pencil3"></a>
+                                            <a href="javascript:void(0)" class="tip icon-remove4" data-id="@item.CategoryNewsId"></a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+<div class="datatable-footer" id="paging_layout" style="margin-top: 35px;">
+    @Html.AjaxPagingHelper("categoryNewModule.onClickPaging", Model.TotalRecords, Model.PageSize, Model.PageIndex, Model.SortColumn, Model.SortDirection)
+</div>

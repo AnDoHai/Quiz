@@ -1,0 +1,95 @@
+﻿@model Tms.Models.ContestModel.ContestSearchModel
+@using Tms.Models
+@{
+    ViewBag.Title = "Phần thi chung";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style type="text/css">
+    .ddlQuiz .chosen-single {
+        height: 30px;
+        padding-top: 8px;
+        margin-top: -5px;
+    }
+</style>
+<div class="page-content-inner">
+    <div class="row form-group">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="tab-pane mg-top-25px">
+                    <div class="control-bar">
+                        <div class="row justify-content-between">
+                            <div class="page-header col-md-9">
+                                <div class="page-title text-left">
+                                    <h3>Quản lý phần thi chung</h3>
+                                </div>
+                            </div>
+                            <div class="breadcrumb-line col-md-3">
+                                <ul class="breadcrumb float-right font-size">
+                                    <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">Trang chủ</a></li>
+                                    <li class="breadcrumb-item"><a href="@Url.Action("Index", "Contest")">Phần thi chung</a></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <br />
+
+                        <div class="row">
+                            <div class="col-md-10 left-form">
+                                <form action="" class="h-10">
+                                    <div class="d-flex h-10 align-items-center">
+                                        <div class="form-item">
+                                            <label class="font-size mb-3">Tìm kiếm </label>
+                                            <div>
+                                                @Html.TextBoxFor(c => c.TextSearch, new { @class = "form-control font-size tbw mt-1", @placeholder = "Nội dung tìm kiếm" })
+                                            </div>
+                                        </div>
+                                        <div class="form-item ddlQuiz">
+                                            @Html.DropDownListFor(c => c.QuizId, new SelectList(ViewBag.Quiz, "Value", "Text"), "--Chọn đề thi--", new { @class = "form-control font-size tbw chosen-select" })
+                                        </div>
+                                        <div class="form-item">
+                                            <div>
+                                                <input type="button" id="btnSearch" value="Tìm kiếm" class="btn rBtn btn-outline-danger button-container w100" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="">
+                                    <a class="btn btn-right-icon btn-outline-danger float-right rBtn mt-3" title="Thêm mới Quiz" href="@Url.Action("Create", "Contest")">
+                                        <i class="fas fa-plus"></i> Thêm mới
+                                    </a>
+                                </div>
+                            </div>
+
+                        </div>
+                        <br />
+
+                        <div id="main-contest">
+                            @Html.Partial("~/Views/Contest/Partial/_ListItems.cshtml", Model)
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div id="contest-action"></div>
+@Html.Partial("Partial/_ConfirmPartial", new ConfirmModel { Id = "contest", Title = "Xác nhận hành động", Content = "Bạn có muốn thực hiện xóa.?" })
+@section styles
+{
+    <link rel="stylesheet" type="text/css" href="~/assets/plugins/chosen/chosen.min.custom.css">
+}
+@section scripts
+{
+    <script src="~/Assets/plugins/chosen/chosen.jquery.min.js"></script>
+    <script src="~/Assets/scripts/Tms.Contest.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.chosen-select').chosen({ width: '100%' });
+            contestModule.init();
+        });
+    </script>
+}

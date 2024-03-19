@@ -1,0 +1,177 @@
+﻿<script id="tpl-list-page" type="text/html">
+    {{#Data}}
+    <tr id="{{PageId}}">
+        <td class="text-left">{{ItemIndex}}</td>
+        <td>{{Name}}</td>
+        <td>{{Description}}</td>
+        <td>{{PageUrl}}</td>        
+        <td class="text-left">{{Priority}}</td>
+        <td>{{{FormatRecordStatus}}}</td>      
+        <td class="text-left"><button type="button" class="btn btn-default btn-icon"><i class="{{PageIcon}}"></i></button></td>                
+        <td class="text-center command">
+            <div class="btn-group">
+                <button type="button" class="btn btn-icon btn-default dropdown-toggle" data-toggle="dropdown" data-hover="dropdown"><i class="icon-cog"></i></button>
+                <ul class="dropdown-menu icons-right dropdown-menu-right">
+                    <li><a onclick="hrm.page.manipulate(config.action.getById, {{PageId}});"><i class="icon-pencil3"></i> Edit</a></li>
+                    <li><a onclick="common.confirm('hrm.page.manipulate(config.action.del, {{PageId}});');"><i class="icon-remove3"></i> Delete</a></li>
+                </ul>
+            </div>
+        </td>
+    </tr>
+    {{/Data}}
+
+    {{^Data}}
+    <tr>
+        <td colspan="8">No data!</td>
+    </tr>
+    {{/Data}}
+</script>
+
+
+<script id="tpl-form-page" type="text/html">
+    <form class="validate" action="#" role="form" method="post">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title"><i class="icon-paragraph-justify2"></i> Manager Page</h4>
+        </div>
+
+        <!-- Form inside modal -->
+        <div class="modal-body with-padding">
+            <div class="block-inner text-danger">
+                <h6 class="heading-hr">Add new page <small class="display-block">(*) Required</small></h6>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <label>Page name <span class="mandatory">*</span></label>
+                        <input type="text" name="Name" tabindex="1" class="required form-control">
+                    </div>
+                    <div class="col-sm-6">
+                        <label>Parent page <span class="mandatory">*</span></label>
+                        <input id="ddlPageParent" tabindex="2" type="hidden" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <label>Priority <span class="mandatory">*</span></label>
+                        <input type="text" name="Priority" tabindex="3" value="1" class="required form-control">
+                    </div>
+                    <div class="col-sm-6">
+                        <label>Status <span class="mandatory">*</span></label>
+                        <input id="ddlStatus" tabindex="4" type="hidden" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <label>Icon [Css class] <span class="mandatory">*</span></label>
+                        <input type="text" name="PageIcon" tabindex="5" class="required form-control">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <label>Path url <span class="mandatory">*</span></label>
+                        <input type="text" name="PageUrl" tabindex="6" class="required form-control">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <label style="white-space: nowrap">Description</label>
+                        <textarea class="form-control" name="Description" rows="5" tabindex="7"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal" tabindex="9">Close</button>
+            <button onclick="hrm.page.manipulate(config.action.save, 0);" type="button" class="btn btn-success" tabindex="8">Save</button>
+        </div>
+    </form>
+</script>
+
+
+<script id="tpl-get-page" type="text/html">
+    {{#Data}}
+    <form class="validate" action="#" role="form" method="post">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title"><i class="icon-paragraph-justify2"></i> Manager Page</h4>
+        </div>
+
+        <!-- Form inside modal -->
+        <div class="modal-body with-padding">
+            <div class="block-inner text-danger">
+                <h6 class="heading-hr">Edit infomation page <small class="display-block">(*) Required</small></h6>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <label>Page name <span class="mandatory">*</span></label>
+                        <input type="text" name="Name" value="{{Name}}" tabindex="1" class="required form-control">
+                    </div>
+                    <div class="col-sm-6">
+                        <label>Parent page <span class="mandatory">*</span></label>
+                        <input id="ddlPageParent" tabindex="2" type="hidden" />
+                    </div>
+                </div>
+            </div>                      
+
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <label>Priority <span class="mandatory">*</span></label>
+                        <input type="text" name="Priority" value="{{Priority}}" tabindex="3" class="required form-control">
+                    </div>
+                    <div class="col-sm-6">
+                        <label>Status <span class="mandatory">*</span></label>
+                        <input id="ddlStatus" tabindex="4" type="hidden" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <label>Icon [Css class] <span class="mandatory">*</span></label>
+                        <input type="text" name="PageIcon" value="{{PageIcon}}" tabindex="5" class="required form-control">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <label>Page url <span class="mandatory">*</span></label>
+                        <input type="text" name="PageUrl" value="{{PageUrl}}" tabindex="6" class="required form-control">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <label style="white-space: nowrap">Description</label>
+                        <textarea class="form-control" name="Description" rows="7" tabindex="6">{{Description}}</textarea>
+                    </div>
+                </div>
+            </div>            
+
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal" tabindex="9">Close</button>
+            <button onclick="hrm.page.manipulate(config.action.save, {{PageId}});" type="button" class="btn btn-success" tabindex="8">Save</button>
+        </div>
+    </form>
+    {{/Data}}
+</script>

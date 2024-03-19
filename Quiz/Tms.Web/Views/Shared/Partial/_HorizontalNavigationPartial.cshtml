@@ -1,0 +1,67 @@
+﻿@using Tms.Web.Framework.Helpers
+@using Tms.Web.Framework.Security
+<ul class="nav navbar-nav collapse" id="navbar-menu">
+    @if (RoleHelper.IsUserListing() || RoleHelper.IsRoleListing() || RoleHelper.IsSetting() || RoleHelper.IsNotificationListing())
+    {
+        <li class="dropdown">
+            <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown">
+                <span>QL chung</span>
+                <i class="icon-settings"></i>
+                <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-right">
+                @if (RoleHelper.IsUserListing())
+                {
+                    <li><a href="@Url.Action("Index", "Account")">Quản lý tài khoản</a></li>
+                }
+                @if (RoleHelper.IsRoleListing())
+                {
+                    <li><a href="@Url.Action("Index", "Role")">Phân quyền</a></li>
+                }
+                @if (RoleHelper.IsSetting())
+                {
+                    <li><a href="@Url.Action("Index", "Configuration")">Thiết lập chung</a></li>
+                }
+                @if (RoleHelper.IsNotificationListing())
+                {
+                    <li><a href="@Url.Action("Index", "Notification")">Quản lý thông báo</a></li>
+                }
+            </ul>
+        </li>
+    }
+    <li class="dropdown">
+        <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown">
+            <i class="fa fa-bar-chart "></i>
+            <span>Danh mục</span>
+
+            <b class="caret"></b>
+        </a>
+        <ul class="dropdown-menu dropdown-menu-right">
+            <li><a href="@Url.Action("Index", "LoaiVatTu")">Quản lý loại vật tư</a></li>
+            <li><a href="@Url.Action("Index", "ChiTietVatTu")">Quản lý chi tiết vật tư</a></li>
+        </ul>
+    </li>
+    <li class="dropdown">
+        <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown">
+            <i class="fa fa-bar-chart "></i>
+            <span>Báo cáo</span>
+
+            <b class="caret"></b>
+        </a>
+        <ul class="dropdown-menu dropdown-menu-right">
+            <li></li>
+        </ul>
+    </li>
+
+    @*<li class="dropdown">
+            <a href="@Url.Action("OrderTrash", "Order")" class="dropdown-toggle">
+                <i class="fa fa-trash"></i>
+                <span>Thùng rác</span>
+
+                <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-right">
+                <li></li>
+            </ul>
+        </li>*@
+</ul>

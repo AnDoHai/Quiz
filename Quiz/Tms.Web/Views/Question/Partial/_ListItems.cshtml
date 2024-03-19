@@ -1,0 +1,117 @@
+﻿@using Tms.Web.Framework.Helpers
+@model Tms.Models.QuestionModel.QuestionSearchModel
+
+<style type="text/css">
+    .hide {
+        display: none;
+    }
+
+    .show {
+        display: block;
+    }
+</style>
+
+<div class="datatable-scroll">
+    <div class="main-table table-thong-ke">
+        <div class="table-wrapper">
+            <div class="table-content" style=" width: 100%;">
+                <table class="w-10 text-center">
+                    <thead>
+                        <tr>
+                            <th class="listItems width_5">STT</th>
+                            <th class="listItems width_5">Mã câu hỏi</th>
+                            <th class="listItems">Nội dung câu hỏi</th>
+                            <th class="listItems width_15">Đề thi</th>
+                            <th class="listItems width_5">Điểm</th>
+                            <th class="listItems width_15">Loại câu hỏi</th>
+                            <th class="listItems width_10">Trạng thái</th>
+                            <th class="listItems width_7" style="width: 10%;">Tác vụ</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model != null && Model.Questions != null && Model.Questions.Any())
+                        {
+                            var index = 0;
+                            var questionType = "";
+                            index = (Model.PageIndex - 1) * Model.PageSize;
+                            foreach (var item in Model.Questions)
+                            {
+                                index++;
+                                switch (@item.Type)
+                                {
+                                    case 0:
+                                        questionType = "Đúng / Sai";
+                                        break;
+                                    case 1:
+                                        questionType = "Chọn 1 đáp án đúng";
+                                        break;
+                                    case 2:
+                                        questionType = "Sắp xếp theo thứ tự";
+                                        break;
+                                    case 3:
+                                        questionType = "Nhập câu trả lời";
+                                        break;
+                                    case 4:
+                                        questionType = "Viết đoạn văn mô tả";
+                                        break;
+                                    case 5:
+                                        questionType = "Đọc nhớ 1200 từ và viết lại";
+                                        break;
+                                }
+                                var parent = Guid.NewGuid();
+                                <tr role="row" id="@parent">
+                                    <td> @index </td>
+                                    <td class="text-center"> @item.QuestionID</td>
+                                    <td class="text-center"> <div class="question-text">@Html.Raw(item.QuestionText) </div></td>
+                                    <td class="text-center"> @item.NameQuiz </td>
+                                    <td class="text-center"> @item.Point </td>
+                                    <td class="text-center"> @questionType </td>
+                                    <td class="text-center">
+                                        @{ var clssActive = "hide";}
+                                        @{ var clssInActive = "hide";}
+                                        @if (item.Status && item.Status)
+                                        {
+                                            clssActive = "show";
+                                        }
+                                        else
+                                        {
+                                            clssInActive = "show";
+                                        }
+
+                                        <span data-span="active_@item.QuestionID" class="label label-success mg-left-5px @clssActive">Hoạt động</span>
+                                        <span data-span="inactive_@item.QuestionID" class="label label-warning mg-left-5px @clssInActive">Ngừng hoạt động</span>
+                                    </td>
+                                    <td class="listItems">
+                                        <div class="icons-group">
+                                            <a href="@Url.Action("Edit", "Question", new {id = @item.QuestionID})" title="Chỉnh sửa câu hỏi" class="tip fas" data-id="@item.QuestionID">
+                                                <i class="fas fa-pen-square"></i>
+                                            </a>
+                                            <a href="javascript:void(0)" class="tip active" data-id="@item.QuestionID" title="Ẩn/Hiện câu hỏi" data-status="@item.Status" data-parent="@parent">
+                                                @*<i data-id="@item.QuestionID" class="fas fa-trash-alt"></i>*@
+                                                @if (item.Status == true)
+                                                {
+                                                    <i class="fas fa-eye" style="background: #db3f4f;"></i>
+                                                }
+                                                else
+                                                {
+                                                    <i class="fas fa-eye-slash" style="background: #db3f4f;"></i>
+                                                }
+                                            </a>
+                                            <a href="javascript:void(0)" class="tip remove-question" data-id="@item.QuestionID" title="Xóa câu hỏi"><i data-id="@item.QuestionID" class="fas fa-trash-alt"></i></a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<br />
+<div class="datatable-footer" id="paging_layout">
+    @Html.AjaxPagingHelper("questionModule.onClickPaging", Model.TotalRecords, Model.PageSize, Model.PageIndex, Model.SortColumn, Model.SortDirection)
+</div>
+<br />
+<br />

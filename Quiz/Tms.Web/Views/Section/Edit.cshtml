@@ -1,0 +1,78 @@
+﻿@model Tms.Models.SectionModel.SectionModel
+
+@{
+    ViewBag.Title = "Sửa phần thi nhỏ";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="page-content-inner">
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="tab-pane mg-top-25px">
+                <div class="control-bar">
+                    <div class="row">
+                        <div class="page-header col-md-6">
+                            <div class="page-title">
+                                <h3>Cập nhật phần thi nhỏ</h3>
+                            </div>
+                        </div>
+                        <div class="breadcrumb-line col-md-6">
+                            <ul class="breadcrumb float-right font-size">
+                                <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">Trang chủ</a></li>
+                                <li class="breadcrumb-item"><a href="@Url.Action("Index", "Section")">Phần thi nhỏ</a></li>
+                                <li class="breadcrumb-item"><a href="@Url.Action("Edit", "Section")">Cập nhật</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        @using (Html.BeginForm("Edit", "Section", FormMethod.Post, new { id = "frmUpdate", @class = "form-horizontal", enctype = "multipart/form-data" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            <div class="breadcrumb-line">
+                                <div class="form-actions action-breadcrumb">
+
+                                </div>
+                                @*<div class="visible-xs breadcrumb-toggle">
+                    <a class="btn btn-link btn-lg btn-icon" data-toggle="collapse" data-target=".breadcrumb-buttons"><i class="icon-menu2"></i></a>
+                </div>*@
+                            </div>
+                            <div class="col-12">
+                                @Html.HiddenFor(c => c.SectionID)
+                                @Html.Partial("Partial/_FormInput", Model)
+                            </div>
+
+                            <div class="col-12 float-right">
+                                <div class="form-actions text-right mr-25">
+                                    <button type="submit" class="btn btn-xs rBtn">
+                                        <i class="fas fa-save"></i> Lưu
+                                    </button>
+                                    <button type="button" class="btn-xs btn btn-primary" onclick="location.href='@Url.Action("Index","Section")'">
+                                        <i class="fas fa-sign-out-alt"></i> Hủy
+                                    </button>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section styles
+{
+    <link rel="stylesheet" type="text/css" href="~/assets/plugins/chosen/chosen.min.custom.css">
+}
+@section scripts
+{
+    <script src="~/Scripts/ckeditor/ckeditor.js"></script>
+    <script src="~/Assets/scripts/Tms.Section.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            sectionModule.init();
+            CKEDITOR.replace('Description', {
+                extraPlugins: 'abbr'
+            });
+        });
+    </script>
+}

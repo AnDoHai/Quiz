@@ -1,0 +1,84 @@
+﻿@using Tms.Web.Framework.Helpers
+@model Tms.Models.SectionModel.SectionSearchModel
+
+
+<div class="datatable-scroll">
+    <div class="main-table table-thong-ke">
+        <div class="table-wrapper">
+            <table class="table-content" role="grid">
+                <thead>
+                    <tr role="row">
+                        <th class="listItems width_5">STT</th>
+                        <th class="listItems width_5">Mã phần thi</th>
+                        <th class="listItems">Tên phần thi</th>
+                        <th class="listItems">Ngày tạo</th>
+                        <th class="listItems">Bài thi</th>
+                        <th class="listItems">Phần thi chung</th>
+                        <th class="listItems">Trạng thái</th>
+                        <th class="listItems width_10">Tác vụ</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null && Model.Sections != null && Model.Sections.Any())
+                    {
+                        var index = 0;
+                        index = (Model.PageIndex - 1) * Model.PageSize;
+                        foreach (var item in Model.Sections)
+                        {
+                            index++;
+                            var parent = Guid.NewGuid();
+                            <tr role="row" id="@parent">
+                                <td>@index</td>
+
+                                <td class="listItems">@item.SectionID</td>
+
+                                <td class="listItems">@item.SectionName</td>
+
+                                <td class="listItems">@item.CreatedDate.ToString("dd/MM/yyyy")</td>
+
+                                <td class="listItems">@item.QuizName</td>
+
+                                <td class="listItems">@item.ContestName</td>
+                                <td class="text-center">
+                                    @{ var clssActive = "hide";}
+                                    @{ var clssInActive = "hide";}
+                                    @if (item.Status == 0)
+                                    {
+                                        clssActive = "show";
+                                    }
+                                    else
+                                    {
+                                        clssInActive = "show";
+                                    }
+
+                                    <span data-span="active_@item.SectionID" class="label label-success mg-left-5px @clssActive">Hoạt động</span>
+                                    <span data-span="inactive_@item.SectionID" class="label label-warning mg-left-5px @clssInActive">Ngừng hoạt động</span>
+                                </td>
+
+                                <td class="listItems text-center">
+                                    <div class="icons-group">
+                                        <a href="@Url.Action("Edit", "Section", new {id = @item.SectionID})" title="Chỉnh sửa Section" class="tip"><i class="fas fa-pen-square"></i></a>
+                                        <a href="javascript:void(0)" class="tip active" data-id="@item.SectionID" title="Trạng thái" data-status="@item.Status" data-parent="@parent">                                          
+                                            @if (item.Status == 0)
+                                            {
+                                                <i class="fas fa-eye" style="background: #db3f4f;"></i>
+                                            }
+                                            else
+                                            {
+                                                <i class="fas fa-eye-slash" style="background: #db3f4f;"></i>
+                                            }
+                                        </a>
+                                        <a href="javascript:void(0)" class="tip" data-id="@item.SectionID"><i data-id="@item.SectionID" class="fas fa-trash-alt"></i></a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="datatable-footer" id="paging_layout">
+        @Html.AjaxPagingHelper("sectionModule.onClickPaging", Model.TotalRecords, Model.PageSize, Model.PageIndex, Model.SortColumn, Model.SortDirection)
+    </div>
+</div>

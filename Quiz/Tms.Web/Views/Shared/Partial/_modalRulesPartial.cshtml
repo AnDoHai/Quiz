@@ -1,0 +1,36 @@
+﻿@model Tms.Models.ConfirmModel
+    @{ 
+        var time = Model.Time;
+        var idString = "layout_modal_rules" + Model.Id;
+        var Id = Model.Id;
+        var level = Model.Level;
+        var hskId = Model.HSKId;
+    }
+<!-- modal rules -->
+<div id="@idString" class="modal fade in" tabindex="-1" role="dialog" aria-hidden="false" style="display: none;">
+    <div class="modal-dialog modal-sm" style=" max-width: 500px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"><i class="fas fa-clipboard-list"></i><span class="modal-content-title"> Nội quy</span></h4>
+            </div>
+
+            <div class="modal-body with-padding">
+                <div class="modal-content-info" style="padding: 2rem;">
+                    <p>1. Bài thi sẽ diễn ra trong vòng @time phút, hãy sẵn sàng để tham gia thi.</p>
+                    <p>2. Tự giác làm bài một cách trung thực để trình độ được đánh giá được chính xác nhất.</p>
+                    <p>3. Ngồi thi tại phòng riêng không người ra vào.</p>
+                    <p>4. Đảm bảo nguồn điện và mạng ổn định để tránh lỗi trong suốt quá trình tham gia bài thi.</p>
+                    <p>5. Chuẩn bị 01 tai nghe kèm mic (đối với phần thi nói). </p>
+                    <p>6. Mọi vấn đề gặp phải trong quá trình thi vui lòng liên hệ hotline 0961520521 để được hỗ trợ.</p>
+                    <p>7. Phần thi nghe và đọc sẽ có điểm luôn sau khi thi, riêng phần thi nói và viết sẽ có điểm sau 02 ngày làm việc </p>
+                    <p>8. Thí sinh có thể đăng nhập vào hệ thống sau khi có điểm để in bằng hoặc tải bằng</p>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button  class="btn btn-default confirm-yes rules-unconfirm btn_unconfirm_rules" data-dismiss="modal" onclick="">Trở lại</button>
+                <button  class="btn btn-default confirm-yes rules-confirm  btn_confirm_rules" data-dismiss="modal" data-level="@level" data-id="@Id" data-name="@hskId" onclick="">Bắt đầu</button>
+            </div>
+        </div>
+    </div>
+</div>

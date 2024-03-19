@@ -1,0 +1,71 @@
+﻿@model Tms.Models.UserTestModel.DegreeModel
+@{
+    double total = 0;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1">
+    <title>QTEDU</title>
+    <style type="text/css">
+    </style>
+</head>
+<body style="margin: 0; padding: 0; font-size: 1rem; font-weight: 400; line-height: 1.5; color: #212529; text-align: left; background-color: #fff;width:100%">
+    <div class="custom-font" style="position: relative;">
+        <img src="@Model.CertificateFont" alt="" style="width:100%">
+        <div id="names" style="font-size: 1.34rem; position: absolute; left: 50.4%; top: 24.4%; margin-top: 0; text-align: center; margin-bottom: 1rem; width: 23rem;">@Model.User.FullName</div>
+        <p id="days" style="font-size: 1.34rem; position: absolute; left: 82%; top: 29.3%; margin-top: 0; margin-bottom: 1rem;">@(Model.User.Birthday.HasValue ? Model.User.Birthday.Value.ToString("dd") : "")</p>
+        <p id="months" style="font-size: 1.34rem; position: absolute; left: 72%; top: 29.3%; margin-top: 0; margin-bottom: 1rem;">@(Model.User.Birthday.HasValue ? Model.User.Birthday.Value.ToString("MM") : "")</p>
+        <p id="years" style="font-size: 1.34rem; position: absolute; left: 60%; top: 29.3%; margin-top: 0; margin-bottom: 1rem;">@(Model.User.Birthday.Value.ToString("yyyy"))</p>
+        <p id="gender" style="font-size: 1.34rem; position: absolute; left: 53.5%; top: 35.1%; margin-top: 0; margin-bottom: 1rem;">@(Model.User.Male)</p>
+        <p id="nationality" style="font-size: 1.34rem; position: absolute; left: 78%; top: 35.1%; margin-top: 0; margin-bottom: 1rem;">@Model.User.Nationality</p>
+        <p id="examdate-days" style="font-size: 1.34rem; position: absolute; left: 82%; top: 41%; margin-top: 0; margin-bottom: 1rem;">@Model.DateExam.ToString("dd")</p>
+        <p id="examdate-months" style="font-size: 1.34rem; position: absolute; left: 72%; top: 41%; margin-top: 0; margin-bottom: 1rem;">@Model.DateExam.ToString("MM")</p>
+        <p id="examdate-years" style="font-size: 1.34rem; position: absolute; left: 60%; top: 41%; margin-top: 0; margin-bottom: 1rem;">@Model.DateExam.ToString("yyyy")</p>
+        <p id="candidate-nums" style="font-size: 1.34rem; position: absolute; left: 65%; top: @(Model.TypeHSK == 8 || Model.TypeHSK == 9 || Model.TypeHSK == 10 ? "46.2%" : "46.8%"); margin-top: 0; margin-bottom: 1rem;">@Model.User.EmployerCode</p>
+        @switch (Model.TypeHSK)
+        {
+            case 1:
+            case 2:
+                total = (double)(Model.totalListening + Model.totalReading);
+                <div class="score"><p id="listen-score" style="position: absolute; font-size: 1.4rem; left:@(Model.totalListening >= 10?Model.totalListening>=100?"76.9%":"77.3%":"78%"); top: 62.6%; margin-top: 0; margin-bottom: 1rem; ">@Model.totalListening</p></div>
+                <div class="score"><p id="read-score" style="position: absolute; font-size: 1.4rem; left:@(Model.totalReading >= 10?Model.totalReading>=100?"76.9%":"77.3%":"78%"); top: 67%; margin-top: 0; margin-bottom: 1rem; ">@Model.totalReading</p></div>
+                <p id="total-score" style="top: 71%; font-size: 1.4rem; position: absolute; color: red; left: @(total >= 10?total>=100?"76.9%":"77.3%":"78%"); margin-top: 0; margin-bottom: 1rem;">@total</p>
+                break;
+            case 3:
+            case 4:
+            case 5:
+            case 6:
+                total = (double)(Model.totalListening + Model.totalReading + Model.totalWriting);
+                <div class="score"><p id="listen-score" style="position: absolute; font-size: 1.4rem; left:@(Model.totalListening >= 10?Model.totalListening>=100?"76.9%":"77.3%":"78%"); top: 62.6%; margin-top: 0; margin-bottom: 1rem; ">@Model.totalListening</p></div>
+                <div class="score"><p id="read-score" style="position: absolute; font-size: 1.4rem; left:@(Model.totalReading >= 10?Model.totalReading>=100?"76.9%":"77.3%":"78%"); top: 66.6%; margin-top: 0; margin-bottom: 1rem; ">@Model.totalReading</p></div>
+                <div class="score"><p id="writing-score" style="position: absolute; font-size: 1.4rem; left:@(Model.totalWriting >= 10?Model.totalWriting>=100?"76.9%":"77.3%":"78%"); top: 71%; margin-top: 0; margin-bottom: 1rem; ">@Model.totalWriting</p></div>
+                <p id="total-score" style="top: 75.1%; font-size: 1.4rem; position: absolute; color: red; left: @(total >= 10?total>=100?"76.9%":"77.8%":"78%"); margin-top: 0; margin-bottom: 1rem; ">@total</p>
+                break;
+            case 7:
+                total = (double)(Model.totalListening + Model.totalReading + Model.totalWriting + Model.totalTranslation);
+                <div class="score"><p id="listen-score" style="top: 61.2%; position: absolute; font-size: 1.4rem; left:@(Model.totalListening >= 10?Model.totalListening>=100?"76.9%":"77.3%":"78%"); margin-top: 0; margin-bottom: 1rem; ">@Model.totalListening</p></div>
+                <div class="score"><p id="read-score" style="top: 65.4%; position: absolute; font-size: 1.4rem;left:@(Model.totalReading >= 10?Model.totalReading>=100?"76.9%":"77.3%":"78%"); margin-top: 0; margin-bottom: 1rem; ">@Model.totalReading</p></div>
+                <div class="score"><p id="writing-score" style="top: 69.8%; position: absolute; font-size: 1.4rem; left:@(Model.totalWriting >= 10?Model.totalWriting>=100?"76.9%":"77.3%":"78%");  margin-top: 0; margin-bottom: 1rem; ">@Model.totalWriting</p></div>
+                <div class="score"><p id="translation-score" style="position: absolute; font-size: 1.4rem; left:@(Model.totalTranslation >= 10?Model.totalTranslation>=100?"76.9%":"77.3%":"78%"); top: 73.auto%; margin-top: 0; margin-bottom: 1rem; ">@Model.totalTranslation</p></div>
+                <p id="total-score" style="top: 78%; font-size: 1.4rem; position: absolute;color:red; left:@(total >= 10?total>=100?"76.9%":"77.3%":"78%");  margin-top: 0; margin-bottom: 1rem; ">@total</p>
+                break;
+            case 8:
+            case 9:
+            case 10:
+                <div class="score"><p id="your-default" style="top: 64.2%; position: absolute; font-size: 1.4rem; left:@(Model.totalTranslation >= 10?Model.totalTranslation>=100?"76.9%":"77.3%":"78%");  margin-top: 0; margin-bottom: 1rem; ">@Model.totalListening</p></div>
+                break;
+        }
+        @if (!string.IsNullOrEmpty(Model.User.Thumbnail))
+        {
+            <img src="@Model.User.Thumbnail" alt="" id="picture" style="position: absolute; width: 26.9%; top: 24%; left: 8.6%; height: 359px;border-radius:12px;">
+        }
+    </div>
+
+    <div class="" style="position: relative; padding: 0; margin: -10px 0 0 0; background-image: url('@Model.CertificateBack'); background-position:bottom;">
+        <img src="@Model.CertificateBack" alt="" style="width: 100% ">
+    </div>
+</body>
+</html>

@@ -1,0 +1,84 @@
+﻿@model Tms.Models.UserTestModel.ExamResultModel
+@using Tms.Models
+
+
+@if (Model != null && Model.QuizExam.ContestExams != null)
+{
+    var indexQuestion = 0;
+    foreach (var item in Model.QuizExam.ContestExams)
+    {
+<div>
+    @if (item.ContestType == 1)
+    {
+        <div class="questions-type contest" data-id="@item.ContestID">
+            <div class="row question-content-row">
+                <div class="audio-active col-1 col-sm-1 col-md-1 col-lg-2 d-flex align-items-center icon-questions">
+                    <div>
+                        <a href="javascript:void(0)" class="btn text-white" id="audio" data="true">
+                            <i class="fas fa-volume-up"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="btn text-white col-4 col-sm-2 col-md-2 col-lg-4 question-content text-left">@item.ContestName</div>
+            </div>
+        </div>
+    }
+    else if (item.ContestType == 2)
+    {
+        <div class="questions-type contest " data-id="@item.ContestID">
+            <div class="row question-content-row">
+                <div class="col-1 col-sm-1 col-md-1 col-lg-2 d-flex align-items-center icon-questions"><div><i class="fas fa-book-open"></i></div></div>
+                <div class="btn text-white col-4 col-sm-2 col-md-2 col-lg-4 question-content text-left">@item.ContestName</div>
+            </div>
+        </div>
+    }
+    else if (item.ContestType == 3)
+    {
+        <div class="questions-type contest" data-id="@item.ContestID">
+            <div class="row question-content-row">
+                <div class="col-1 col-sm-1 col-md-1 col-lg-2 d-flex align-items-center icon-questions"><div><i class="fas fa-pen-alt"></i></div></div>
+                <div class="btn text-white col-4 col-sm-2 col-md-2 col-lg-4 question-content text-left">@item.ContestName</div>
+            </div>
+        </div>
+    }
+    else if (item.ContestType == 4)
+    {
+        <div class="questions-type contest" data-id="@item.ContestID">
+            <div class="row question-content-row">
+                <div class="col-1 col-sm-1 col-md-1 col-lg-2 d-flex align-items-center icon-questions"><div><i class="fas fa-language"></i></div></div>
+                <div class="btn text-white col-4 col-sm-2 col-md-2 col-lg-4 question-content text-left">@item.ContestName</div>
+            </div>
+        </div>
+    }
+    @foreach (var sectionDetail in item.SectionExams)
+    {
+        <div class="row row-left-ques d-flex justify-content-center">
+            @foreach (var questionDetail in sectionDetail.QuestionExams)
+            {
+                var classQuestion = "question-false";
+                indexQuestion++;
+                switch (questionDetail.StatusPoint)
+                {
+                    case 1:
+                        classQuestion = "question-true";
+                        break;
+                    case 2:
+                        classQuestion = "question-false";
+                        break;
+                    case 3:
+                        classQuestion = "question-loading";
+                        break;
+                    default:
+                        classQuestion = "question-false";
+                        break;
+                };
+
+                <div class="col-xl-2 col-lg-2 col-sm-1 col-1 question-icon">
+                    <a href="javascript:void(0)" class="btn btn-default rounded-circle question-button question-item @classQuestion" data-question="@questionDetail.QuestionID">@indexQuestion</a>
+                </div>
+            }
+        </div>
+    }
+</div>
+    }
+}

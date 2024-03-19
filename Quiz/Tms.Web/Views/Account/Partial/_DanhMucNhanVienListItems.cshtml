@@ -1,0 +1,61 @@
+﻿@using Tms.Web.Framework.Helpers
+@model Tms.Models.User.UserSearchModel
+
+<div class="datatable-scroll datatable shadow" id="scroll-table">
+    <table class="table dataTable no-footer table-hover" role="grid" id="header-fixed">
+        <thead>
+            <tr role="row">
+                <th class="w-20">STT</th>
+                <th class="">Họ và tên</th>
+                <th class="">Đơn vị</th>
+                <th class="">Bộ phận</th>
+                @if (RoleHelper.IsDanhMucNhanVienGCEdit() || RoleHelper.IsDanhMucNhanVienGCDelete() || RoleHelper.IsDanhMucNhanVienCCDCEdit() || RoleHelper.IsDanhMucNhanVienCCDCDelete() || RoleHelper.IsDanhMucNhanVienCCDCThucTeEdit() || RoleHelper.IsDanhMucNhanVienCCDCThucTeDelete())
+                {
+                    <th class="">Tác vụ</th>
+                }
+                </tr>
+        </thead>
+        <tbody>
+
+            @if (Model != null && Model.Users.Any())
+            {
+                var index = 0;
+                index = (Model.PageIndex - 1) * Model.PageSize;
+                foreach (var item in Model.Users)
+                {
+                    index++;
+                    var parent = Guid.NewGuid();
+            <tr role="row" id="@parent">
+                <td>@index</td>
+                <td class="text-left">@item.UserName</td>
+                <td class="text-left">@item.DonViName</td>
+                <td class="text-left">
+                    @item.BoPhanNames
+                </td>
+                @if (RoleHelper.IsDanhMucNhanVienGCEdit() || RoleHelper.IsDanhMucNhanVienGCDelete() || RoleHelper.IsDanhMucNhanVienCCDCEdit() || RoleHelper.IsDanhMucNhanVienCCDCDelete() || RoleHelper.IsDanhMucNhanVienCCDCThucTeEdit() || RoleHelper.IsDanhMucNhanVienCCDCThucTeDelete())
+                {
+                    <td class="text-left">
+                        <div class="icons-group">
+                            @if (RoleHelper.IsDanhMucNhanVienGCEdit() || RoleHelper.IsDanhMucNhanVienCCDCEdit() || RoleHelper.IsDanhMucNhanVienCCDCThucTeEdit())
+                            {
+                                <a href="@Url.Action("Edit", "Account", new { id = @item.UserId, @type ="dmnv" })" title="Chỉnh sửa Danh mục nhân viên" class="tip"><i class="icon-pencil3"></i></a>
+                            }
+                            @if (RoleHelper.IsDanhMucNhanVienGCDelete() || RoleHelper.IsDanhMucNhanVienCCDCDelete() || RoleHelper.IsDanhMucNhanVienCCDCThucTeDelete())
+                            {
+                                <a href="javascript:void(0)" class="tip" data-id="@item.UserId"><i data-id="@item.UserId" class="icon-remove4 btn_remove_account"></i></a>
+                            }
+                        </div>
+                    </td>
+                }
+
+            </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
+
+<div class="datatable-footer" id="paging_layout">
+    @Html.AjaxPagingHelper("accountModule.onClickPaging", Model.TotalRecords, Model.PageSize, Model.PageIndex)
+</div>
+

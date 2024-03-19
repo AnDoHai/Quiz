@@ -1,0 +1,96 @@
+﻿@using Tms.Web.Framework.Helpers
+@model Tms.Models.UserTestModel.UserTestSearchModel
+<style type="text/css">
+    .hide {
+        display: none;
+    }
+
+    .show {
+        display: block;
+    }
+</style>
+<div class="datatable-scroll">
+    <div class="main-table table-thong-ke">
+        <div class="table-wrapper">
+            <table class="table-content" role="grid">
+                <thead>
+                    <tr role="row">
+                        <th class="listItems width_5">STT</th>
+                        <th class="listItems" style="width: 30%;">Tên người làm</th>
+                        <th class="listItems">Tên bài thi</th>
+                        <th class="listItems">Ngày tạo</th>
+                        <th class="listItems">File nghe</th>
+                        <th class="listItems">Trạng thái</th>
+                        <th class="listItems width_5" style=" width: 7%;">Tác vụ</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null && Model.UserTests != null && Model.UserTests.Any())
+                    {
+                        var index = 0;
+                        var indexUrl = 0;
+                        index = (Model.PageIndex - 1) * Model.PageSize;
+                        foreach (var item in Model.UserTests)
+                        {
+                            index++;
+                            indexUrl++;
+                            var classUrlAudio = "audio" + indexUrl;
+                            var parent = Guid.NewGuid();
+                            <tr role="row" id="@parent">
+                                <td class="listItems">@index</td>
+                                <td class="listItems">
+                                    @item.UserName <br />
+                                    @item.Email 
+                                </td>
+                                <td class="listItems">@item.QuizName</td>
+                                <td class="listItems">@item.CreatedDate</td>
+                                <td class="listItems @classUrlAudio">
+                                    @if (item.HskType == 8 || item.HskType == 9 || item.HskType == 10)
+                                    {
+                                        <a href="@item.UrlAudio" target="_blank" title="@item.UrlAudio">Tải file</a>
+                                    }
+                                </td>
+                                <td class="listItems text-center">
+                                    @{ var clssActive = "hide";}
+                                    @{ var clssInActive = "hide";}
+                                    @if (item.Status && item.Status)
+                                    {
+                                        clssActive = "show";
+                                    }
+                                    else
+                                    {
+                                        clssInActive = "show";
+                                    }
+
+                                    <span data-span="active_@item.UserTestId" class="label label-success mg-left-5px @clssActive">Hoàn thành</span>
+                                    <span data-span="inactive_@item.UserTestId" class="label label-info mg-left-5px @clssInActive">Đang làm</span>
+                                </td>
+                                <td class="listItems text-center">
+                                    <div class="icons-group">
+                                        <a href="@Url.Action("MarkTest", "UserTest", new {id = @item.UserTestId})" title="Chấm thi" class="tip"><i class="fas fa-edit"></i></a>
+                                        @*<a href="javascript:void(0)" title="In bằng" class="tip print" data-id="@item.UserTestId"><i class="fas fa-print"></i></a>*@
+                                        @{
+                                            var dataStatusMedia = "false";
+                                            if (item.HskType == 8 || item.HskType == 9 || item.HskType == 10)
+                                            {
+                                                dataStatusMedia = "true";
+                                                <a href="javascript:void(0)" class="tip remove-userTest" data-index="@indexUrl" data-id="@item.UserTestId" data-status="@dataStatusMedia"><i data-id="@item.UserTestId" class="fas fa-trash-alt"></i></a>
+                                                <a href="@item.UrlAudio" class="tip" target="_blank" data-id="@item.UserTestId" title="Tải bằng" data-status="@dataStatusMedia"><i class="fas fa-download"></i></a>
+                                            }
+                                        }
+
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="datatable-footer" id="paging_layout">
+    @Html.AjaxPagingHelper("userTestModule.onClickPaging", Model.TotalRecords, Model.PageSize, Model.PageIndex, Model.SortColumn, Model.SortDirection)
+</div>
+
+

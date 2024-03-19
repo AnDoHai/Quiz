@@ -1,0 +1,175 @@
+﻿@model Tms.Models.User.RegisterModel
+@using Tms.Models.User
+@{
+    ViewBag.Title = "Register";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="full-width login">
+    <main>
+        <div class="container-fluid login-form-wrapper">
+            <div class="container">
+                <nav>
+                    <div class="form-wrap pt-5 pb-5">
+                        @using (Html.BeginForm(null, null, new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "mx-auto p-3 form-login register-form", @id = "form-signup", enctype = "multipart/form-data" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.Partial("~/Views/Shared/Partial/_MessagePartial.cshtml")
+                            <!-- <img src="./asset/img/logo-chinh-nam-ngang-mau-goc-1400x355-1.png"> -->
+                            <div class="m-4 avata-position">
+                                <div>
+                                    <div class="form-group createImage">
+                                        <div class="createDetails">
+                                            <img src="~/Assets/images/icon/register-pic.jpg" class="regiter-img" alt="Alternate Text" />
+                                        </div>
+                                    </div>
+                                    @*<img src="~/Assets/images/logo/default_usr.png" class="icon-placeholder">*@
+                                    <input type="file" class="new-input form-control imageRegister" name="ImageFile" id="ImageFile" data-status="false" value="" />
+                                    <label id="file-ImageFile" for="ImageFile" class="custom-file-upload">
+                                        <i class="fas fa-image"></i> Upload ảnh thẻ
+                                    </label>
+                                </div>
+                                <span class="color-red" id="erro_image"></span>
+                            </div>
+                            <div class="m-4 user-name-input">
+                                <label for="exampleFormControlInput1" class="form-label">Họ và tên: <span class="color-red">(*)</span></label>
+                                <div class="form-placeholder">
+                                    <img src="~/Assets/images/ic_email.png" class="icon-placeholder">
+                                    @Html.TextBoxFor(model => model.UserName, new { @placeholder = "Vui lòng nhập đầy đủ Họ và tên tiếng Việt", @class = "new-input form-control" })
+                                    @*<i class="icon-users form-control-feedback"></i>*@
+                                </div>
+                                @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "label-content" })
+                            </div>
+                            <div class="m-4">
+                                <label for="exampleFormControlInput1" class="form-label">Tên tiếng trung:</label>
+                                <div class="form-placeholder">
+                                    <img src="~/Assets/images/ic_email.png" class="icon-placeholder">
+                                    @Html.TextBoxFor(model => model.ChineseName, new { @placeholder = "Tên tiếng trung", @class = "new-input form-control" })
+                                    @*<i class="icon-users form-control-feedback"></i>*@
+                                </div>
+                            </div>
+                            <div class="m-4">
+                                <label for="exampleFormControlInput1" class="form-label">Trình độ tiếng trung: <span class="color-red">(*)</span></label>
+                                <div class="form-placeholder">
+                                    <img src="~/Assets/images/ic_email.png" class="icon-placeholder">
+                                     @Html.DropDownListFor(c => c.Level, new SelectList(ViewBag.LevelHSK, "Value", "Text", Model), "Vui lòng lựa chọn trình độ hiện tại (chưa từng thi vui lòng ước lượng)", new { @class = "new-input form-control" })
+                                    @*<i class="icon-users form-control-feedback"></i>*@
+                                </div>
+                                @Html.ValidationMessageFor(model => model.Level, "", new { @class = "label-content" })
+                            </div>
+                            <div class="m-4">
+                                <label for="exampleFormControlInput1" class="form-label">Ngày sinh: <span class="color-red">(*)</span></label>
+                                <div class="form-placeholder">
+                                    <img src="~/Assets/images/ic_email.png" class="icon-placeholder">
+                                    @Html.TextBoxFor(model => model.BirthdayValue, new { @class = "new-input form-control input-brithday datepicker" })
+                                    @*<i class="icon-users form-control-feedback"></i>*@
+                                </div>
+                                @Html.ValidationMessageFor(model => model.BirthdayValue, "", new { @class = "label-content" })
+                                <span  class="color-red" id="erro_birthday"></span>
+                            </div>
+                            <!--<div class="m-4">
+                                <label for="exampleFormControlInput1" class="form-label">Quốc tịch: <span class="color-red">(*)</span></label>
+                                <div class="form-placeholder">
+                                    <img src="~/Assets/images/ic_email.png" class="icon-placeholder">
+                                    Html.DropDownListFor(c => c.CountryCode, (List<SelectListItem>)ViewBag.Country, "---Chọn quốc tịch---", new { class = "new-input form-control" })-->
+                                    @*<i class="icon-users form-control-feedback"></i>*@
+                                <!--</div>
+                                Html.ValidationMessageFor(model => model.CountryCode, "", new { class = "label-content" })
+                            </div>-->
+                            <div class="m-4">
+                                <label for="exampleFormControlInput1" class="form-label">Loại giấy tờ dự thi: <span class="color-red">(*)</span></label>
+                                <div class="form-placeholder">
+                                    <img src="~/Assets/images/ic_email.png" class="icon-placeholder">
+                                    @Html.DropDownListFor(c => c.PlaceOfBirth, (List<SelectListItem>)ViewBag.TypePlaceOfBirth, "Vui lòng lựa chọn loại giấy tờ tham gia thi", new { @class = "new-input form-control" })
+                                    @*<i class="icon-users form-control-feedback"></i>*@
+                                </div>
+                                @Html.ValidationMessageFor(model => model.PlaceOfBirth, "", new { @class = "label-content" })
+                            </div>
+                            <div class="m-4">
+                                <label for="exampleFormControlInput1" class="form-label">Số giấy tờ: <span class="color-red">(*)</span></label>
+                                <div class="form-placeholder">
+                                    <img src="~/Assets/images/ic_email.png" class="icon-placeholder">
+                                    @Html.TextBoxFor(model => model.IdentityCardNo, new { @placeholder = "Số giấy tờ", @class = "new-input form-control" })
+                                    @*<i class="icon-users form-control-feedback"></i>*@
+                                </div>
+                                @Html.ValidationMessageFor(model => model.IdentityCardNo, "", new { @class = "label-content" })
+                            </div>
+                            <div class="m-4">
+                                <label for="exampleFormControlInput1" class="form-label">Số điện thoại: <span class="color-red">(*)</span></label>
+                                <div class="form-placeholder">
+                                    <img src="~/Assets/images/ic_email.png" class="icon-placeholder">
+                                    @Html.TextBoxFor(model => model.Tel, new { @placeholder = "Số điện thoại" , @class = "new-input form-control" })
+                                    @*<i class="icon-users form-control-feedback"></i>*@
+                                </div>
+                                @Html.ValidationMessageFor(model => model.Tel, "", new { @class = "label-content" })
+                            </div>
+                            <div class="m-4">
+                                <label for="exampleFormControlInput1" class="form-label">Giới tính</label>
+                                <div class="form-placeholder">
+                                    <input type="radio" name="Gender" id="name" value="1" />
+                                    <label for="male" class="form-label">
+                                        Nam
+                                    </label>
+                                    <input type="radio" name="Gender" id="fename" value="0" checked="checked" />
+                                    <label for="female" class="form-label">
+                                        Nữ
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="m-4">
+                                <label for="exampleFormControlInput1" class="form-label">Email: <span class="color-red">(*)</span></label>
+                                <div class="form-placeholder">
+                                    <img src="~/Assets/images/ic_email.png" class="icon-placeholder">
+                                    @Html.TextBoxFor(model => model.Email, new { @placeholder = "Email", @class = "new-input form-control" })
+                                    @*<i class="icon-users form-control-feedback"></i>*@
+                                </div>
+                                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "label-content" })
+                            </div>
+                            <div class="m-4">
+                                <label for="exampleFormControlPassword1" class="form-label">Mật khẩu: <span class="color-red">(*)</span></label>
+                                <div class="form-placeholder">
+                                    <img src="~/Assets/images/ic_lock.png" class="icon-placeholder">
+                                    @Html.PasswordFor(model => model.Password, new { @placeholder = "Vui lòng nhập mật khẩu từ 8 ký tự trở lên, gồm chữ và số", @class = "new-input form-control" })
+                                </div>
+                                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "label-content" })
+                            </div>
+                            <div class="m-4">
+                                <label for="exampleFormControlPassword1" class="form-label">Xác nhận Mật khẩu: <span class="color-red">(*)</span></label>
+                                <div class="form-placeholder">
+                                    <img src="~/Assets/images/ic_lock.png" class="icon-placeholder">
+                                    @Html.PasswordFor(model => model.ConfirmPassword, new { @placeholder = "Vui lòng nhập lại mật khẩu", @class = "new-input form-control" })
+                                </div>
+                                @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "label-content" })
+                            </div>
+                            <br />
+                            <div class="m-4 pb-3 flex-r">
+                                <button class="btn btn-primary" id="submit-user">Đăng ký</button>
+                                <p class="mt-3">Đã có tài khoản? <a href="/Account/Login">Đăng nhập</a></p>
+                            </div>
+                        }
+                    </div>
+                </nav>
+
+            </div>
+        </div>
+    </main>
+</section>
+@section styles{
+
+}
+@section scripts{
+    <script src="~/assets/js/bootstrap-datepicker.js" type="text/javascript"></script>
+    <script src="~/assets/js/datepicker-vi.js" type="text/javascript"></script>
+    <script src="~/Assets/plugins/chosen/chosen.jquery.min.js"></script>
+    <script src="~/Assets/scripts/tms.account.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            accountModule.init();
+            $.fn.datepicker.defaults.language = 'vi';
+            $(".datepicker").datepicker({ autoclose: true, });
+        });
+
+    </script>
+}
+
+

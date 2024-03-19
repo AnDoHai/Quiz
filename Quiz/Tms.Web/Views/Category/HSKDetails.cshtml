@@ -1,0 +1,120 @@
+﻿@model Tms.Models.CategoryModel.CategorySearchModel
+@using Tms.Models
+@using Tms.Web.Framework.Helpers
+@using Tms.Web.Framework.Security
+@using System.Configuration
+@{
+    ViewBag.Title = "HSKDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style type="text/css">
+    .font-size {
+        font-size: 1.35rem !important;
+        font-weight: 500;
+    }
+
+    .rBtn {
+        background-color: #dc3545 !important;
+        color: white !important;
+        border-radius: 4px !important;
+    }
+
+    .tbw {
+        width: 225px !important;
+    }
+
+    a.viewmore {
+        background-color: #dc3545;
+        color: white;
+    }
+
+        a.viewmore:hover {
+            background-color: #db3f4f;
+            color: black;
+            font-weight: 600;
+        }
+</style>
+@{
+    var CategoryId = Request.Params["CategoryId"];
+    
+}
+<div class="page-content-inner">
+    <div class="row form-group">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="tab-pane mg-top-25px">
+                    <div class="control-bar">
+                        <div class="row justify-content-between">
+                            <div class="page-header col-md-6">
+                                <div class="page-title text-left">
+                                    <h3>Đề thi HSK</h3>
+                                </div>
+                            </div>
+                            <div class="breadcrumb-line col-md-6">
+                                <ul class="breadcrumb float-right font-size">
+                                    <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">Trang chủ</a></li>
+                                    <li class="breadcrumb-item"><a href="@Url.Action("HSKDetails", "Category", new { CategoryId = Request.Params["CategoryId"]})">HSK</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    <br />
+                    <div class="">
+                        <div class="row form-group">
+                            <div class="col-md-12">
+                                <div class="panel panel-default">
+                                    <div class="tab-pane mg-top-25px">
+                                        <div class="row">
+                                            @foreach (var item in ViewBag.QuizsByCategory)
+                                            {
+                                                var stringExam = "Exam";
+                                                if (item.CategoryId == 9 || item.CategoryId == 10 || item.CategoryId == 11)
+                                                {
+                                                    stringExam = "ExamHight";
+                                                }
+                                                <div class="col-md-3">
+                                                    <div class="card-columns" style="column-count: 1;">
+                                                        <div class="card">
+                                                            <img src="~/Assets/images/Rectangle 21.png" class="card-img-top">
+                                                            <div class="card-body">
+                                                                <h3 class="card-title" id="titles">@item.QuizName</h3>
+                                                                <div class="d-flex">
+                                                                    <a class="btn viewmore button1 mr-3" href="@Url.Action(stringExam, "Quiz", new { id = @item.QuizID })" style="border: 1px solid red">
+                                                                        <i class="fas fa-arrow-alt-circle-right"></i> Vào thi ngay
+                                                                    </a>
+                                                                    <span class="btn btn-outline-danger button2 ml-3" style="border: 1px solid red">
+                                                                        <i class="far fa-file-alt"></i> Miễn phí
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /page content -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="category-action"></div>
+@Html.Partial("Partial/_ConfirmPartial", new ConfirmModel { Id = "category", Title = "Xác nhận hành động", Content = "Bạn có muốn thực hiện xóa.?" })
+@section scripts
+{
+    <script src="~/Assets/scripts/Tms.Category.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            categoryModule.init();
+            if (localStorage.getItem('QuizTime') != null) {
+                window.localStorage.removeItem('QuizTime');
+            }
+        });
+    </script>
+}

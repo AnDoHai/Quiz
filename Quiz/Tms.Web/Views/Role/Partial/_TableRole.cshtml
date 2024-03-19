@@ -1,0 +1,71 @@
+﻿@using Tms.Web.Framework.Helpers
+@model Tms.Models.Role.RoleSearchModel
+
+<div class="datatable-scroll datatable shadow" id="scroll-table">
+    <table class="table dataTable no-footer table-hover" role="grid">
+        <thead>
+            <tr role="row">
+                <th class="w-20">STT</th>
+                <th class=" sorting @((!string.IsNullOrEmpty(Model.SortColumn) && Model.SortDirection == "1")? "sortingDesc" : "sortingAsc")" data-column="Code">Mã Quyền</th>
+                <th class=" sorting @((!string.IsNullOrEmpty(Model.SortColumn) && Model.SortDirection == "1")? "sortingDesc" : "sortingAsc")" data-column="Name">Tên Quyền</th>
+                <th class="">Ghi chú</th>
+                <th class="">Ngày tạo</th>
+                <th class="">Trạng thái</th>
+                <th class="">Tác vụ</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.Roles.Any())
+            {
+                var index = 0;
+                index = (Model.PageIndex - 1) * Model.PageSize;
+                foreach (var item in Model.Roles)
+                {
+                    index++;
+                    var parent = Guid.NewGuid();
+                    <tr role="row" id="@parent">
+                        <td>@index</td>
+                        <td>@item.Code</td>
+                        <td>@item.Name</td>
+                        <td>@item.Note</td>
+                        <td>@item.CreatedDate.ToString("dd/MM/yyyy HH:mm")</td>
+                        <td class="text-left">
+                            @{ var clssActive = "hide";}
+                            @{ var clssInActive = "hide";}
+                            @if (item.Status && item.Status)
+                            {
+                                clssActive = "show";
+                            }
+                            else
+                            {
+                                clssInActive = "show";
+                            }
+
+                            <span data-span="active_@item.RoleId" class="mx-auto badge badge-success mg-left-5px @clssActive">Kích hoạt</span>
+                            <span data-span="inactive_@item.RoleId" class="mx-auto badge badge-warning mg-left-5px @clssInActive">Ngừng kích hoạt</span>
+                        </td>
+                        <td class="text-left">
+                            <div class="icons-group">
+                                <a href="@Url.Action("Edit", "Role", new {id = @item.RoleId})" title="edit contract" class="tip"><i class="icon-pencil3"></i></a>
+                                <a href="javascript:void(0)" class="tip" data-id="@item.RoleId"><i data-id="@item.RoleId" class="icon-remove4"></i></a>
+                                <a href="javascript:void(0)" data-parent="@parent" data-status="@item.Status" class="tip activeStatus" data-id="@item.RoleId">
+                                    @if (item.Status)
+                                    {
+                                        <i class="icon-eye5"></i>
+                                    }
+                                    else
+                                    {
+                                        <i class="icon-eye4"></i>
+                                    }
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
+<div class="datatable-footer" id="paging_layout">
+    @Html.AjaxPagingHelper("roleModule.onClickPaging", Model.TotalRecords, Model.PageSize, Model.PageIndex, Model.SortColumn, Model.SortDirection)
+</div>

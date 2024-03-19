@@ -1,0 +1,67 @@
+﻿@using Tms.Web.Framework.Helpers
+@model Tms.Models.ChoiceModel.ChoiceSearchModel
+<style type="text/css">
+    .hide {
+        display: none;
+    }
+
+    .show {
+        display: block;
+    }
+</style>
+
+<div class="datatable-scroll">
+    <div class="main-table table-thong-ke">
+        <div class="table-wrapper">
+            <table class="table-content" role="grid">
+                <thead>
+                    <tr>
+                        <th class="width_5">STT</th>
+                        <th class="width_25">Lựa chọn/ phương án trả lời</th>
+                        <th class="width-25">Câu hỏi</th>
+                        @*<th>Ngày tạo</th>*@
+                        <th class="width_15">Dạng câu hỏi</th>
+                        <th class="width_20">Ghi chú</th>
+                        <th>Tác vụ</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null && Model.Choices != null && Model.Choices.Any())
+                    {
+                        var index = 0;
+                        index = (Model.PageIndex - 1) * Model.PageSize;
+                        foreach (var item in Model.Choices)
+                        {
+                            index++;
+                            var parent = Guid.NewGuid();
+                            <tr role="row" id="@parent">
+                                <td>@index</td>
+                                <td class="bNone">@item.ChoiceText</td>
+                                <td class="bNone">@item.NameQuestion</td>
+                                @*<td>@item.CreatedDate.ToString("dd/MM/yyyy")</td>*@
+                                <td class="bNone">@item.NameType</td>
+                                <td class="bNone">@item.Description</td>
+                                <td class="text-center">
+                                    <div class="icons-group">
+                                        <a href="javascript:void(0)" title="Chỉnh sửa lựa chọn" class="tip edit" data-id="@item.ChoiceID">
+                                            <i class="fas fa-pen-square"></i>
+                                        </a>
+                                        <a href="javascript:void(0)" class="tip" data-id="@item.ChoiceID">
+                                            <i data-id="@item.QuestionID" class="fas fa-trash-alt"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<br />
+<div class="datatable-footer" id="paging_layout">
+    @Html.AjaxPagingHelper("choiceModule.onClickPaging", Model.TotalRecords, Model.PageSize, Model.PageIndex, Model.SortColumn, Model.SortDirection)
+</div>
+<br />
+<br />

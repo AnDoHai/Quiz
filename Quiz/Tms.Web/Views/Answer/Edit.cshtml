@@ -1,0 +1,56 @@
+﻿@model Tms.Models.AnswerModel.AnswerModel
+
+@{
+    ViewBag.Title = "Edit Answers";
+    Layout = null;
+}
+<style type="text/css">
+    .font-size {
+        font-size: 1.35rem !important;
+        font-weight: 500;
+    }
+
+    button.rBtn {
+        background-color: #dc3545 !important;
+        color: white !important;
+        border-radius: 4px !important;
+    }
+
+        button.rBtn:hover {
+            color: black !important;
+        }
+</style>
+<div class="page-content-inner popup">
+    @using (Html.BeginForm("Edit", "Answer", FormMethod.Post, new { id = "frmUpdate", @class = "form-horizontal" }))
+    {
+		@Html.AntiForgeryToken()
+        <div class="breadcrumb-line">
+            <div class="form-actions action-breadcrumb">
+
+            </div>
+            <div class="visible-xs breadcrumb-toggle">
+                <a class="btn btn-link btn-lg btn-icon" data-toggle="collapse" data-target=".breadcrumb-buttons"><i class="icon-menu2"></i></a>
+            </div>
+        </div>
+
+        @Html.HiddenFor(c => c.AnswerID)
+        @Html.Partial("Partial/_FormInput", Model)
+
+        <div class="form-actions text-right mr-10 margin-bottom-10">
+            <button type="button" class="btn-xs btn rBtn" onclick="location.href=''">
+                <i class="icon-exit3"></i> Hủy
+            </button>
+            <button type="submit" class="btn btn-xs rBtn">
+                <i class="icon-plus-circle"></i> Lưu
+            </button>
+        </div>
+    }
+</div>
+@section scripts
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            answerModule.init();
+        });
+    </script>
+}

@@ -1,0 +1,73 @@
+﻿@model ContestModel
+@using Tms.Models.ContestModel
+
+<div class="panel panel-default">
+    <div class="">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        @Html.Partial("~/Views/Shared/Partial/_MessagePartial.cshtml")
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="">Tên phần thi<span class="require">(*)</span>: </label>
+                    <div class="d-flex">
+                        @Html.TextBoxFor(c => c.ContestName, new { @class = "form-control font-size" })
+                        @Html.ValidationMessageFor(c => c.ContestName)
+                    </div>
+                </div>
+            </div>
+            @*<div class="col-md-4">
+                <div class="form-group">
+                    <label class="">Tiêu đề: </label>
+                    <div class="d-flex">
+                        @Html.TextBoxFor(c => c.Title, new { @class = "form-control font-size" })
+                        @Html.ValidationMessageFor(c => c.Title)
+                    </div>
+                </div>
+            </div>*@
+            <div class="col-md-8">
+                <div class="form-group">
+                    <label class="">Mô tả: </label>
+                    <div class="d-flex">
+                        @Html.TextBoxFor(c => c.Description, new { @class = "form-control font-size" })
+                        @Html.ValidationMessageFor(c => c.Description)
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="">
+                        Thời gian giới hạn<span class="require">(*)</span>:
+                    </label>
+                    <div class="d-flex">
+                        @Html.TextBoxFor(c => c.TimeLimit, new { @class = "form-control font-size" })
+                        @Html.ValidationMessageFor(c => c.TimeLimit)
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="">Phần thi<span class="require">(*)</span>: </label>
+                    <div class="d-flex">
+                        @Html.DropDownListFor(c => c.Type,new SelectList(ViewBag.PhanThis, "Value", "Text") ,"---Chọn phần thi---",new { @class = "form-control font-size" })
+                        @Html.ValidationMessageFor(c => c.Type)
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label class="">Bài thi: </label>
+                    <div class="d-flex">
+                        @Html.DropDownListFor(c => c.QuizID, new SelectList(ViewBag.BaiThis, "Value", "Text"), "---Chọn bài thi---", new { @class = "form-control font-size" })
+                        @Html.ValidationMessageFor(c => c.QuizID)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

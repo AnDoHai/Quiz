@@ -1,0 +1,111 @@
+﻿<script id="tpl-list-position" type="text/html">
+    {{#Data}}
+    <tr id="{{PositionId}}">
+        <td class="text-left">{{ItemIndex}}</td>
+        <td>{{Name}}</td>
+        <td>{{Description}}</td>
+        <td>{{LastModifiedBy}}</td>
+        <td>{{FormatLastModifiedAt}}</td>
+        <td>{{{FormatRecordStatus}}}</td>
+        <td class="text-center command">
+            <div class="btn-group">
+                <button type="button" class="btn btn-icon btn-default dropdown-toggle" data-toggle="dropdown" data-hover="dropdown"><i class="icon-cog"></i></button>
+                <ul class="dropdown-menu icons-right dropdown-menu-right">
+                    <li><a onclick="hrm.position.manipulate(config.action.getById, {{PositionId}});"><i class="icon-pencil3"></i> Edit</a></li>
+                    <li><a onclick="common.confirm('hrm.position.manipulate(config.action.del, {{PositionId}});');"><i class="icon-remove3"></i> Delete</a></li>
+                </ul>
+            </div>
+        </td>
+    </tr>
+    {{/Data}}
+
+    {{^Data}}
+    <tr>
+        <td colspan="7">No data!</td>
+    </tr>
+    {{/Data}}
+</script>
+
+
+<script id="tpl-form-position" type="text/html">
+    <form class="validate" action="#" role="form" method="post">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title"><i class="icon-paragraph-justify2"></i> Manager Position</h4>
+        </div>
+
+        <!-- Form inside modal -->
+        <div class="modal-body with-padding">
+            <div class="block-inner text-danger">
+                <h6 class="heading-hr">Add new position <small class="display-block">(*) Required</small></h6>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <label>Position name <span class="mandatory">*</span></label>
+                        <input type="text" name="Name" tabindex="1" class="required form-control">
+                    </div>
+                    <div class="col-sm-6">
+                        <label>Status <span class="mandatory">*</span></label>
+                        <input id="ddlStatus" name="RecordStatus" tabindex="2" type="hidden" />
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <label style="white-space: nowrap">Description</label>
+                        <textarea class="form-control" name="Description" rows="5" tabindex="3"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal" tabindex="5">Close</button>
+            <button onclick="hrm.position.manipulate(config.action.save, 0);" type="button" class="btn btn-success" tabindex="4">Save</button>
+        </div>
+    </form>
+</script>
+
+
+<script id="tpl-get-position" type="text/html">
+    {{#Data}}
+    <form class="validate" action="#" role="form" method="post">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title"><i class="icon-paragraph-justify2"></i> Manager Position</h4>
+        </div>
+        <!-- Form inside modal -->
+        <div class="modal-body with-padding">
+            <div class="block-inner text-danger">
+                <h6 class="heading-hr">Edit infomation position <small class="display-block">(*) Required</small></h6>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <label>Position name <span class="mandatory">*</span></label>
+                        <input type="text" name="Name" value="{{Name}}" tabindex="1" class="required form-control">
+                    </div>
+                    <div class="col-sm-6">
+                        <label>Status <span class="mandatory">*</span></label>
+                        <input id="ddlStatus" tabindex="2" type="hidden" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <label style="white-space: nowrap">Description</label>
+                        <textarea class="form-control" name="Description" rows="5" tabindex="3">{{Description}}</textarea>
+                    </div>
+                </div>
+            </div>            
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal" tabindex="5">Close</button>
+            <button onclick="hrm.position.manipulate(config.action.save, {{PositionId}});" type="button" class="btn btn-success" tabindex="4">Save</button>
+        </div>
+    </form>
+    {{/Data}}
+</script>

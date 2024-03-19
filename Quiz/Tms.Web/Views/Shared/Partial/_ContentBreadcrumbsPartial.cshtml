@@ -1,0 +1,23 @@
+﻿@{
+    string[] breadcrums = ViewBag.Breadcrumbs != null ? ViewBag.Breadcrumbs : new string[] { };
+}
+<div class="breadcrumb-line">
+    <ul class="breadcrumb">
+        <li><a href="/Dashboard">Home</a></li>
+        @foreach (var item in breadcrums)
+        {
+            <li class="active">@item</li>
+        }
+    </ul>
+
+    @if (ViewBag.HasAddButton != null && ViewBag.HasAddButton)
+    {
+        <a href="@ViewBag.ButtonHref" style="margin-top: 1px;margin-left: 5px;margin-right: 1px;" type="button" class="pull-right btn btn-right-icon btn-info"><i class="icon-plus"></i>@ViewBag.ButtonName</a>
+    }
+    @if (ViewBag.HasSaveRemote != null && ViewBag.HasSaveRemote)
+    {
+        <button style="  margin-top: 1px;height: 34px;" class="pull-right btn btn-xs btn-primary btn-save-remote" onclick="@ViewBag.RemoteFunction;">
+            Submit
+        </button>
+    }
+</div>
